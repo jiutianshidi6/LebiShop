@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D6871DF1-C7D1-4117-9F17-829FEE6A083A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Shop.Model</RootNamespace>
+    <AssemblyName>Shop.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="API\Order.cs" />
+    <Compile Include="API\UserAddress.cs" />
+    <Compile Include="API\User.cs" />
+    <Compile Include="Auto\Lebi_AdminSkin.cs" />
+    <Compile Include="Auto\Lebi_Admin_Group.cs" />
+    <Compile Include="Auto\Lebi_Admin_Limit.cs" />
+    <Compile Include="Auto\Lebi_Admin_Power.cs" />
+    <Compile Include="Auto\Lebi_Administrator.cs" />
+    <Compile Include="Auto\Lebi_Advert.cs" />
+    <Compile Include="Auto\Lebi_Agent_Area.cs" />
+    <Compile Include="Auto\Lebi_Agent_Money.cs" />
+    <Compile Include="Auto\Lebi_Agent_Product.cs" />
+    <Compile Include="Auto\Lebi_Agent_Product_Level.cs" />
+    <Compile Include="Auto\Lebi_Agent_Product_request.cs" />
+    <Compile Include="Auto\Lebi_Agent_Product_User.cs" />
+    <Compile Include="Auto\Lebi_Agent_User.cs" />
+    <Compile Include="Auto\Lebi_Agent_UserLevel.cs" />
+    <Compile Include="Auto\Lebi_Area.cs" />
+    <Compile Include="Auto\Lebi_Bill.cs" />
+    <Compile Include="Auto\Lebi_BillType.cs" />
+    <Compile Include="Auto\Lebi_Brand.cs" />
+    <Compile Include="Auto\Lebi_Card.cs" />
+    <Compile Include="Auto\Lebi_CardOrder.cs" />
+    <Compile Include="Auto\Lebi_Cash.cs" />
+    <Compile Include="Auto\Lebi_Cash_alipay.cs" />
+    <Compile Include="Auto\Lebi_Cnzz.cs" />
+    <Compile Include="Auto\Lebi_Comment.cs" />
+    <Compile Include="Auto\Lebi_Config.cs" />
+    <Compile Include="Auto\Lebi_Currency.cs" />
+    <Compile Include="Auto\Lebi_DT.cs" />
+    <Compile Include="Auto\Lebi_DT_Agent.cs" />
+    <Compile Include="Auto\Lebi_DT_Config.cs" />
+    <Compile Include="Auto\Lebi_DT_Product.cs" />
+    <Compile Include="Auto\Lebi_Email.cs" />
+    <Compile Include="Auto\Lebi_EmailTask.cs" />
+    <Compile Include="Auto\Lebi_Express.cs" />
+    <Compile Include="Auto\Lebi_Express_Log.cs" />
+    <Compile Include="Auto\Lebi_Express_LogList.cs" />
+    <Compile Include="Auto\Lebi_Express_Shipper.cs" />
+    <Compile Include="Auto\Lebi_FriendLink.cs" />
+    <Compile Include="Auto\Lebi_Image.cs" />
+    <Compile Include="Auto\Lebi_ImageSize.cs" />
+    <Compile Include="Auto\Lebi_Inquiry.cs" />
+    <Compile Include="Auto\Lebi_Language.cs" />
+    <Compile Include="Auto\Lebi_Language_Code.cs" />
+    <Compile Include="Auto\Lebi_Language_Tag.cs" />
+    <Compile Include="Auto\Lebi_Language_Tag_Version.cs" />
+    <Compile Include="Auto\Lebi_Log.cs" />
+    <Compile Include="Auto\Lebi_Mail_tpl.cs" />
+    <Compile Include="Auto\Lebi_Menu.cs" />
+    <Compile Include="Auto\Lebi_Message.cs" />
+    <Compile Include="Auto\Lebi_Message_Type.cs" />
+    <Compile Include="Auto\Lebi_Node.cs" />
+    <Compile Include="Auto\Lebi_Notice.cs" />
+    <Compile Include="Auto\Lebi_OnlinePay.cs" />
+    <Compile Include="Auto\Lebi_Order.cs" />
+    <Compile Include="Auto\Lebi_Order_Log.cs" />
+    <Compile Include="Auto\Lebi_Order_Product.cs" />
+    <Compile Include="Auto\Lebi_Order_ProPerty.cs" />
+    <Compile Include="Auto\Lebi_Page.cs" />
+    <Compile Include="Auto\Lebi_Pay.cs" />
+    <Compile Include="Auto\Lebi_PickUp.cs" />
+    <Compile Include="Auto\Lebi_ProDesc.cs" />
+    <Compile Include="Auto\Lebi_Product.cs" />
+    <Compile Include="Auto\Lebi_Product_Combo.cs" />
+    <Compile Include="Auto\Lebi_Product_Limit.cs" />
+    <Compile Include="Auto\Lebi_Product_Price.cs" />
+    <Compile Include="Auto\Lebi_Product_Stock_Log.cs" />
+    <Compile Include="Auto\Lebi_Promotion.cs" />
+    <Compile Include="Auto\Lebi_Promotion_Type.cs" />
+    <Compile Include="Auto\Lebi_ProPerty.cs" />
+    <Compile Include="Auto\Lebi_ProPerty_Tag.cs" />
+    <Compile Include="Auto\Lebi_Pro_Tag.cs" />
+    <Compile Include="Auto\Lebi_Pro_Type.cs" />
+    <Compile Include="Auto\Lebi_Searchkey.cs" />
+    <Compile Include="Auto\Lebi_ServicePanel.cs" />
+    <Compile Include="Auto\Lebi_ServicePanel_Group.cs" />
+    <Compile Include="Auto\Lebi_ServicePanel_Type.cs" />
+    <Compile Include="Auto\Lebi_Site.cs" />
+    <Compile Include="Auto\Lebi_Supplier.cs" />
+    <Compile Include="Auto\Lebi_Supplier_Bank.cs" />
+    <Compile Include="Auto\Lebi_Supplier_BillType.cs" />
+    <Compile Include="Auto\Lebi_Supplier_Config.cs" />
+    <Compile Include="Auto\Lebi_Supplier_Delivery.cs" />
+    <Compile Include="Auto\Lebi_Supplier_Group.cs" />
+    <Compile Include="Auto\Lebi_Supplier_Limit.cs" />
+    <Compile Include="Auto\Lebi_Supplier_Menu.cs" />
+    <Compile Include="Auto\Lebi_Supplier_Money.cs" />
+    <Compile Include="Auto\Lebi_Supplier_Power.cs" />
+    <Compile Include="Auto\Lebi_Supplier_ProductType.cs" />
+    <Compile Include="Auto\Lebi_Supplier_ProPerty.cs" />
+    <Compile Include="Auto\Lebi_Supplier_Skin.cs" />
+    <Compile Include="Auto\Lebi_Supplier_User.cs" />
+    <Compile Include="Auto\Lebi_Supplier_UserGroup.cs" />
+    <Compile Include="Auto\Lebi_Supplier_Verified.cs" />
+    <Compile Include="Auto\Lebi_Supplier_Verified_Log.cs" />
+    <Compile Include="Auto\Lebi_Tab.cs" />
+    <Compile Include="Auto\Lebi_TabChild.cs" />
+    <Compile Include="Auto\Lebi_Table.cs" />
+    <Compile Include="Auto\Lebi_Theme.cs" />
+    <Compile Include="Auto\Lebi_Theme_Advert.cs" />
+    <Compile Include="Auto\Lebi_Theme_Page.cs" />
+    <Compile Include="Auto\Lebi_Theme_Skin.cs" />
+    <Compile Include="Auto\Lebi_Tips.cs" />
+    <Compile Include="Auto\Lebi_Transport.cs" />
+    <Compile Include="Auto\Lebi_Transport_Container.cs" />
+    <Compile Include="Auto\Lebi_Transport_Order.cs" />
+    <Compile Include="Auto\Lebi_Transport_Price.cs" />
+    <Compile Include="Auto\Lebi_Type.cs" />
+    <Compile Include="Auto\Lebi_Units.cs" />
+    <Compile Include="Auto\Lebi_User.cs" />
+    <Compile Include="Auto\Lebi_UserLevel.cs" />
+    <Compile Include="Auto\Lebi_User_Address.cs" />
+    <Compile Include="Auto\Lebi_User_Answer.cs" />
+    <Compile Include="Auto\Lebi_User_Bank.cs" />
+    <Compile Include="Auto\Lebi_User_BuyMoney.cs" />
+    <Compile Include="Auto\Lebi_User_Card.cs" />
+    <Compile Include="Auto\Lebi_User_Money.cs" />
+    <Compile Include="Auto\Lebi_User_Point.cs" />
+    <Compile Include="Auto\Lebi_User_Product.cs" />
+    <Compile Include="Auto\Lebi_User_Question.cs" />
+    <Compile Include="Auto\Lebi_Version.cs" />
+    <Compile Include="Auto\Lebi_weixin_menu.cs" />
+    <Compile Include="Auto\Lebi_weixin_qrcode.cs" />
+    <Compile Include="BaseConfig.cs" />
+    <Compile Include="ExpressPrint.cs" />
+    <Compile Include="KuaiDi100.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WaterConfig.cs" />
+    <Compile Include="LanguageContent.cs" />
+    <Compile Include="LBimage.cs" />
+    <Compile Include="ServicePanel.cs" />
+    <Compile Include="TransportProduce.cs" />
+    <Compile Include="LBAPI.cs" />
+    <Compile Include="UserService.cs" />
+    <Compile Include="LBLanguage.cs" />
+    <Compile Include="KeyValue.cs" />
+    <Compile Include="ProductProperty.cs" />
+    <Compile Include="SearchModel.cs" />
+    <Compile Include="BasketShop.cs" />
+    <Compile Include="PluginConfig.cs" />
+    <Compile Include="ProductStepPrice.cs" />
+    <Compile Include="BaseConfig_Supplier.cs" />
+    <Compile Include="BaseConfig_DT.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

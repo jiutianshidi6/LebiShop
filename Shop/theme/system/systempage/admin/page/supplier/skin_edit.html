@@ -1,0 +1,205 @@
+﻿{layout:default} {class:Shop.Admin.Supplier.Skin_Edit}
+<lbhead>
+    <title><%=model.Name %>-<%=Tag("店铺皮肤")%>-<%=site.title%></title>
+</lbhead>
+<lbfile>
+    <script type="text/javascript" src="<%=site.AdminJsPath %>/ajaxfileupload.js"></script>
+    <script type="text/javascript" src="<%=site.AdminJsPath %>/My97DatePicker/WdatePicker.js"></script>
+    <style>
+        textarea{font-size: 12px;}
+        .bottom{height: 0;overflow: hidden;display: none;}
+    </style>
+</lbfile>
+<lbpath>
+    <div class="tools">
+        <ul>
+            <%if (PageReturnMsg == ""){%>
+            <li class="submit"><a href="javascript:void(0);" onclick="SaveObj();"><b></b><span>
+                <%=Tag("保存")%></span></a></li>
+            <%}%>
+            <li class="rotate"><a href="javascript:void(0);" onclick="history.go(-1);"><b></b><span>
+                <%=Tag("返回")%></span></a></li>
+            <li class="name"><span id="navIgation">
+                <%=Tag("当前位置")%>：<a href="<%=site.AdminPath %>/Ajax/ajax_admin.aspx?__Action=MenuJump&pid=0"><%=Tag("管理首页")%></a>
+                > <a href="skin.aspx">
+                    <%=Tag("店铺皮肤")%></a> >
+                <%=model.Name %></span></li>
+        </ul>
+    </div>
+</lbpath>
+<lbbody>
+    <table class="table">
+        <tr>
+            <th>
+                <%=Tag("名称")%>：
+            </th>
+            <td>
+                <input type="text" id="Name" name="Name" class="input" shop="true" min="notnull"
+                    style="width: 200px;" value="<%=model.Name %>" />&nbsp;<span></span>
+            </td>
+        </tr>
+        <tr>
+            <th valign="top" style="width: 15%;">
+                <%=Tag("缩略图")%>：
+            </th>
+            <td>
+                
+                <div id="image_Image">
+                    <%if (model.Image != "")
+                      {%>
+                    <img height="50" src="<%=Shop.Bussiness.ThemeUrl.CheckURL(WebPath + "/"+model.Image)%>" />
+                    <%} %>
+                </div>
+                <input type="hidden" shop="true" id="Image" name="Image" class="input" style="width: 200px;" value="<%=model.Image %>" />
+                <input id="file_Image" name="file_Image" class="input" type="file" />
+                <input type="button" value="<%=Tag("上传") %>" class="button" onclick="uploadImage('Image')" />
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <%=Tag("排序")%>：
+            </th>
+            <td>
+                <input type="text" id="Sort" name="Sort" class="input" shop="true" style="width: 50px;"
+                    value="<%=model.Sort %>" onkeyup="value=value.replace(/[^\d]/g,'')" />&nbsp;<span></span>
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <%=Tag("显示")%>：
+            </th>
+            <td>
+                <label><input type="radio" name="IsShow" value="1" shop="true" <%=model.IsShow==1?"checked":"" %>/>Yes</label>
+                <label><input type="radio" name="IsShow" value="0" shop="true" <%=model.IsShow==0?"checked":"" %>/>No</label>
+                &nbsp;&nbsp;&nbsp;
+                <%=Tag("公共")%>：
+                <label><input type="radio" name="IsPublic" value="1" shop="true" <%=model.IsPublic==1?"checked":"" %>/>Yes</label>
+                <label><input type="radio" name="IsPublic" value="0" shop="true" <%=model.IsPublic==0?"checked":"" %>/>No</label>
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <%=Tag("皮肤路径")%>：
+            </th>
+            <td>
+               <input type="text" id="Path" name="Path" class="input"
+                    shop="true" min="notnull" style="width: 200px;" value="<%=model.Path %>" />&nbsp;<span></span>
+            </td>
+        </tr>
+        <tr>
+            <th style="vertical-align:top">
+                <%=Tag("头部")%>：
+            </th>
+            <td>
+                <textarea id="head" name="head" shop="true" class="textarea" style="height: 100px;
+                    width: 100%" rows="4" class="input"><%=Server.HtmlEncode(model.head)%></textarea>
+                <div class="tools clear">
+                    <ul>
+                        <li class="plus"><a href="javascript:void(0);" onclick="javascript:resizeEditor('head',250);">
+                            <b></b><span>
+                                <%=Tag("展开")%></span></a></li>
+                        <li class="minus"><a href="javascript:void(0);" onclick="javascript:resizeEditor('head',-250)">
+                            <b></b><span>
+                                <%=Tag("收缩")%></span></a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th style="vertical-align:top">
+                小窗口头部：
+            </th>
+            <td>
+                <textarea id="shortbar" name="shortbar" shop="true" class="textarea" style="height: 50px;
+                    width: 100%" rows="4" class="input"><%=Server.HtmlEncode(model.shortbar)%></textarea>
+                <div class="tools clear">
+                    <ul>
+                        <li class="plus"><a href="javascript:void(0);" onclick="javascript:resizeEditor('shortbar',250);">
+                            <b></b><span>
+                                <%=Tag("展开")%></span></a></li>
+                        <li class="minus"><a href="javascript:void(0);" onclick="javascript:resizeEditor('shortbar',-250)">
+                            <b></b><span>
+                                <%=Tag("收缩")%></span></a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th style="vertical-align:top">
+                长窗口头部：
+            </th>
+            <td>
+                <textarea id="longbar" name="longbar" shop="true" class="textarea" style="height: 50px;
+                    width: 100%" rows="4" class="input"><%=Server.HtmlEncode(model.longbar)%></textarea>
+                <div class="tools clear">
+                    <ul>
+                        <li class="plus"><a href="javascript:void(0);" onclick="javascript:resizeEditor('longbar',250);">
+                            <b></b><span>
+                                <%=Tag("展开")%></span></a></li>
+                        <li class="minus"><a href="javascript:void(0);" onclick="javascript:resizeEditor('longbar',-250)">
+                            <b></b><span>
+                                <%=Tag("收缩")%></span></a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th style="vertical-align:top">
+                <%=Tag("页面内容")%>：
+            </th>
+            <td>
+                <textarea id="Content" name="Content" shop="true" class="textarea" style="height: 500px;
+                    width: 100%" rows="4" class="input"><%=Server.HtmlEncode(SkinContent)%></textarea>
+                <div class="tools clear">
+                    <ul>
+                        <li class="plus"><a href="javascript:void(0);" onclick="javascript:resizeEditor('SkinContent',250);">
+                            <b></b><span>
+                                <%=Tag("展开")%></span></a></li>
+                        <li class="minus"><a href="javascript:void(0);" onclick="javascript:resizeEditor('SkinContent',-250)">
+                            <b></b><span>
+                                <%=Tag("收缩")%></span></a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <script type="text/javascript">
+        function SaveObj() {
+            var postData = GetFormJsonData("shop");
+            if (!CheckForm("shop", "span"))
+                return false;
+            var nodeid = $("#Node_id").val();
+            var url = "<%=site.AdminPath %>/ajax/ajax_supplier.aspx?__Action=Skin_Edit&id=<%=model.id %>";
+            RequestAjax(url,postData,function(res){MsgBox(1, "<%=Tag("操作成功")%>", "?id="+res.id)});
+        }
+        function uploadImage(id) {
+            var path = 'shopskin';
+            $.ajaxFileUpload
+        (
+	        {
+	            url: WebPath + '/ajax/imageuploadone.aspx?path=' + path,
+	            secureuri: false,
+	            fileElementId: 'file_' + id,
+	            dataType: 'json',
+	            success: function (data, status) {
+	                if (data.msg != 'OK') {
+	                    MsgBox(2, data.msg, "");
+	                }
+	                else {
+	                    var imageUrl = data.ImageUrl;
+	                    if (imageUrl.length > 0) {
+	                        $("#image_" + id + "").html('<img height="50" src=' + WebPath + imageUrl + '>');
+	                        $("#" + id + "").val(imageUrl);
+	                    }
+	                }
+
+	            }
+	        }
+        )
+        }
+    </script>
+</lbbody>
+<lbbottom>
+    <div class="bottom" id="body_bottom">
+    </div>
+</lbbottom>

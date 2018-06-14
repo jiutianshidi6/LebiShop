@@ -1,0 +1,312 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{890741DD-8669-472C-B4B4-D2199AE5A04F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Shop.Bussiness</RootNamespace>
+    <AssemblyName>Shop.Bussiness</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ScpClient">
+      <HintPath>..\Shop\bin\ScpClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Shop.LebiAPI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Shop2014\Shop.LebiAPI\bin\Release\Shop.LebiAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="XMLLib">
+      <HintPath>..\Shop\bin\XMLLib.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Comment.cs" />
+    <Compile Include="Common.cs" />
+    <Compile Include="CreatModel_BLL.cs" />
+    <Compile Include="CreatModel_Common.cs" />
+    <Compile Include="CreatModel_DAL.cs" />
+    <Compile Include="CreatModel_Model.cs" />
+    <Compile Include="DB\B_Lebi_AdminSkin.cs" />
+    <Compile Include="DB\B_Lebi_Admin_Group.cs" />
+    <Compile Include="DB\B_Lebi_Admin_Limit.cs" />
+    <Compile Include="DB\B_Lebi_Admin_Power.cs" />
+    <Compile Include="DB\B_Lebi_Administrator.cs" />
+    <Compile Include="DB\B_Lebi_Advert.cs" />
+    <Compile Include="DB\B_Lebi_Agent_Area.cs" />
+    <Compile Include="DB\B_Lebi_Agent_Money.cs" />
+    <Compile Include="DB\B_Lebi_Agent_Product.cs" />
+    <Compile Include="DB\B_Lebi_Agent_Product_Level.cs" />
+    <Compile Include="DB\B_Lebi_Agent_Product_request.cs" />
+    <Compile Include="DB\B_Lebi_Agent_Product_User.cs" />
+    <Compile Include="DB\B_Lebi_Agent_User.cs" />
+    <Compile Include="DB\B_Lebi_Agent_UserLevel.cs" />
+    <Compile Include="DB\B_Lebi_Area.cs" />
+    <Compile Include="DB\B_Lebi_Bill.cs" />
+    <Compile Include="DB\B_Lebi_BillType.cs" />
+    <Compile Include="DB\B_Lebi_Brand.cs" />
+    <Compile Include="DB\B_Lebi_Card.cs" />
+    <Compile Include="DB\B_Lebi_CardOrder.cs" />
+    <Compile Include="DB\B_Lebi_Cash.cs" />
+    <Compile Include="DB\B_Lebi_Cash_alipay.cs" />
+    <Compile Include="DB\B_Lebi_Cnzz.cs" />
+    <Compile Include="DB\B_Lebi_Comment.cs" />
+    <Compile Include="DB\B_Lebi_Config.cs" />
+    <Compile Include="DB\B_Lebi_Currency.cs" />
+    <Compile Include="DB\B_Lebi_DT.cs" />
+    <Compile Include="DB\B_Lebi_DT_Agent.cs" />
+    <Compile Include="DB\B_Lebi_DT_Config.cs" />
+    <Compile Include="DB\B_Lebi_DT_Product.cs" />
+    <Compile Include="DB\B_Lebi_Email.cs" />
+    <Compile Include="DB\B_Lebi_EmailTask.cs" />
+    <Compile Include="DB\B_Lebi_Express.cs" />
+    <Compile Include="DB\B_Lebi_Express_Log.cs" />
+    <Compile Include="DB\B_Lebi_Express_LogList.cs" />
+    <Compile Include="DB\B_Lebi_Express_Shipper.cs" />
+    <Compile Include="DB\B_Lebi_FriendLink.cs" />
+    <Compile Include="DB\B_Lebi_Image.cs" />
+    <Compile Include="DB\B_Lebi_ImageSize.cs" />
+    <Compile Include="DB\B_Lebi_Inquiry.cs" />
+    <Compile Include="DB\B_Lebi_Language.cs" />
+    <Compile Include="DB\B_Lebi_Language_Code.cs" />
+    <Compile Include="DB\B_Lebi_Language_Tag.cs" />
+    <Compile Include="DB\B_Lebi_Language_Tag_Version.cs" />
+    <Compile Include="DB\B_Lebi_Log.cs" />
+    <Compile Include="DB\B_Lebi_Mail_tpl.cs" />
+    <Compile Include="DB\B_Lebi_Menu.cs" />
+    <Compile Include="DB\B_Lebi_Message.cs" />
+    <Compile Include="DB\B_Lebi_Message_Type.cs" />
+    <Compile Include="DB\B_Lebi_Node.cs" />
+    <Compile Include="DB\B_Lebi_Notice.cs" />
+    <Compile Include="DB\B_Lebi_OnlinePay.cs" />
+    <Compile Include="DB\B_Lebi_Order.cs" />
+    <Compile Include="DB\B_Lebi_Order_Log.cs" />
+    <Compile Include="DB\B_Lebi_Order_Product.cs" />
+    <Compile Include="DB\B_Lebi_Order_ProPerty.cs" />
+    <Compile Include="DB\B_Lebi_Page.cs" />
+    <Compile Include="DB\B_Lebi_Pay.cs" />
+    <Compile Include="DB\B_Lebi_PickUp.cs" />
+    <Compile Include="DB\B_Lebi_ProDesc.cs" />
+    <Compile Include="DB\B_Lebi_Product.cs" />
+    <Compile Include="DB\B_Lebi_Product_Combo.cs" />
+    <Compile Include="DB\B_Lebi_Product_Limit.cs" />
+    <Compile Include="DB\B_Lebi_Product_Price.cs" />
+    <Compile Include="DB\B_Lebi_Product_Stock_Log.cs" />
+    <Compile Include="DB\B_Lebi_Promotion.cs" />
+    <Compile Include="DB\B_Lebi_Promotion_Type.cs" />
+    <Compile Include="DB\B_Lebi_ProPerty.cs" />
+    <Compile Include="DB\B_Lebi_ProPerty_Tag.cs" />
+    <Compile Include="DB\B_Lebi_Pro_Tag.cs" />
+    <Compile Include="DB\B_Lebi_Pro_Type.cs" />
+    <Compile Include="DB\B_Lebi_Searchkey.cs" />
+    <Compile Include="DB\B_Lebi_ServicePanel.cs" />
+    <Compile Include="DB\B_Lebi_ServicePanel_Group.cs" />
+    <Compile Include="DB\B_Lebi_ServicePanel_Type.cs" />
+    <Compile Include="DB\B_Lebi_Site.cs" />
+    <Compile Include="DB\B_Lebi_Supplier.cs" />
+    <Compile Include="DB\B_Lebi_Supplier_Bank.cs" />
+    <Compile Include="DB\B_Lebi_Supplier_BillType.cs" />
+    <Compile Include="DB\B_Lebi_Supplier_Config.cs" />
+    <Compile Include="DB\B_Lebi_Supplier_Delivery.cs" />
+    <Compile Include="DB\B_Lebi_Supplier_Group.cs" />
+    <Compile Include="DB\B_Lebi_Supplier_Limit.cs" />
+    <Compile Include="DB\B_Lebi_Supplier_Menu.cs" />
+    <Compile Include="DB\B_Lebi_Supplier_Money.cs" />
+    <Compile Include="DB\B_Lebi_Supplier_Power.cs" />
+    <Compile Include="DB\B_Lebi_Supplier_ProductType.cs" />
+    <Compile Include="DB\B_Lebi_Supplier_ProPerty.cs" />
+    <Compile Include="DB\B_Lebi_Supplier_Skin.cs" />
+    <Compile Include="DB\B_Lebi_Supplier_User.cs" />
+    <Compile Include="DB\B_Lebi_Supplier_UserGroup.cs" />
+    <Compile Include="DB\B_Lebi_Supplier_Verified.cs" />
+    <Compile Include="DB\B_Lebi_Supplier_Verified_Log.cs" />
+    <Compile Include="DB\B_Lebi_Tab.cs" />
+    <Compile Include="DB\B_Lebi_TabChild.cs" />
+    <Compile Include="DB\B_Lebi_Table.cs" />
+    <Compile Include="DB\B_Lebi_Theme.cs" />
+    <Compile Include="DB\B_Lebi_Theme_Advert.cs" />
+    <Compile Include="DB\B_Lebi_Theme_Page.cs" />
+    <Compile Include="DB\B_Lebi_Theme_Skin.cs" />
+    <Compile Include="DB\B_Lebi_Tips.cs" />
+    <Compile Include="DB\B_Lebi_Transport.cs" />
+    <Compile Include="DB\B_Lebi_Transport_Container.cs" />
+    <Compile Include="DB\B_Lebi_Transport_Order.cs" />
+    <Compile Include="DB\B_Lebi_Transport_Price.cs" />
+    <Compile Include="DB\B_Lebi_Type.cs" />
+    <Compile Include="DB\B_Lebi_Units.cs" />
+    <Compile Include="DB\B_Lebi_User.cs" />
+    <Compile Include="DB\B_Lebi_UserLevel.cs" />
+    <Compile Include="DB\B_Lebi_User_Address.cs" />
+    <Compile Include="DB\B_Lebi_User_Answer.cs" />
+    <Compile Include="DB\B_Lebi_User_Bank.cs" />
+    <Compile Include="DB\B_Lebi_User_BuyMoney.cs" />
+    <Compile Include="DB\B_Lebi_User_Card.cs" />
+    <Compile Include="DB\B_Lebi_User_Money.cs" />
+    <Compile Include="DB\B_Lebi_User_Point.cs" />
+    <Compile Include="DB\B_Lebi_User_Product.cs" />
+    <Compile Include="DB\B_Lebi_User_Question.cs" />
+    <Compile Include="DB\B_Lebi_Version.cs" />
+    <Compile Include="DB\B_Lebi_weixin_menu.cs" />
+    <Compile Include="DB\B_Lebi_weixin_qrcode.cs" />
+    <Compile Include="DB\DataBase.cs" />
+    <Compile Include="EX_Admin.cs" />
+    <Compile Include="FileHelper.cs" />
+    <Compile Include="ImageHelper.cs" />
+    <Compile Include="B_ExpressPrint.cs" />
+    <Compile Include="Message.cs" />
+    <Compile Include="PageBase\AdminAjaxBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PageBase\AdminBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PageBase\AdminCustomPageBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PageBase\AdminPageBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PageBase\InstallBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PageBase\PageBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PageBase\ShopPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PageBase\ShopPageAgent.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PageBase\ShopPageUser.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PageBase\SupplierAjaxBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PageBase\SupplierBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PageBase\SupplierPageBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ProductLimit.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Pager.cs" />
+    <Compile Include="PubClass.cs" />
+    <Compile Include="Site.cs" />
+    <Compile Include="Language.cs" />
+    <Compile Include="B_BaseConfig.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Sitemap.cs" />
+    <Compile Include="Theme.cs" />
+    <Compile Include="ThemeUrl.cs" />
+    <Compile Include="NodePage.cs" />
+    <Compile Include="EX_Type.cs" />
+    <Compile Include="EX_Product.cs" />
+    <Compile Include="B_WaterConfig.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EX_User.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Basket.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EX_Area.cs" />
+    <Compile Include="Order.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="ShopCache.cs" />
+    <Compile Include="B_ServicePanel.cs" />
+    <Compile Include="Promotion.cs" />
+    <Compile Include="TimeWork.cs" />
+    <Compile Include="Email.cs" />
+    <Compile Include="BackUP.cs" />
+    <Compile Include="UpDate.cs" />
+    <Compile Include="PageStatic.cs" />
+    <Compile Include="Statis.cs" />
+    <Compile Include="Search.cs" />
+    <Compile Include="EX_Supplier.cs" />
+    <Compile Include="Agent.cs" />
+    <Compile Include="Money.cs" />
+    <Compile Include="SMS.cs" />
+    <Compile Include="Point.cs" />
+    <Compile Include="Event.cs" />
+    <Compile Include="SystemTheme.cs" />
+    <Compile Include="DBStruct.cs" />
+    <Compile Include="Webconfig.cs" />
+    <Compile Include="B_BaseConfig_Supplier.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="B_BaseConfig_DT.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Shop.Model\Shop.Model.csproj">
+      <Project>{D6871DF1-C7D1-4117-9F17-829FEE6A083A}</Project>
+      <Name>Shop.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Shop.DataAccess\Shop.DataAccess.csproj">
+      <Project>{A10C3212-98AE-4A77-A59F-35730F0C898B}</Project>
+      <Name>Shop.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Shop.Tools\Shop.Tools.csproj">
+      <Project>{5CB2F635-8901-4697-905A-F34BEC386975}</Project>
+      <Name>Shop.Tools</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

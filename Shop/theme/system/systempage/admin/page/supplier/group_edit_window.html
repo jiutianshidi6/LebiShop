@@ -1,0 +1,139 @@
+﻿{layout:simple} {class:Shop.Admin.Supplier.Supplier_Group_Edit_window}
+<lbbody>
+<%=Shop.Bussiness.Language.AdminLanguageTab("") %>
+<table class="table">
+    <%foreach (Shop.Model.Lebi_Language_Code lang in Shop.Bussiness.Language.Languages())
+      {%>
+    <tbody id="lang_<%=lang.Code %>" class="lang_table" style="display: none">
+        <tr>
+            <th style="width: 20%">
+                <%=Tag("分组名称")%>：
+            </th>
+            <td>
+                <input type="text" id="Name<%=lang.Code %>" name="Name<%=lang.Code %>" class="input" shop="true"  style="width: 200px;" value="<%=Shop.Bussiness.Language.Content(model.Name,lang.Code) %>" />
+            </td>
+        </tr>
+    </tbody>
+    <%} %>
+    </table>
+    <ul id="tablistmain"><li class="selected"><a><span><%=Tag("通用信息")%></span></a></li></ul>
+    <table class="table">
+    <tr>
+        <th style="width: 20%">
+            <%=Tag("等级ID")%>：
+        </th>
+        <td style="text-align: left;">
+            <input type="text" id="Grade" name="Grade" onkeyup="value=value.replace(/[^\d]/g,'')" value="<%=model.Grade %>" class="input" shop="true" min="notnull" />
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("保证金")%>：
+        </th>
+        <td>
+            <input type="text" id="MarginPrice" name="MarginPrice" value="<%=model.MarginPrice %>" class="input" onkeyup="value=value.replace(/[^\d]/g,'')" shop="true" min="notnull" />
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("服务费")%>：
+        </th>
+        <td>
+            <input type="text" id="ServicePrice" name="ServicePrice" value="<%=model.ServicePrice %>" class="input" onkeyup="value=value.replace(/[^\d]/g,'')" shop="true" min="notnull" />
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("服务天数")%>：
+        </th>
+        <td>
+            <input type="text" id="ServiceDays" name="ServiceDays" value="<%=model.ServiceDays %>" class="input" onkeyup="value=value.replace(/[^\d]/g,'')" shop="true" min="notnull" />
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("结账天数")%>：
+        </th>
+        <td>
+            <input type="text" shop="true" min="notnull" id="BillingDays" name="BillingDays" class="input" value="<%=model.BillingDays %>" style="width:200px" />
+        </td>
+    </tr>
+    <tr>
+        <th style="width: 20%">
+            <%=Tag("排序序号")%>：
+        </th>
+        <td style="text-align: left;">
+            <input type="text" class="input" shop="true" name="Sort" id="Sort" value="<%=model.Sort %>" style="width: 70px;" />
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("商家直营")%>：
+        </th>
+        <td>
+            <label><input type="radio" name="IsSubmit" shop="true" value="1" <%=model.IsSubmit==1?"checked":"" %> /><%=Tag("是")%></label>
+            <label><input type="radio" name="IsSubmit" shop="true" value="0" <%=model.IsSubmit==0?"checked":"" %> /><%=Tag("否")%></label>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("验证内容")%>：
+        </th>
+        <td>
+            <%=CheckBox(model.Verified_ids)%>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("可选皮肤")%>：
+        </th>
+        <td>
+            <%=Skins(model.Supplier_Skin_ids)%>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("允许申请")%>：
+        </th>
+        <td>
+            <label><input type="radio" name="IsShow" shop="true" value="1" <%=model.IsShow==1?"checked":"" %> /><%=Tag("是")%></label>
+            <label><input type="radio" name="IsShow" shop="true" value="0" <%=model.IsShow==0?"checked":"" %> /><%=Tag("否")%></label>
+        </td>
+    </tr>
+    <tr>
+        <th style="vertical-align:top">
+            <%=Tag("内部备注")%>：<br>
+            <em>≤ <span id="remLen">255</span></em>
+        </th>
+        <td>
+            <textarea name="Remark" id="Remark" shop="true" rows="3" cols="60" class="input" onKeyDown="checkMaxInput(this.form)" onKeyUp="checkMaxInput(this.form)" style="height: 55px;width: 100%;"><%=model.Remark%></textarea>
+            <div class="tools clear">
+                <ul>
+                    <li class="plus"><a href="javascript:void(0);" onclick="javascript:resizeEditor('Remark',100);"><b></b><span><%=Tag("展开")%></span></a></li>
+                    <li class="minus"><a href="javascript:void(0);" onclick="javascript:resizeEditor('Remark',-100)"><b></b><span><%=Tag("收缩")%></span></a></li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" class="action">
+        <div class="tools tools-m clear">
+            <input type="hidden" shop="true" name="type" id="type" value="<%=model.type %>" />
+            <ul>
+                <li class="submit"><a href="javascript:void(0);" onclick="SaveObj();"><b></b><span><%=Tag("保存")%></span></a></li>
+            </ul>
+        </div>
+        </td>
+    </tr>
+</table>
+<script type="text/javascript">
+    LanguageTab_EditPage('<%=CurrentLanguage.Code %>'); //加载默认语言
+    function SaveObj() {
+        var postData = GetFormJsonData("shop");
+        if (!CheckForm("shop", "span"))
+            return false;
+        var url = "<%=site.AdminPath %>/ajax/ajax_supplier.aspx?__Action=Group_Edit&id=<%=model.id %>";
+        RequestAjax(url,postData,function(){MsgBox(1, "<%=Tag("操作成功")%>", "?")});
+    }
+</script>
+</lbbody>

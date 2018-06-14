@@ -1,0 +1,197 @@
+﻿{layout:default} {class:Shop.Admin.Supplier.Supplier_User}
+<lbhead>
+    <title><%=Tag("商家管理")%>-<%=site.title%></title>
+</lbhead>
+<lbfile>
+    <script type="text/javascript" src="<%=site.AdminJsPath %>/ajaxfileupload.js"></script>
+    <script type="text/javascript" src="<%=site.WebPath %>/Editor/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="<%=site.WebPath %>/Editor/ckfinder/ckfinder.js"></script>
+</lbfile>
+<lbpath>
+    <div class="tools">
+    <ul>
+    <%if (PageReturnMsg == ""){%>
+    <li class="add"><a href="javascript:void(0);" onclick="Edit(0);"><b></b><span><%=Tag("添加")%></span></a></li>
+    <li class="del"><a href="javascript:void(0);" onclick="DEL();"><b></b><span><%=Tag("删除")%></span></a></li>
+    <li class="email"><a href="javascript:void(0);" onclick="Write('');"><b></b><span><%=Tag("发信息")%></span></a></li>
+    <%}%>
+    <li class="name"><span id="navIgation"><%=Tag("当前位置")%>：<a href="<%=site.AdminPath %>/Ajax/ajax_admin.aspx?__Action=MenuJump&pid=0"><%=Tag("管理首页")%></a> > <%=Tag("商家管理")%></span></li>
+    </ul>
+    </div>
+</lbpath>
+<lbbody>
+    <div class="searchbox clear">
+        <select id="level_id">
+            <option value="">┌ <%=Tag("商家分组") %></option>
+            <%=Shop.Bussiness.EX_Supplier.LevelOption("supplier", level_id, CurrentLanguage.Code)%>
+        </select>
+        <select name="status" id="status">
+            <option value="0">┌<%=Tag("状态")%></option>
+            <%=Shop.Bussiness.EX_Type.TypeOption("SupplierStatus", status, CurrentLanguage)%>
+        </select>
+        <input type="text" name="dateFrom" id="dateFrom" size="12" class="input-calendar" value="<%=dateFrom %>" /> - <input type="text" name="dateTo" id="dateTo" size="12" class="input-calendar" value="<%=dateTo %>" />
+        <input type="text" id="key" name="key" class="input-query" value="<%=key %>" onkeydown="if(event.keyCode==13){search_();}" /><input type="button" id="btnSou" class="btn-query" onclick="search_();" value="" />
+    </div>
+    <table class="datalist">
+        <tr class="title">
+            <th style="width: 40px" class="selectAll">
+                <a href="javascript:void(0);" onclick="$('input[name=\'sid\']').attr('checked',!$(this).attr('checked'));$(this).attr('checked',!$(this).attr('checked'));"><%=Tag("全选")%></a>
+            </th>
+            <th style="width: 150px">
+                <%=Tag("登陆账号")%>
+            </th>
+            <th style="width: 100px">
+                <%=Tag("商家编号")%>
+            </th>
+            <th>
+                <%=Tag("公司名称")%>
+            </th>
+            <th style="width: 30px">
+                <%=Tag("短信")%>
+            </th>
+            <th style="width: 80px">
+                <%=Tag("余额")%>
+            </th>
+            <th style="width: 100px">
+                <%=Tag("分组")%>
+            </th>
+            <th style="width: 100px">
+                <%=Tag("独立发货")%>
+            </th>
+            <th style="width: 100px">
+                <%=Tag("独立收款")%>
+            </th>
+            <th style="width: 100px">
+                <%=Tag("推广佣金")%>
+            </th>
+            <th style="width: 130px">
+                <%=Tag("最后登录")%>
+            </th>
+            <th style="width: 100px">
+                <%=Tag("状态")%>
+            </th>
+            <th style="width: 120px">
+                <%=Tag("操作")%>
+            </th>
+        </tr>
+        <%foreach (Shop.Model.Lebi_Supplier model in models){
+        string _money = Shop.Bussiness.Common.GetValue("select sum(Money) from Lebi_Supplier_Money where Supplier_id=" + model.id + " and Type_id_MoneyStatus = 181");
+        decimal money = 0;
+        decimal.TryParse(_money, out money);
+        %>
+        <tr class="list" ondblclick="Edit(<%=model.id %>)">
+            <td style="text-align:center">
+                <input type="checkbox" value="<%=model.id %>" name="sid" />
+            </td>
+            <td>
+                <%=model.UserName%>&nbsp;<a target="_blank" href="<%=Shop.Bussiness.ThemeUrl.GetURL("P_ShopIndex",model.id.ToString(),"",CurrentLanguage.Code)%>"><img src="<%=PageImage("icon/newWindow.png")%>" /></a>
+            </td>
+            <td>
+                <%=model.SupplierNumber%>
+            </td>
+            <td>
+                <%=model.Company%>
+            </td>
+            <td>
+            <a href="javascript:void(0);" onclick="Write('<%=model.UserName %>');"><img src="<%=PageImage("icon/Email.png")%>" title="<%=Tag("发信息")%>" /></a>
+            </td>
+            <td>
+                <%//=model.Money %>
+                <%=FormatMoney(money, "Number")%>
+            </td>
+            <td>
+                <%=GroupName(model.Supplier_Group_id)%>
+            </td>
+            <td>
+                <%=model.IsSupplierTransport==1?Tag("是"):Tag("否") %>
+            </td>
+            <td>
+                <%=model.IsCash==1?Tag("是"):Tag("否") %>
+            </td>
+            <td>
+                <%=model.IsSpread==1?Tag("是"):Tag("否") %>
+            </td>
+            <td>
+                <%=FormatTime(model.Time_Last) %>
+            </td>
+            <td>
+            <%=Shop.Bussiness.EX_Type.TypeName(model.Type_id_SupplierStatus, CurrentLanguage)%>
+            </td>
+            <td>
+                <div class="menu">
+                    <a href="javascript:void(0)" onclick="Edit(<%=model.id %>);"><%=Tag("编辑")%></a> 
+                    | <a href="login.aspx?id=<%=model.id %>" target="_blank"><%=Tag("管理")%></a>
+                    <a class="showmenu" href="javascript:void(0)" onclick="$('#sonmenu<%=model.id %>').hide();" onmouseover="$('#sonmenu<%=model.id %>').show();"><s></s></a> 
+	                <div class="submenu" id="sonmenu<%=model.id %>">
+                    <a href="verified_log.aspx?user_id=<%=model.id %>" target="_blank"><%=Tag("验证")%></a> 
+                    <!--| <a href="../order/Default.aspx?Supplier_id=<%=model.id %>"><%=Tag("订单")%></a>-->
+                    <a href="Money.aspx?user_id=<%=model.id %>" target="_blank"><%=Tag("资金")%></a> 
+                    <a href="../order/Cash.aspx?user_id=<%=model.User_id %>" target="_blank"><%=Tag("提现")%></a> 
+                    <a href="Message.aspx?user_id=<%=model.id %>" target="_blank"><%=Tag("站内信")%></a>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <%} %>
+    </table> 
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".datalist .menu .showmenu").bind("mouseover", function () {
+                $(this).find(".submenu").slideDown("fast");
+            })
+            $(".datalist .menu .submenu").bind("mouseleave", function () {
+                $(this).slideUp("fast");
+            });
+        });
+        function search_() {
+            var key = $("#key").val();
+            var dateFrom = $("#dateFrom").val();
+            var dateTo = $("#dateTo").val();
+            var level_id = $("#level_id").val();
+            var status = $("#status").val();
+            window.location = "?key=" + escape(key) + "&dateFrom=" + dateFrom + "&dateTo=" + dateTo + "&level_id=" + level_id + "&status=" + status+"&type=<%=type %>";
+        }
+        function Edit(id) {
+            if (id == 0) { var title_ = "<%=Tag("添加商家")%>"; } else { var title_ = "<%=Tag("编辑商家")%>"; }
+            var url_ = "user_edit_window.aspx?id=" + id+"&type=<%=type %>";
+            var width_ = 800;
+            var height_ = "600";
+            var modal_ = true;
+            EditWindow(title_, url_, width_, height_, modal_);
+        }
+        function DEL() {
+            if (!confirm("<%=Tag("确认要删除吗？")%>"))
+                return false;
+            var ids = GetChkCheckedValues("sid");
+            var postData = { "ids": ids };
+            var url = "<%=site.AdminPath %>/ajax/ajax_supplier.aspx?__Action=User_Del";
+            RequestAjax(url,postData,function(){MsgBox(1, "<%=Tag("操作成功")%>", "?")});
+        }
+        function Write(User_Name) {
+            var title_ = "<%=Tag("发信息")%>";
+            var ids = GetChkCheckedValues("sid");
+            if (User_Name !=""){
+            var url_ = "message_write_window.aspx?User_Name="+User_Name+"";
+            }else{
+            var url_ = "message_write_window.aspx?ids="+ids+"";
+            }
+            var width_ = 600;
+            var height_ = "auto";
+            var modal_ = true;
+            EditWindow(title_, url_, width_, height_, modal_);
+        }
+        function EditPassword(id) {
+            var title_ = "<%=Tag("改密")%>";
+            var url_ = "userpassword_edit_window.aspx?id="+id;
+            var width_ = 500;
+            var height_ = "auto";
+            var modal_ = true;
+            EditWindow(title_, url_, width_, height_, modal_);
+        }
+    </script>
+</lbbody>
+<lbbottom>
+<div class="bottom" id="body_bottom">
+    <%=PageString%>
+</div>
+</lbbottom>

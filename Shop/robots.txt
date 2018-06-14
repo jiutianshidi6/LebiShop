@@ -1,0 +1,14 @@
+User-agent:*
+Disallow: /admin
+Disallow: /ajax
+Disallow: /api
+Disallow: /user
+Disallow: /images
+Disallow: /install
+Disallow: /inc
+Disallow: /olinepay
+Disallow: /phone
+Disallow: /platform
+Disallow: /theme
+Disallow: /editor
+Disallow: /upload

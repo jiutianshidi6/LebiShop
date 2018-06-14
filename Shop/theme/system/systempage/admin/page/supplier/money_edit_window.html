@@ -1,0 +1,92 @@
+﻿{layout:simple} {class:Shop.Admin.Supplier.Money_Edit_window}
+<lbbody>
+<table class="table">
+    <tr id="showuser">
+        <th valign="top" style="width: 20%;">
+            <%=Tag("商家账号")%>：
+        </th>
+        <td>
+        <%if (id > 0)
+          { %>
+        [<%=model.User_UserName%>]<%=model.Supplier_SubName%>
+        <%}
+          else
+          { %>
+        <input type="text" id="User_Name_To" name="User_Name_To" class="input" shop="true" min="notnull" style="width: 200px;" value="<%=User_Name %>" />
+        <%} %>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("资金")%>：
+        </th>
+        <td style="text-align: left;">
+        <%if (id > 0)
+          { %>
+          <%=Money%>
+        <%}
+          else
+          { %>
+            <input type="text" class="input" shop="true" name="Money" id="Money" min="notnull" value="<%=Money %>" onkeyup="value=value.replace(/[^-\d]/g,'');" style="width: 80px;" />
+        <%} %>
+        </td>
+    </tr> 
+    <tr>
+        <th>
+            <%=Tag("类型")%>：
+        </th>
+        <td style="text-align: left;">
+            <%=Shop.Bussiness.EX_Type.TypeRadio("SupplierMoneyType", "Type_id_SupplierMoneyType", model.Type_id_SupplierMoneyType, "shop=\"true\"")%>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("状态")%>：
+        </th>
+        <td style="text-align: left;">
+            <%=Shop.Bussiness.EX_Type.TypeRadio("MoneyStatus", "Type_id_MoneyStatus", model.Type_id_MoneyStatus, "shop=\"true\"")%>
+        </td>
+    </tr>
+    <tr  >
+        <th style="vertical-align:top">
+            <%=Tag("操作说明")%>：<br />
+            <em>≤ <span id="remLen">255</span></em>
+        </th>
+        <td>
+            <textarea name="Remark" id="Remark" shop="true" rows="3" cols="60" class="textarea" onKeyDown="checkMaxInput(this.form)" onKeyUp="checkMaxInput(this.form)" style="height: 60px;width: 400px;"><%=model.Remark%></textarea>
+            <div class="tools clear">
+                <ul>
+                    <li class="plus"><a href="javascript:void(0);" onclick="javascript:resizeEditor('Remark',100);"><b></b><span><%=Tag("展开")%></span></a></li>
+                    <li class="minus"><a href="javascript:void(0);" onclick="javascript:resizeEditor('Remark',-100)"><b></b><span><%=Tag("收缩")%></span></a></li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" class="action">
+            <div class="tools tools-m clear">
+                <ul>
+                    <li class="submit"><a href="javascript:void(0);" onclick="SaveObj();"><b></b><span><%=Tag("提交")%></span></a></li>
+                </ul>
+            </div>
+            <input type="hidden" name="id" value="<%=id%>" shop=true" />
+        </td>
+    </tr>
+</table>
+<script type="text/javascript">
+    var maxLen = 255;
+    var Remark = document.getElementById("Remark");
+    function checkMaxInput(form) {
+        if (Remark.value.length > maxLen)
+            Remark.value = Remark.value.substring(0, maxLen);
+        else document.getElementById("remLen").innerHTML = maxLen - Remark.value.length;
+    }
+    function SaveObj() {
+        var postData = GetFormJsonData("shop");
+        if (!CheckForm("shop", "span"))
+            return false;
+        var url = "<%=site.AdminPath %>/ajax/ajax_supplier.aspx?__Action=Money_Edit";
+        RequestAjax(url,postData,function(){MsgBox(1, "<%=Tag("操作成功")%>", '?')});
+    }
+</script>
+</lbbody>

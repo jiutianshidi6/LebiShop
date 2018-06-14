@@ -1,0 +1,48 @@
+﻿<div class="head">
+    <div class="top">
+        <div class="center clearfix">
+            <ul>
+                <li id="userstatus">
+                </li>
+                <li>{MOD:ShoppingCartLine}</li>
+                <li>{MOD:LanguageLine}</li>
+                <li>{MOD:CurrencyLine}</li>
+            </ul>
+        </div>
+    </div>
+    <script type="text/javascript">        LoadPage(path + '/inc/userstatus.aspx', 'userstatus');</script>
+    <div class="center clearfix">
+        <div class="logo">
+            {MOD:Logo}
+        </div>
+        <div class="search">
+            {MOD:SearchFormLine}
+            {MOD:SearchKeywordLine}
+        </div>
+        <div class="clear"></div>
+        <div class="navBar">
+            <div class="left allcategory">
+                <a class="menu" href="<%=URL("P_AllProductCategories", "")%>"><span>{Tag:全部商品分类}<s></s></span></a>
+                <div class="allsort" id="allsort"></div>
+                <script type="text/javascript">
+                    $(function () {
+                        $(".allcategory").hover(function () {
+                            $(this).find(".allsort").show();
+                            if ($("#allsort").html() == '') {
+                                LoadPage('{/lang}/part_category.aspx', 'allsort');
+                            }
+                        }, function () {
+                            $(this).find(".allsort").hide();
+                        });
+
+                    });
+                </script>
+            </div>
+            <div class="left">
+                {MOD:HeadMenu}
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>

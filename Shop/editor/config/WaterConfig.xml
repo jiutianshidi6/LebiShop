@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<WaterConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <OnAndOff>1</OnAndOff>
+  <PicAndText>text</PicAndText>
+  <WM_PicPath />
+  <WM_Text>lebi.cn</WM_Text>
+  <WM_Transparence />
+  <WM_Font>Agency FB</WM_Font>
+  <WM_FontSize>12</WM_FontSize>
+  <WM_FontColor>AliceBlue</WM_FontColor>
+  <WM_FontForm>None</WM_FontForm>
+  <WM_PlaceX>20</WM_PlaceX>
+  <WM_PlaceY>20</WM_PlaceY>
+  <WM_Width>0</WM_Width>
+  <WM_Height>0</WM_Height>
+  <SavePath>/upload</SavePath>
+  <WM_Location>LeftTop</WM_Location>
+</WaterConfig>

@@ -1,0 +1,1 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="Shop.P_ArticleDetails" validateRequest="false"%>

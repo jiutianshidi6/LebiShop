@@ -1,0 +1,445 @@
+﻿{layout:simple} {class:Shop.Admin.Supplier.Supplier_User_Edit_window}
+<lbbody>
+<ul id="tablistmain"><li class="selected"><a><span><%=Tag("通用信息")%></span></a></li></ul>
+<table class="table">
+    <tr>
+        <th style="width: 20%;">
+            <%=Tag("会员帐号")%>：
+        </th>
+        <td style="width: 80%;">
+        <%if (user.id == 0)
+          { %>
+            <input type="text" shop="true" min="notnull" id="UserName" name="UserName" class="input" value="" onchange="Check_username();" style="width:200px" />
+        <%}else{%>
+           <%=UserName(user.id)%>
+        <%} %>
+        </td>
+    </tr>
+    <tr>
+        <th style="vertical-align:top">
+            Logo：
+        </th>
+        <td>
+            <div id="image_Logo">
+                <%if (model.Logo != "")
+                    {%>
+                <img height="60" src="<%=site.WebPath + model.Logo%>" />
+                <%} %>
+            </div>
+            <input type="hidden" shop="true" id="Logo" name="Logo" class="input" style="width: 200px;" value="<%=model.Logo%>" readonly /> 
+            <input id="file_Logo" name="file_Logo" type="file" class="input" />
+            <input type="button" value="上传" onclick="uploadImage('Logo')" />
+            <em>width:200px | height:200px</em>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("商家编号")%>：
+        </th>
+        <td>
+            <input type="text" shop="true" min="notnull" id="SupplierNumber" name="SupplierNumber" style="width: 200px;" class="input" value="<%=model.SupplierNumber %>" />
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("公司名称")%>：
+        </th>
+        <td>
+            <input type="text" shop="true" min="notnull" id="Company" name="Company" style="width: 200px;" class="input" value="<%=model.Company %>" />
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("店铺简称")%>：
+        </th>
+        <td>
+            <input type="text" shop="true" min="notnull" id="SubName" name="SubName" style="width: 200px;" class="input" value="<%=model.SubName %>" />
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("绑定域名")%>：
+        </th>
+        <td>
+            <input type="text" shop="true" id="Domain" name="Domain" style="width: 200px;" class="input" value="<%=model.Domain %>" />
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("联系人")%>：
+        </th>
+        <td>
+            <input type="text" shop="true" min="notnull" id="RealName" name="RealName" class="input" value="<%=model.RealName %>" style="width:200px" />
+        </td>
+    </tr>
+   
+    <tr>
+        <th>
+            <%=Tag("手机号码")%>：
+        </th>
+        <td>
+            <input type="text" shop="true" min="notnull" id="MobilePhone" name="MobilePhone" class="input" value="<%=model.MobilePhone %>" style="width:200px" />
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("电话号码")%>：
+        </th>
+        <td>
+            <input type="text" shop="true" id="Phone" name="Phone" class="input" value="<%=model.Phone %>" style="width:200px" />
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("QQ号码")%>：
+        </th>
+        <td>
+            <input type="text" shop="true" id="QQ" name="QQ" class="input" value="<%=model.QQ %>" style="width:200px" />
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("Email地址")%>：
+        </th>
+        <td>
+            <input type="text" shop="true" id="Email" name="Email" class="input" value="<%=model.Email %>" style="width:200px" />
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("地区")%>：
+        </th>
+        <td id="Area_id_div">
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("联系地址")%>：
+        </th>
+        <td>
+            <input type="text" shop="true" min="notnull" id="Address" name="Address" size="50" class="input" value="<%=model.Address %>" />
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("邮政编码")%>：
+        </th>
+        <td>
+            <input type="text" shop="true" id="Postalcode" name="Postalcode" class="input" value="<%=model.Postalcode %>" style="width:200px" />
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("商家分组")%>：
+        </th>
+        <td>
+            <select id="Level_id" name="Level_id" shop="true" onchange="SetServiceDays();GetSkins()">
+            <%=LevelOption(model.Supplier_Group_id)%>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("使用皮肤")%>：
+        </th>
+        <td>
+            <select id="Supplier_Skin_id" name="Supplier_Skin_id" shop="true">
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("发货方")%>：
+        </th>
+        <td>
+            <label><input type="radio" name="IsSupplierTransport" value="0" shop="true" <%=model.IsSupplierTransport==0?"checked":"" %> /><%=Tag("商城")%></label>
+            <label><input type="radio" name="IsSupplierTransport" value="1" shop="true" <%=model.IsSupplierTransport==1?"checked":"" %> /><%=Tag("供应商")%></label>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("独立收款")%>：
+        </th>
+        <td>
+            <label><input type="radio" name="IsCash" value="1" shop="true" <%=model.IsCash==1?"checked":"" %> /><%=Tag("是")%></label>
+            <label><input type="radio" name="IsCash" value="0" shop="true" <%=model.IsCash==0?"checked":"" %> /><%=Tag("否")%></label>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("推广佣金")%>：
+        </th>
+        <td>
+            <label><input type="radio" name="IsSpread" value="1" shop="true" <%=model.IsSpread==1?"checked":"" %> /><%=Tag("是")%></label>
+            <label><input type="radio" name="IsSpread" value="0" shop="true" <%=model.IsSpread==0?"checked":"" %> /><%=Tag("否")%></label>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("状态")%>：
+        </th>
+        <td>
+            <%=Shop.Bussiness.EX_Type.TypeRadio("SupplierStatus", "Type_id_SupplierStatus", model.Type_id_SupplierStatus, "shop=\"true\" onclick=\"ChangeSupplierStatus();\"", CurrentLanguage.Code)%>
+        </td>
+    </tr>
+        <tr id="FreezeRemarkbody">
+            <th style="vertical-align:top">
+                <%=Tag("冻结原因")%>：
+            </th>
+            <td>
+                <textarea id="FreezeRemark" shop="true" name="FreezeRemark" class="textarea" style="height: 60px;width: 500px;"><%=model.FreezeRemark%></textarea>
+                <div class="tools clear">
+                    <ul>
+                        <li class="plus"><a href="javascript:void(0);" onclick="javascript:resizeEditor('FreezeRemark',100);"><b></b><span><%=Tag("展开")%></span></a></li>
+                        <li class="minus"><a href="javascript:void(0);" onclick="javascript:resizeEditor('FreezeRemark',-100)"><b></b><span><%=Tag("收缩")%></span></a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    <%if (model.id > 0){ %>
+    <tr>
+        <th>
+            <%=Tag("保证金")%>（<%=DefaultCurrency.Msige %>）：
+        </th>
+        <td>
+            <input type="text" id="Money_Margin" name="Money_Margin" value="<%=model.Money_Margin %>" class="input" onkeyup="value=value.replace(/[^\d]/g,'')" shop="true" min="notnull" style="width:70px" />
+            <%=Tag("已缴")%>
+            <input type="text" id="Money_Margin_pay" name="Money_Margin_pay" value="<%=FormatMoney(model.Money_Margin_pay,"Number") %>" class="input" onkeyup="value=value.replace(/[^\d]/g,'')" shop="true" min="notnull" style="width:70px" />
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("服务费")%>（<%=DefaultCurrency.Msige %>）：
+        </th>
+        <td>
+            <input type="text" id="Money_Service" name="Money_Service" value="<%=model.Money_Service %>" class="input" onkeyup="value=value.replace(/[^\d]/g,'')" shop="true" min="notnull" style="width:70px" />
+            <em>/<span id="servicedays">0</span><%=Tag("天") %>
+            &nbsp;&nbsp;&nbsp;
+            <%=Tag("缴费次数") %>：<a href="<%=site.AdminPath %>/user/userMoney.aspx?type=198&user_id=<%=model.User_id %>" target="_blank"><%=Count_pay%></a>
+            </em>
+
+            
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("商品上限")%>：
+        </th>
+        <td>
+            <input type="text" id="ProductTop" name="ProductTop" value="<%=model.ProductTop %>" class="input" onkeyup="value=value.replace(/[^\d]/g,'')" shop="true" min="notnull" style="width:70px" />
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("结账天数")%>：
+        </th>
+        <td>
+            <input type="text" shop="true" min="notnull" id="BillingDays" name="BillingDays" class="input" value="<%=model.BillingDays %>" style="width:70px" />
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("服务期限")%>：
+        </th>
+        <td>
+            <input type="text" name="Time_Begin" class="input-calendar" value="<%=FormatDate(model.Time_Begin) %>" style="width:130px;" shop="true" /> 
+            - <input type="text" name="Time_End" class="input-calendar" value="<%=FormatDate(model.Time_End) %>" style="width:130px;" shop="true" />
+        </td>
+    </tr>
+    <%} %>
+    <tr>
+        <th style="vertical-align:top">
+            <%=Tag("内部备注")%>：<br>
+            <em>≤ <span id="remLen">255</span></em>
+        </th>
+        <td>
+            <textarea name="Remark" id="Remark" shop="true" rows="3" cols="60" class="input" onKeyDown="checkMaxInput(this.form)" onKeyUp="checkMaxInput(this.form)" style="height: 55px;width: 100%;"><%=model.Remark%></textarea>
+            <div class="tools clear">
+                <ul>
+                    <li class="plus"><a href="javascript:void(0);" onclick="javascript:resizeEditor('Remark',100);"><b></b><span><%=Tag("展开")%></span></a></li>
+                    <li class="minus"><a href="javascript:void(0);" onclick="javascript:resizeEditor('Remark',-100)"><b></b><span><%=Tag("收缩")%></span></a></li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("注册日期")%>：
+        </th>
+        <td>
+            <%=model.Time_Reg %>
+        </td>
+    </tr>
+</table>
+<%=Shop.Bussiness.Language.AdminLanguageTab("") %>
+<table class="table">
+    <%foreach (Shop.Model.Lebi_Language_Code lang in Shop.Bussiness.Language.Languages())
+      {%>
+    <tbody id="lang_<%=lang.Code %>" class="lang_table" style="display: none">
+        <tr>
+            <th style="width: 20%">
+                <%=Tag("店铺名称")%>：
+            </th>
+            <td>
+                <input type="text" id="Name<%=lang.Code %>" name="Name<%=lang.Code %>" class="input" shop="true"  style="width: 200px;" value="<%=Shop.Bussiness.Language.Content(model.Name,lang.Code) %>" />
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <%=Tag("店铺类别")%>：
+            </th>
+            <td>
+                <input type="text" id="ClassName" name="ClassName<%=lang.Code %>" class="input" shop="true"  style="width: 200px;" value="<%=Shop.Bussiness.Language.Content(model.ClassName,lang.Code) %>" />
+            </td>
+        </tr>
+        <tr>
+            <th style="vertical-align:top">
+                <%=Tag("店铺介绍")%>：
+            </th>
+            <td>
+                <textarea name="Description<%=lang.Code %>" shop="true" id="Description<%=lang.Code %>" class="text"><%=Shop.Bussiness.Language.Content(model.Description, lang.Code)%></textarea>
+                <script type="text/javascript">
+                    CKEDITOR.replace('Description<%=lang.Code %>', {
+                        toolbar: 'Basic',
+                        height: '150',
+                        width: '98%',
+                        language: '<%=Tag("CKEditor语言")%>'
+                    });
+                </script>
+            </td>
+        </tr>
+        <tr>
+            <th class="head" colspan="2" onclick="ShowChild('0<%=lang.Code%>,1<%=lang.Code%>,2<%=lang.Code%>','seo')">
+                <img src="<%=PageImage("plus.gif")%>" name="imgseo" id="imgseo" style="cursor: pointer; text-align: center" /> <%=Tag("SEO优化")%>
+            </th>
+        </tr>
+        <tr style="display:none;" name="trseo" id="tr0<%=lang.Code%>">
+            <th>
+                <%=Tag("网页标题")%>：
+            </th>
+            <td>
+                <input type="text" style="width: 600px;" shop="true" class="input" id="SEO_Title<%=lang.Code %>" name="SEO_Title<%=lang.Code %>" value="<%=Shop.Bussiness.Language.Content(model.SEO_Title, lang.Code)%>" />
+            </td>
+        </tr>
+        <tr style="display:none;" name="trseo" id="tr1<%=lang.Code%>">
+            <th>
+                <%=Tag("关键词")%>：
+            </th>
+            <td>
+                <input type="text" style="width: 600px;" shop="true" id="SEO_Keywords<%=lang.Code %>" name="SEO_Keywords<%=lang.Code %>" value="<%=Shop.Bussiness.Language.Content(model.SEO_Keywords, lang.Code)%>" class="input" />
+            </td>
+        </tr>
+        <tr style="display:none;" name="trseo" id="tr2<%=lang.Code%>">
+            <th>
+                <%=Tag("网页描述")%>：
+            </th>
+            <td>
+                <input type="text" style="width: 600px;" shop="true" id="SEO_Description<%=lang.Code %>" name="SEO_Description<%=lang.Code %>" value="<%=Shop.Bussiness.Language.Content(model.SEO_Description, lang.Code)%> " class="input" />
+            </td>
+        </tr>
+    </tbody>
+    <%} %>
+    <tr>
+        <td colspan="2" class="action">
+            <div class="tools tools-m">
+                <ul>
+                    <li class="submit"><a href="javascript:void(0);" onclick="SaveObj();"><b></b><span><%=Tag("保存")%></span></a></li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+</table>
+<script type="text/javascript">
+    LanguageTab_EditPage('<%=CurrentLanguage.Code %>'); //加载默认语言
+    GetAreaList(<%=SYS.TopAreaid %>, <%=model.Area_id %>); //加载地区下拉框
+    function SaveObj() {
+        <%foreach (Shop.Model.Lebi_Language_Code lang in Shop.Bussiness.Language.Languages()){%>
+        var editor<%=lang.Code %> = CKEDITOR.instances.Description<%=lang.Code %>;
+        $("#Description<%=lang.Code %>").val(editor<%=lang.Code %>.getData());
+        <%} %>
+        var postData = GetFormJsonData("shop");
+        if (!CheckForm("shop", "span"))
+            return false;
+        <%if (model.id == 0){ %>
+        Check_username();
+        var Password = $("#Password").val();
+        var RePassword = $("#RePassword").val();
+        if (Password != RePassword) 
+        {
+            CheckNO("RePassword", "<%=Tag("两次输入的密码不一致")%>");
+            return false;
+        }
+        <%} %>
+        var Area_id = $("#Area_id").val();
+        if (Area_id == 0) {
+            CheckNO('Area_id','','span');
+            return false;
+        }
+        var url = "<%=site.AdminPath %>/ajax/ajax_supplier.aspx?__Action=User_Edit&id=<%=model.id %>&Area_id="+ Area_id;
+        RequestAjax(url,postData,function(){MsgBox(1, "<%=Tag("操作成功")%>", "?")});
+    }
+    function Check_username() {
+        var UserName = $("#UserName").val();
+        $.ajax({
+            type: 'POST',
+            url: "<%=site.AdminPath %>/ajax/ajax_supplier.aspx?__Action=CheckUserName",
+            data: { "UserName": UserName },
+            dataType: 'html',
+            success: function (data) {
+                if (data == "NO"){CheckNO("UserName","<%=Tag("登陆账号已被使用")%>");return false;}else{CheckOK("UserName", "");}
+
+            }
+        });
+    }
+    function SetServiceDays()
+    {
+       var days= $("#Level_id").find("option:selected").attr("days");
+       $("#servicedays").html(days);
+    }
+    function uploadImage(id) {
+        $.ajaxFileUpload
+        (
+	        {
+	            url: WebPath + '/ajax/imageuploadone.aspx?path=supplierlogo',
+	            secureuri: false,
+	            fileElementId: 'file_' + id,
+	            dataType: 'json',
+	            success: function (data, status) {
+	                if (data.msg != 'OK') {
+	                        MsgBox(2, data.msg, "");
+	                    }
+	                    else {
+	                        var imageUrl = data.ImageUrl;
+	                        if (imageUrl.length > 0) {
+	                            $("#image_" + id + "").html('<img height="60" src=' + WebPath + imageUrl + '>');
+	                            $("#" + id + "").val(imageUrl);
+	                        }
+	                    }
+	            }
+	        }
+        )
+    }
+        function ChangeSupplierStatus(){
+            var Type_id_SupplierStatus=$("input[name='Type_id_SupplierStatus']:checked").val();
+            if(Type_id_SupplierStatus==444){
+                $("#FreezeRemarkbody").show();
+            }else{
+                $("#FreezeRemarkbody").hide();
+            }
+        }
+    function GetSkins() {
+        var groupid = $("#Level_id").val();
+        $.ajax({
+            type: 'POST',
+            url: "<%=site.AdminPath %>/ajax/ajax_supplier.aspx?__Action=GetSupplierSkinOptions",
+            data: { "groupid": groupid,"id":<%=model.Supplier_Skin_id %> },
+            dataType: 'html',
+            success: function (data) {
+                $("#Supplier_Skin_id").html(data);
+
+            }
+        });
+    }
+    SetServiceDays();ChangeSupplierStatus();GetSkins();
+</script>
+</lbbody>
