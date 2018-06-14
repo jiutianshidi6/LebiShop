@@ -330,28 +330,25 @@ namespace Shop.Bussiness
                 SYS.TopAreaid = CurrentLanguage_.TopAreaid.ToString();
             }
             LBTITLE = "";
-            if (!Shop.LebiAPI.Service.Instanse.Check("lebilicense"))
-            {
-                LBTITLE += " - Powered by LebiShop";
-                //底部版权信息
-                //if (CurrentPage != null)
-                //{
-                //    StringBuilder sb = new StringBuilder();
-                //    sb.Append("Powered by <a style=\"font-size:12px;color:#00497f\" href=\"http://www.lebi.cn\" target=\"_blank\" title=\"LebiShop多语言网上商店系统\">LebiShop</a> ");
-                //    sb.Append("V" + SYS.Version + "." + SYS.Version_Son);
-                //    try
-                //    {
-                //        Label label = (Label)this.Page.FindControl("LeBiLicense");
-                //        label.Text = sb.ToString();
-                //    }
-                //    catch (System.NullReferenceException)
-                //    {
-                //        Response.Write("<div style=\"height:100px;padding-top:10px;text-align:left;font-size:12;\">内部错误，请到【配置】=》【站点语言】栏目中重新生成网站<br>");
-                //        Response.Write(sb.ToString() + "</div>");
-                //        Response.End();
-                //    }
-                //}
-            }
+            LBTITLE += " - Powered by LebiShop";
+            //底部版权信息
+            //if (CurrentPage != null)
+            //{
+            //    StringBuilder sb = new StringBuilder();
+            //    sb.Append("Powered by <a style=\"font-size:12px;color:#00497f\" href=\"http://www.lebi.cn\" target=\"_blank\" title=\"LebiShop多语言网上商店系统\">LebiShop</a> ");
+            //    sb.Append("V" + SYS.Version + "." + SYS.Version_Son);
+            //    try
+            //    {
+            //        Label label = (Label)this.Page.FindControl("LeBiLicense");
+            //        label.Text = sb.ToString();
+            //    }
+            //    catch (System.NullReferenceException)
+            //    {
+            //        Response.Write("<div style=\"height:100px;padding-top:10px;text-align:left;font-size:12;\">内部错误，请到【配置】=》【站点语言】栏目中重新生成网站<br>");
+            //        Response.Write(sb.ToString() + "</div>");
+            //        Response.End();
+            //    }
+            //}
             Session["CurrentTheme"] = CurrentTheme_;//session主要是为那些没有LoadTheme方法的页面服务的，如ajax
             Session["CurrentLanguage"] = CurrentLanguage_;
             Session["CurrentSite"] = CurrentSite_;
@@ -388,60 +385,7 @@ namespace Shop.Bussiness
                 ProductCategoryWhere = "1=1";
             }
             //ProductWhere += " and (UserLevel_ids_show='' or UserLevel_ids_show is null or ','+UserLevel_ids_show+',' like '%," + CurrentUserLevel.id + ",%'  )";
-            //用户的商品权限
-            if (Shop.LebiAPI.Service.Instanse.Check("plugin_productlimit"))
-            {
-                if (SYS.ProductLimitType == "1")//选择表示允许
-                {
-                    if (CurrentUser.id == 0)
-                    {
-                        if (CurrentUserLevel_.id > 0)
-                            ProductWhere += " and (id　not in (" + ProductLimit.UserLevelLimit(CurrentUserLevel_.id) + "))";
-                    }
-                    else
-                    {
-                        int lc = B_Lebi_Product_Limit.Counts("User_id=" + CurrentUser.id + "");
-                        if (lc == 0)
-                            ProductWhere += " and (id not in (" + ProductLimit.UserLevelLimit(CurrentUserLevel_.id) + "))";
-                        else
-                            ProductWhere += " and (id not in (" + ProductLimit.UserLevelLimit(CurrentUserLevel_.id) + ") or id in (" + ProductLimit.UserLimit(CurrentUser.id) + "))";
-                    }
-                }
-                else//选择表示拒绝
-                {
-                    if (CurrentUser.id == 0)
-                    {
-                        if (CurrentUserLevel_.id > 0)
-                            ProductWhere += " and (id not in (" + ProductLimit.UserLevelLimit(CurrentUserLevel_.id) + "))";
-                    }
-                    else
-                    {
-                        int lc = B_Lebi_Product_Limit.Counts("User_id=" + CurrentUser.id + "");
-                        if (lc == 0)
-                            ProductWhere += " and (id not in (" + ProductLimit.UserLevelLimit(CurrentUserLevel_.id) + "))";
-                        else
-                            ProductWhere += " and (id not in (" + ProductLimit.UserLevelLimit(CurrentUserLevel_.id) + ") and id not in (" + ProductLimit.UserLimit(CurrentUser.id) + "))";
-                        //ProductWhere += " and (id not in (" + ProductLimit.UserLimit(CurrentUser.id) + "))";
-                    }
-                }
-                //SystemLog.Add(ProductWhere);
-            }
-            //<-{分销站点
-            int DT_id = ShopPage.GetDT();
-            if (DT_id > 0)
-            {
-                string DT_Product_ids = "";
-                Lebi_DT CurrentDT = B_Lebi_DT.GetModel(DT_id);
-                if (CurrentDT != null)
-                {
-                    DT_Product_ids = CurrentDT.Product_ids;
-                    if (DT_Product_ids == "")
-                        DT_Product_ids = "0";
-                    ProductWhere += " and id in(select dt_p.Product_id from [Lebi_DT_Product] as dt_p where dt_p.DT_id = " + DT_id + ")";
-                }
-            }
             ProductWhere += " and (IsDel!=1 or IsDel is null)";
-            //}->
         }
 
         public void LoadTheme()

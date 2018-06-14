@@ -62,34 +62,27 @@ namespace Shop.Bussiness
                     Version = "<div id=\"version\"><a href=\"" + site.AdminPath + "/config/Version.aspx\" style=\"color:red\" >" + Tag("发现新版本") + " " + Tag("点击此处更新") + " </a></div>";
             }
             //lebi菜单
-            if (!Shop.LebiAPI.Service.Instanse.Check("managelicenese"))
+            var licenseuserurl = "username=" + SYS.LicenseUserName + "&password=" + EX_User.MD5(SYS.LicenseUserName + System.DateTime.Now.Day) + "&vc=" + EX_User.MD5(SYS.LicensePWD);
+            lbmenu = "<ul class=\"tool\"><li><span><a href=\"" + site.AdminPath + "/Ajax/ajax_admin.aspx?__Action=MenuJump&pid=0\">" + Tag("桌面") + "</a> | <a href=\"javascript:void(0);\" onclick=\"Copyright();\">" + Tag("关于") + "</a></span></li></ul>";
+            lbmenu += "<ul class=\"faq\"><li><a href=\"http://www.lebi.cn/support/checkuser.aspx?" + licenseuserurl + "\" title=\"" + Tag("客服中心") + "\" target=\"_blank\"><b></b><span>" + Tag("客服中心") + "</span></a></li></ul>";
+            string license = "Copyright 2003-" + DateTime.Now.Year + " <a href=\"http://www.lebi.cn/\" target=\"_blank\" class=\"footcopy\">Lebi.cn</a> , All Rights Reserved. Powered by <a href=\"http://www.lebi.cn/support/license/?url=" + Request.ServerVariables["SERVER_NAME"] + "\" target=\"_blank\" title=\"LebiShop\" class=\"footcopy\">LebiShop</a> V<a href=\"" + site.AdminPath + "/config/version.aspx\">" + SYS.Version + "." + SYS.Version_Son + "</a>";
+            try
             {
-                var licenseuserurl = "username=" + SYS.LicenseUserName + "&password=" + EX_User.MD5(SYS.LicenseUserName + System.DateTime.Now.Day) + "&vc=" + EX_User.MD5(SYS.LicensePWD);
-                lbmenu = "<ul class=\"tool\"><li><span><a href=\"" + site.AdminPath + "/Ajax/ajax_admin.aspx?__Action=MenuJump&pid=0\">" + Tag("桌面") + "</a> | <a href=\"javascript:void(0);\" onclick=\"Copyright();\">" + Tag("关于") + "</a></span></li></ul>";
-                lbmenu += "<ul class=\"faq\"><li><a href=\"http://www.lebi.cn/support/checkuser.aspx?" + licenseuserurl + "\" title=\"" + Tag("客服中心") + "\" target=\"_blank\"><b></b><span>" + Tag("客服中心") + "</span></a></li></ul>";
-                string license = "Copyright 2003-" + DateTime.Now.Year + " <a href=\"http://www.lebi.cn/\" target=\"_blank\" class=\"footcopy\">Lebi.cn</a> , All Rights Reserved. Powered by <a href=\"http://www.lebi.cn/support/license/?url=" + Request.ServerVariables["SERVER_NAME"] + "\" target=\"_blank\" title=\"LebiShop\" class=\"footcopy\">LebiShop</a> V<a href=\"" + site.AdminPath + "/config/version.aspx\">" + SYS.Version + "." + SYS.Version_Son + "</a>";
-                try
-                {
-                    Label LBLicense = (Label)this.Page.FindControl("LBLicense");
-                    LBLicense.Text = license;
-                }
-                catch
-                {
-                    string strscript = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">";
-                    //strscript = "<script language='javascript'>";
-                    //strscript += "document.onreadystatechange = loadlicense;";
-                    //strscript += "function loadlicense(){";
-                    //strscript += "if(document.readyState == \"complete\"){";
-                    //strscript += "if ($(\"#lebicopy\")[0] == undefined) {alert('页面布局异常')}else{";
-                    //strscript += "$('#lebicopy').html('" + license + "')}";
-                    //strscript += "}}</script>";
-                    strscript += license;
-                    Response.Write(strscript);
-                }
+                Label LBLicense = (Label)this.Page.FindControl("LBLicense");
+                LBLicense.Text = license;
             }
-            else
+            catch
             {
-                lbmenu = "<ul class=\"tool\"><li><span><a href=\"" + site.AdminPath + "/Ajax/ajax_admin.aspx?__Action=MenuJump&pid=0\">" + Tag("桌面") + "</a> | <a href=\"javascript:void(0);\" onclick=\"Copyright();\">" + Tag("关于") + "</a></span></li></ul>";
+                string strscript = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">";
+                //strscript = "<script language='javascript'>";
+                //strscript += "document.onreadystatechange = loadlicense;";
+                //strscript += "function loadlicense(){";
+                //strscript += "if(document.readyState == \"complete\"){";
+                //strscript += "if ($(\"#lebicopy\")[0] == undefined) {alert('页面布局异常')}else{";
+                //strscript += "$('#lebicopy').html('" + license + "')}";
+                //strscript += "}}</script>";
+                strscript += license;
+                Response.Write(strscript);
             }
             //处理菜单
             desk = RequestTool.RequestInt("desk", 0);

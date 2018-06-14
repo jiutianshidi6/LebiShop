@@ -977,17 +977,9 @@ namespace Shop.Bussiness
             BaseConfig conf = ShopCache.GetBaseConfig();
             string title = "";
             string content = "";
-            if (!Shop.LebiAPI.Service.Instanse.Check("managelicenese"))
-            {
-                title = Language.Tag("欢迎使用LebiShop");
-                content = Language.Tag("这是系统设置自动发信参数时的测试邮件，如果您收到此邮件，表示自动发信的参数已经设置正确！");
-                content += "<br/>LebiShop V" + conf.Version + "." + conf.Version_Son + " <a href='http://www.lebi.cn' target='_blank'>http://www.lebi.cn</a>";
-            }
-            else
-            {
-                title = Language.Tag("邮件发送测试");
-                content = Language.Tag("这是系统设置自动发信参数时的测试邮件，如果您收到此邮件，表示自动发信的参数已经设置正确！");
-            }
+            title = Language.Tag("欢迎使用LebiShop");
+            content = Language.Tag("这是系统设置自动发信参数时的测试邮件，如果您收到此邮件，表示自动发信的参数已经设置正确！");
+            content += "<br/>LebiShop V" + conf.Version + "." + conf.Version_Son + " <a href='http://www.lebi.cn' target='_blank'>http://www.lebi.cn</a>";
             content += "<br/>" + System.DateTime.Now.Date.ToString();
             Send(conf.MailAddress, title, content);
         }
@@ -996,10 +988,7 @@ namespace Shop.Bussiness
             BaseConfig conf = ShopCache.GetBaseConfig();
             string title = Language.Tag("邮件发送测试");
             string content = Language.Tag("这是系统设置自动发信参数时的测试邮件，如果您收到此邮件，表示自动发信的参数已经设置正确！");
-            if (!Shop.LebiAPI.Service.Instanse.Check("managelicenese"))
-            {
-                content += "<br/>LebiShop V" + conf.Version + "." + conf.Version_Son + " <a href='http://www.lebi.cn' target='_blank'>http://www.lebi.cn</a>";
-            }
+            content += "<br/>LebiShop V" + conf.Version + "." + conf.Version_Son + " <a href='http://www.lebi.cn' target='_blank'>http://www.lebi.cn</a>";
             content += "<br/>" + System.DateTime.Now.Date.ToString();
             if (TableName == "Supplier")
             {
