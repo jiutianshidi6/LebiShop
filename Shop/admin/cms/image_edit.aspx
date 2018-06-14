@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="Lebi.ERP.Bussiness.pagebase.image_edit" validateRequest="false"%>
+﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="Shop.Admin.cms.Image_Edit" validateRequest="false"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -6,8 +6,7 @@
 <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
 <meta name="author" content="LebiShop" />
 
-    <title><%=node.Name%>-<%=site.title%></title>
-    
+    <title><%=node.Name%>-<%=pnode.Name%>-<%=site.title%></title>
 
 <script src="<%=site.AdminJsPath %>/jquery-3.1.0.min.js"></script>
 <script src="<%=site.AdminJsPath %>/jquery-migrate-1.2.1.js"></script>
@@ -28,8 +27,6 @@
     var AdminPath = "<%=site.AdminPath %>";var WebPath ="<%=site.WebPath %>";var AdminImagePath = "<%=site.AdminImagePath %>";var requestPage = "<%=Shop.Tools.RequestTool.GetRequestUrl().ToLower() %>";var refPage = "<%=Shop.Tools.RequestTool.GetUrlReferrer().ToLower() %>";
     function quit() { if (confirm("<%=Tag("您确定要退出吗？")%>")) return true; else return false; }
 </script>
- 
-    <script type="text/javascript" src="<%=site.AdminJsPath %>/ajaxfileupload.js"></script>
 
 </head>
 <body>
@@ -109,12 +106,11 @@
       
     <div class="tools">
     <ul>
+    <%if (PageReturnMsg == ""){%>
     <li class="submit"><a href="javascript:void(0);" onclick="SaveObj();"><b></b><span><%=Tag("保存")%></span></a></li>
+    <%}%>
     <li class="rotate"><a href="javascript:void(0);" onclick="javascript:history.back();"><b></b><span><%=Tag("返回")%></span></a></li>
-    <li class="name"><span id="navIgation"><%=Tag("当前位置")%>：<a href="<%=site.AdminPath %>/Ajax/ajax_admin.aspx?__Action=MenuJump&pid=0"><%=Tag("管理首页")%></a> > 
-         <%=Tag("会员管理")%> > <%=user.NickName%> > <%=Tag("照片管理")%>
-        <%if (page.Name !="") {%> > 
-        <%=page.Name%><%} %></span></li>
+    <li class="name"><span id="navIgation"><%=Tag("当前位置")%>：<a href="<%=site.AdminPath %>/Ajax/ajax_admin.aspx?__Action=MenuJump&pid=0"><%=Tag("管理首页")%></a> > <a href="UserNodeList.aspx?code=<%=pnode.Code %>"><%=pnode.Name%></a> > <a href="<%=Shop.Bussiness.NodePage.AdminIndexPage(node) %>"><%=node.Name%></a><%if (page.Name !="") {%> > <%=page.Name%><%} %></span></li>
     </ul>
     </div>
 
@@ -130,13 +126,28 @@
     <table class="table">
         <tr>
             <th>
+                <%=Tag("语言")%>：
+            </th>
+            <td>
+                <%= Shop.Bussiness.Language.SiteLanguageCheckbox("Language_ids", page.Language_ids,CurrentLanguage.Code)%>
+            </td>
+        </tr>
+        <tr>
+            <th>
                 <%=Tag("标题")%>：
             </th>
             <td>
                 <input type="text" id="Name" name="Name" class="input" shop="true" min="notnull" style="width: 350px;" value="<%=page.Name %>" />&nbsp;<span></span>
             </td>
         </tr>
-        
+        <tr>
+            <th>
+                <%=Tag("跳转页面")%>：
+            </th>
+            <td>
+                <input type="text" id="url" name="url" class="input" style="width: 500px;" shop="true" value="<%=page.url %>" />
+            </td>
+        </tr>
         <tr>
             <th>
                 <%=Tag("图片地址")%>：
@@ -189,8 +200,8 @@
             var nodeid = $("#Node_id").val();
             if (!CheckForm("shop", "span"))
                 return false;
-            var url = "<%=site.AdminPath %>/ajax/ajax_node.aspx?__Action=Page_Edit&id=<%=page.id %>&user_id=<%=user_id %>";
-            RequestAjax(url,postData,function(){MsgBox(1, "<%=Tag("操作成功")%>", "imagelist.aspx?Node_id=" + nodeid + "&user_id=<%=user_id%>")});
+            var url = "<%=site.AdminPath %>/ajax/ajax_node.aspx?__Action=Page_Edit&id=<%=page.id %>";
+            RequestAjax(url,postData,function(){MsgBox(1, "<%=Tag("操作成功")%>", "pagelist.aspx?Node_id=" + nodeid + "")});
         }
     </script>
 

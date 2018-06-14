@@ -15,7 +15,6 @@
         word-wrap: break-word;
     }
         </style>
-   
 <table style="width:100%">
 <tr>
 <td style="vertical-align:top;width:150px;background-color:#f4f4f4;">
@@ -33,9 +32,6 @@
     <tr class="title">
         <th style="">
             <%=Tag("账号")%>
-        </th>
-        <th style="">
-            <%=Tag("公司")%>
         </th>
         <th style="width: 100px">
             <%=Tag("姓名")%>
@@ -87,7 +83,7 @@
         {
             var postData=GetFormJsonData("limit");
             var url="<%=site.AdminPath %>/ajax/ajax_product.aspx?__Action=ProductLimit_Edit_product&userlevelid="+userlevelid+"&productid=<%=product.id%>";
-            RequestAjax(url,postData,function(){MsgBox(1,"<%=Tag("操作成功")%>","")});
+            RequestAjax(url,postData,function(){MsgBox(1,"<%=Tag("操作成功")%>","?")});
         }
         reloadproducts(1,'',<%=userlevelid%>);
     </script>

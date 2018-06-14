@@ -1,13 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="Shop.inc.product_info" validateRequest="false"%>
-<%@ Import Namespace="Lebi.ERP" %>
-<%
-PLebi_User CurrentSonUser=Lebi.ERP.User.GetCurrentSonUser();
-if(!CurrentSonUser.lebierp_UserLimit.Contains("showprice"))
-CurrentUserLevel.IsHidePrice=1;
-if(!CurrentSonUser.lebierp_UserLimit.Contains("usemoney"))
-CurrentUserLevel.BuyRight=0;
-LoadPage();
-%>
+﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="Shop.inc.product_info" validateRequest="false"%><%LoadPage();%>
 
 <script type="text/JavaScript">
     $(document).ready(function () {
@@ -27,8 +18,10 @@ LoadPage();
         });
     });
 </script>
-    <%
+<%
+decimal price_market=ProductPrice_Market(product);
 decimal price=ProductPrice(product);
+int levelcount=ProductLevelCount(product);
 %>
 <div class="productname">
     <span>
@@ -42,13 +35,13 @@ decimal price=ProductPrice(product);
     </dl>
     <%if (product.Type_id_ProductType == 320)
       { %>
-    <%if (product.Price_Market > 0){ %>
+    <%if (price_market > 0){ %>
     <dl>
         <dt>
             <%=Tag("市场价")%>：</dt>
         <dd>
             <span class="marketprice">
-                <%=FormatMoney(product.Price_Market) %></span></dd>
+                <%=FormatMoney(price_market) %></span></dd>
     </dl>
     <%} %>
     <dl>
@@ -56,7 +49,7 @@ decimal price=ProductPrice(product);
             <%=Lang(CurrentUserLevel.PriceName) %>：</dt>
         <dd>
             <span class="buyprice productprice">
-                <%=FormatMoney(price) %>/<%=Shop.Bussiness.Language.Content(Shop.Bussiness.EX_Product.ProductUnit(product.Units_id), "CN")%></span><%if (product.Price_Market > 0){ %><span class="buyprice">&nbsp;&nbsp;</span><%} %></dd>
+                <%=FormatMoney(price) %></span><%if (price_market > 0){ %><span class="buyprice">&nbsp;&nbsp;<em><%=Tag("节省")%>：<%=FormatMoney(price_market-price) %></em></span><%} %></dd>
     </dl>
     <%} %>
 
@@ -76,10 +69,8 @@ decimal price=ProductPrice(product);
             <%=Lang(CurrentUserLevel.PriceName) %>：</dt>
         <dd>
             <span class="buyprice productprice">
-                <%=FormatMoney(price) %>/<%=Shop.Bussiness.Language.Content(Shop.Bussiness.EX_Product.ProductUnit(product.Units_id), "CN")%></span><%if (product.Price_Market > 0){ %><span class="buyprice">&nbsp;&nbsp;</span><%} %></dd>
+                <%=FormatMoney(price) %></span><%if (product.Price_Market > 0){ %><span class="buyprice">&nbsp;&nbsp;<em><%=Tag("节省")%>：<%=FormatMoney(product.Price_Market-price) %></em></span><%} %></dd>
     </dl>
-    
-
     <dl>
         <dt>
             <%=Tag("定金") %>：</dt>
@@ -91,18 +82,7 @@ decimal price=ProductPrice(product);
         </dd>
     </dl>
     <%} %>
-    <%if(!Shop.Bussiness.EX_User.LoginStatus()){%>
-    <dl>
-        <dt>
-            <%=Tag("会员批发价")%>：</dt>
-        <dd>
-            <span style="color:red;">
-                <%=Tag("登录后才可看到") %></span>
-            &nbsp;&nbsp;&nbsp;
-            <a href="<%=URL("P_Register", "") %>"><%=Tag("注册")%></a> ┊ <a href="<%=URL("P_Login", "") %>"><%=Tag("登录")%></a>
-        </dd>
-    </dl>
-    <%}%>
+
     <%if (product.Type_id_ProductType == 321 || product.Type_id_ProductType == 322)
       { %>
     <%if (product.Price_Market > 0){ %>
@@ -122,7 +102,7 @@ decimal price=ProductPrice(product);
               { %><%=Tag("团购价")%><%} %>：</dt>
         <dd>
             <span class="buyprice productprice">
-                <%=FormatMoney(product.Price_Sale)%>/<%=Shop.Bussiness.Language.Content(Shop.Bussiness.EX_Product.ProductUnit(product.Units_id), "CN")%><%if (product.Price_Market > 0){ %>&nbsp;&nbsp;<em><%=Discount(product.Price_Market, product.Price_Sale)%>% <%=Tag("折")%></em><%} %></span></dd>
+                <%=FormatMoney(product.Price_Sale)%><%if (product.Price_Market > 0){ %>&nbsp;&nbsp;<em><%=Discount(product.Price_Market, product.Price_Sale)%>% <%=Tag("折")%></em><%} %></span></dd>
     </dl>
     <%if (product.Type_id_ProductType == 322)
       {%>
@@ -169,13 +149,13 @@ decimal price=ProductPrice(product);
     <%}%>
     <%if (product.Type_id_ProductType == 323)
       {%>
-    <%if (ProductPrice(product) > 0){ %>
+    <%if (price > 0){ %>
     <dl>
         <dt>
             <%=Tag("销售价")%>：</dt>
         <dd>
             <span class="marketprice productprice">
-                <%=FormatMoney(ProductPrice(product)) %>/<%=Shop.Bussiness.Language.Content(Shop.Bussiness.EX_Product.ProductUnit(product.Units_id), "CN")%></span></dd>
+                <%=FormatMoney(price) %></span></dd>
     </dl>
     <%} %>
     <dl>
@@ -206,14 +186,6 @@ decimal price=ProductPrice(product);
                 <%=Shop.Bussiness.EX_Product.ProductBrand(product,CurrentLanguage)%></a></dd>
     </dl>
     <%} %>
-    <dl>
-        <dt>
-            <%=Tag("商品规格")%>：
-        </dt>
-        <dd>
-            <%=product.Code%>
-        </dd>
-    </dl>
     <%foreach (Shop.Model.KeyValue kv in ProPertys)
       { %>
     <%if (kv.V != "")
@@ -242,19 +214,20 @@ decimal price=ProductPrice(product);
     <% 
     int stock=ProductStock(product);
     if (product.Type_id_ProductStatus == 101 && (stock > 0 || SYS.IsNullStockSale=="1" || product.Type_id_ProductType==324))
-
        { %>
     <dl class="clearfix">
         <dt>
             <%=Tag("购买数量")%>：</dt>
         <dd>
-            <input type="text" name="pro_num" id="pro_num" value="1" class="input" size="5" 
-            <%if ((product.Type_id_ProductType == 321 || product.Type_id_ProductType == 322) && (System.DateTime.Now < product.Time_Expired) && product.Count_Limit > 0)
-            { %> onchange="changeproducecount();checkinputtop('pro_num',<%=product.Count_Limit %>)" <%}else{ %>
-            onchange="changeproducecount();"
-            <%} %> 
-            />
-            
+            <input type="text" name="pro_num" id="pro_num" value="<%=levelcount%>" class="input" size="5" onchange="changeproducecount();checkinputtop('pro_num',<%=levelcount %>,<%=product.Count_Limit%>)" />
+            <span class="unit">
+                <%=Shop.Bussiness.EX_Product.ProductUnit(product,CurrentLanguage)%></span> 
+                <%
+                  if(stock>0){
+                %>
+                <em><%=Tag("库存")%>：<%=stock %><%=Shop.Bussiness.EX_Product.ProductUnit(product,CurrentLanguage)%></em>
+                <%}%>
+
         </dd>
     </dl>
     <%} %>
@@ -278,7 +251,7 @@ decimal price=ProductPrice(product);
         <span>
             <%=Tag("该商品已经下架")%></span></div>
     <%}
-    else if (stock < 1 && SYS.IsNullStockSale!="1" && product.Type_id_ProductType!=324)
+       else if (stock < 1 && SYS.IsNullStockSale!="1" && product.Type_id_ProductType!=324)
        { %>
     <div class="nosale">
         <span>
@@ -286,7 +259,9 @@ decimal price=ProductPrice(product);
     <%}
        else
        { %>
-    <a href="javascript:void(0)" onclick="UserProduct_Edit(<%=product.id %>,142,$('#pro_num').val(),'','Property134');" class="btn btn-buy"><s></s><%=Tag("加入购物车")%></a> <a href="javascript:void(0)" onclick="UserProduct_Edit(<%=product.id %>,142,$('#pro_num').val(),'quickbuy','Property134');" class="btn btn-quickbuy"><s></s><%=Tag("立刻购买")%></a> <a href="javascript:void(0)" onclick="UserProduct_Edit(<%=product.id%>,141);" class="btn btn-fav"><s></s><%=Tag("收藏")%></a> 
+    <a href="javascript:void(0)" onclick="UserProduct_Edit(<%=product.id %>,142,$('#pro_num').val(),'','Property134');" class="btn btn-buy"><s></s><%=Tag("加入购物车")%></a> 
+    <a href="javascript:void(0)" onclick="UserProduct_Edit(<%=product.id %>,142,$('#pro_num').val(),'quickbuy','Property134');" class="btn btn-quickbuy"><s></s><%=Tag("立刻购买")%></a> 
+    <a href="javascript:void(0)" onclick="UserProduct_Edit(<%=product.id%>,141);" class="btn btn-fav"><s></s><%=Tag("收藏")%></a> 
     <%} %>
     <%} %>
     <%if (Shop.Bussiness.ShopCache.GetBaseConfig().MailSign.ToLower().Contains("sendfriend")){ %>
@@ -308,6 +283,5 @@ decimal price=ProductPrice(product);
 
     }
 </script>
-
 
   

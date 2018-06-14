@@ -1,1 +1,0 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="Com.Alipay.HaiWai.return_url" Codebehind="return_url.aspx.cs" %>

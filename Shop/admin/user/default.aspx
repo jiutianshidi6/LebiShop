@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="Lebi.ERP.Bussiness.pagebase.userlist" validateRequest="false"%>
+﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="Shop.Admin.user.Default" validateRequest="false"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -27,9 +27,6 @@
     var AdminPath = "<%=site.AdminPath %>";var WebPath ="<%=site.WebPath %>";var AdminImagePath = "<%=site.AdminImagePath %>";var requestPage = "<%=Shop.Tools.RequestTool.GetRequestUrl().ToLower() %>";var refPage = "<%=Shop.Tools.RequestTool.GetUrlReferrer().ToLower() %>";
     function quit() { if (confirm("<%=Tag("您确定要退出吗？")%>")) return true; else return false; }
 </script>
-
-    <script type="text/javascript" src="<%=site.AdminJsPath %>/My97DatePicker/WdatePicker.js"></script> 
-    <script type="text/javascript" src="/plugin/Lebi.ERP/js/tree.js"></script>
 
 </head>
 <body>
@@ -109,6 +106,7 @@
       
     <div class="tools">
     <ul>
+    <%if (PageReturnMsg == ""){%>
     <li class="add"><a href="javascript:void(0);" onclick="Edit(0);"><b></b><span><%=Tag("添加")%></span></a></li>
     <li class="del"><a href="javascript:void(0);" onclick="Del();"><b></b><span><%=Tag("删除")%></span></a></li>
     <li class="email"><a href="javascript:void(0);" onclick="Write('');"><b></b><span><%=Tag("发信息")%></span></a></li>
@@ -122,6 +120,7 @@
         Response.Write("<li class=\"import\"><a href=\"javascript:void(0);\" onclick=\"Export();\"><b></b><span>"+ Tag("导出") +"</span></a></li>");
     }
  %>
+    <%}%>
     <li class="name"><span id="navIgation"><%=Tag("当前位置")%>：<a href="<%=site.AdminPath %>/Ajax/ajax_admin.aspx?__Action=MenuJump&pid=0"><%=Tag("管理首页")%></a> > <%=Tag("会员列表")%></span></li>
     </ul>
     </div>
@@ -150,23 +149,24 @@
             <option value="2">┌ <%=Tag("最后登录日期")%></option>
             <option value="3">┌ <%=Tag("会员生日")%></option>
         </select>
-        <input type="text" name="dateFrom" id="dateFrom" size="12" class="input-calendar" value="<%=dateFrom %>" onClick="WdatePicker()" /> - <input type="text" name="dateTo" id="dateTo" size="12" class="input-calendar" value="<%=dateTo %>" onClick="WdatePicker()" />--%>
+        <input type="text" name="dateFrom" id="dateFrom" size="12" class="input-calendar" value="<%=dateFrom %>" /> - <input type="text" name="dateTo" id="dateTo" size="12" class="input-calendar" value="<%=dateTo %>" />--%>
         <input name="key" type="text" id="key" class="input-query" value="<%=key %>" onkeydown="if(event.keyCode==13){search_();}" /><input type="button" id="btnSou" class="btn-query" onclick="search_();" align="absmiddle" />
         <div style="margin-top:5px;">
         <a href="javascript:void(0);" onclick="SearchWindow();"><%=Tag("高级搜索")%></a>
         <%=su.Description%>
         </div>
+        
     </div>
     <table class="datalist">
         <tr class="title">
-            <th class="selectAll" style="width: 40px">
+            <th style="width: 40px" class="selectAll">
                 <a href="javascript:void(0);" onclick="$('input[name=\'sid\']').attr('checked',!$(this).attr('checked'));$(this).attr('checked',!$(this).attr('checked'));"><%=Tag("全选")%></a>
             </th>
             <th style="width: 40px">
                 <%=Tag("ID")%>
             </th>
-            <th style="width: 200px">
-                公司
+            <th style="width: 100px">
+                <%=Tag("会员编号")%>
             </th>
             <th style="width: 160px">
                 <a href="javascript:void(0);" onclick="OrderBy('?OrderBy=<%if(OrderBy == "UserNameDesc"){Response.Write("UserNameAsc");}else{Response.Write("UserNameDesc");}%>');" title="<%=Tag("点击排序")%>"><%=Tag("会员帐号")%><%if (OrderBy == "UserNameDesc") { Response.Write("↓"); } else if (OrderBy == "UserNameAsc") { Response.Write("↑"); }%></a>
@@ -182,9 +182,6 @@
             </th>
             <th style="width: 60px">
                 <a href="javascript:void(0);" onclick="OrderBy('?OrderBy=<%if(OrderBy == "MoneyDesc"){Response.Write("MoneyAsc");}else{Response.Write("MoneyDesc");}%>');" title="<%=Tag("点击排序")%>"><%=Tag("余额")%>(<%=DefaultCurrency.Msige%>)<%if (OrderBy == "MoneyDesc") { Response.Write("↓"); } else if (OrderBy == "MoneyAsc") { Response.Write("↑"); }%></a>
-            </th>
-            <th style="width: 60px">
-                <%=Tag("返利")%>
             </th>
             <th style="width: 60px">
                 <a href="javascript:void(0);" onclick="OrderBy('?OrderBy=<%if(OrderBy == "PointDesc"){Response.Write("PointAsc");}else{Response.Write("PointDesc");}%>');" title="<%=Tag("点击排序")%>"><%=Tag("积分")%><%if (OrderBy == "PointDesc") { Response.Write("↓"); } else if (OrderBy == "PointAsc") { Response.Write("↑"); }%></a>
@@ -208,10 +205,8 @@
                 <%=Tag("操作")%>
             </th>
         </tr>
-        <%foreach (Lebi.ERP.PLebi_User model in models)
-          {
-       
-        %>
+        <%foreach (Shop.Model.Lebi_User model in models)
+          {%>
         <tr class="list" ondblclick="Edit(<%=model.id %>);">
             <td style="text-align:center">
                 <input type="checkbox" name="sid" value="<%=model.id %>" />
@@ -219,8 +214,8 @@
             <td>
                 <%=model.id%>
             </td>
-           <td>
-                <%=model.NickName%>
+            <td>
+                <%=model.UserNumber %>&nbsp;
             </td>
             <td title="<%=Tag("昵称")%>：<%=model.NickName %>">
                 <%=model.UserName %>
@@ -235,16 +230,13 @@
             </td>
             
             <td>
-                <%=model.Money-model.Money_fanxian %>
-            </td>
-            <td>
-                <%=model.Money_fanxian %>
+                <%=FormatMoney(model.Money) %>
             </td>
             <td>
                 <%=model.Point %>
             </td>
             <%if (domain3admin){ %>
-            <td><%if (site.SiteCount > 1){ %><%=SiteName(model.Site_id)%><%} %></td>
+            <td><%if (site.SiteCount > 1){ %><%=SiteName(model.Site_id,model.DT_id, CurrentLanguage.Code)%><%} %></td>
             <%} %>
             <td>
                 <%=FormatDate(model.Time_Reg) %>
@@ -253,7 +245,7 @@
                 <%=FormatTime(model.Time_Last) %>
             </td>
             <td>
-                <a href="http://www.ip138.com/ips138.asp?ip=<%=model.IP_This%>&action=2" target="_blank"><%=model.IP_This%></a> <%//=Shop.Tools.RequestTool.getIpInfoOne(model.IP_This)%>
+                <a href="http://www.ip138.com/ips138.asp?ip=<%=model.IP_This%>&action=2" target="_blank"><%=model.IP_This%></a> <%=Shop.Tools.RequestTool.getIpInfoOne(model.IP_This)%>
             </td>
             <td>
                 <div class="menu">
@@ -261,74 +253,21 @@
                 | <a href="javascript:void(0)" onclick="EditPassword(<%=model.id %>);"><%=Tag("改密")%></a> 
                 | <a href="../order/?user_id=<%=model.id %>" target="_blank"><%=Tag("订单")%></a> 
                 | <a href="login.aspx?id=<%=model.id %>" target="_blank"><%=Tag("管理")%></a>
-                    <a class="showmenu" href="javascript:void(0)" onclick="$('#sonmenu<%=model.id %>').hide();" onmouseover="$('#sonmenu<%=model.id %>').show();"><s></s></a> 
-	                <div class="submenu" id="sonmenu<%=model.id %>">
+                    <a class="showmenu" href="javascript:void(0)"><s></s></a> 
+	                <div class="submenu">
                     <a href="UserMoney.aspx?user_id=<%=model.id %>" target="_blank"><%=Tag("资金")%></a> 
                     <a href="UserPoint.aspx?user_id=<%=model.id %>" target="_blank"><%=Tag("积分")%></a> 
                     <a href="../promotion/cardlist.aspx?user_id=<%=model.id %>&type=312" target="_blank"><%=Tag("代金券")%></a>
                     <a href="Message.aspx?user_id=<%=model.id %>" target="_blank"><%=Tag("站内信")%></a>
                     <a href="OftenBuy.aspx?user_id=<%=model.id %>" target="_blank"><%=Tag("常购清单")%></a>
+                    <a href="javascript:void(0)" onclick="AddOrder(<%=model.id %>);"><%=Tag("下单")%></a>
                     <%if (Shop.LebiAPI.Service.Instanse.Check("plugin_agent")){ %><a href="../agent/agentmoney.aspx?user_id=<%=model.id %>" target="_blank"><%=Tag("佣金")%></a><%} %>
-                        <a href="javascript:void(0);" onclick="sonedit(<%=model.id%>,0)">添加子账号</a>
-                     <a href="javascript:void(0)" onclick="AddOrder(<%=model.id %>);"><%=Tag("下单")%></a>
-                        <%if (Shop.LebiAPI.Service.Instanse.Check("plugin_productlimit")){%><a href="javascript:void(0)" onclick="ProductLimit(<%=model.id %>,'<%=model.UserName%>');"><%=Tag("商品权限")%></a><%} %>
+                    <%if (Shop.LebiAPI.Service.Instanse.Check("plugin_productlimit")){%><a href="javascript:void(0)" onclick="ProductLimit(<%=model.id %>,'<%=model.UserName%>');"><%=Tag("商品权限")%></a><%} %>
                     </div>
-                    
                 </div>
             </td>
         </tr>
-         <%foreach (Lebi.ERP.PLebi_User p in getsons(model.id))
-          {
-        %>
-        <tr ondblclick="sonedit(<%=model.id%>,<%=p.id%>);" class="list" >
-            <td style="text-align:center">
-                
-            </td>
-            <td>
-                <%=p.id%>
-            </td>
-            <td>
-                
-            </td>
-            <td>
-               └ <%=p.UserName %>
-            </td>
-            <td>
-                <%=p.RealName %>&nbsp;
-            </td>
-            <td>
-            
-            </td>
-            <td></td>
-            <td>
-            </td>
-            
-            <td>
-                
-            </td>
-            <td>
-               
-            </td>
-            <%if (domain3admin){ %>
-            <td><%if (site.SiteCount > 1){ %><%=SiteName(p.Site_id)%><%} %></td>
-            <%} %>
-            <td>
-                <%=FormatDate(p.Time_Reg) %>
-            </td>
-            <td>
-                <%=FormatTime(p.Time_Last) %>
-            </td>
-            <td>
-                <a href="http://www.ip138.com/ips138.asp?ip=<%=model.IP_This%>&action=2" target="_blank"><%=p.IP_This%></a> <%=Shop.Tools.RequestTool.getIpInfoOne(p.IP_This)%>
-            </td>
-            <td>
-                <div class="menu">
-                <a href="javascript:void(0)" onclick="sonedit(<%=model.id%>,<%=p.id%>)"><%=Tag("编辑")%></a> 
-                | <a href="javascript:void(0)" onclick="EditPassword(<%=p.id %>);"><%=Tag("改密")%></a> 
-                </div>
-            </td>
-        </tr>
-        <%}} %>
+        <%} %>
     </table>
 
           <%}else{%>
@@ -342,11 +281,17 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $(".datalist .menu .showmenu").bind("mouseover", function () {
-            $(this).find(".submenu").slideDown("fast");
-        })
-        $(".datalist .menu .submenu").bind("mouseleave", function () {
-            $(this).slideUp("fast");
+        var li = $(".datalist .menu");
+        $(li).each(function (i) {
+            var _this = this;
+            $(_this).find(".showmenu").mouseover(function () {
+                $(".datalist .menu .submenu").hide();
+                var divindex = $(".datalist .menu").find(".submenu")[i];
+                $(divindex).show();
+                $(divindex).mouseleave(function () {
+                    $(divindex).hide();
+                });
+            });
         });
     });
     function search_(scurl) {
@@ -378,7 +323,7 @@
         var url_ = "message_write_window.aspx?ids="+ids+"&<%=su.URL %>";
         }
         var width_ = 600;
-        var height_ = 375;
+        var height_ = "auto";
         var modal_ = true;
         EditWindow(title_, url_, width_, height_, modal_);
     }
@@ -391,7 +336,7 @@
         var url_ = "sms_write_window.aspx?ids="+ids+"&<%=su.URL %>";
         }
         var width_ = 600;
-        var height_ = 320;
+        var height_ = "auto";
         var modal_ = true;
         EditWindow(title_, url_, width_, height_, modal_);
     }
@@ -399,7 +344,7 @@
         var title_ = "<%=Tag("改密")%>";
         var url_ = "userpassword_edit_window.aspx?id="+id;
         var width_ = 500;
-        var height_ = 220;
+        var height_ = "auto";
         var modal_ = true;
         EditWindow(title_, url_, width_, height_, modal_);
     }
@@ -412,7 +357,7 @@
         var url_ = "usermoney_edit_window.aspx?ids="+ids+"&<%=su.URL %>";
         }
         var width_ = 600;
-        var height_ = 365;
+        var height_ = "auto";
         var modal_ = true;
         EditWindow(title_, url_, width_, height_, modal_);
     }
@@ -425,7 +370,7 @@
         var url_ = "UserPoint_Edit_window.aspx?ids="+ids+"&<%=su.URL %>";
         }
         var width_ = 600;
-        var height_ = 325;
+        var height_ = "auto";
         var modal_ = true;
         EditWindow(title_, url_, width_, height_, modal_);
     }
@@ -438,7 +383,7 @@
         var url_ = "usercard_edit_window.aspx?cardtype="+id+"&ids="+ids+"&<%=su.URL %>";
         }
         var width_ = 600;
-        var height_ = 260;
+        var height_ = "auto";
         var modal_ = true;
         EditWindow(title_, url_, width_, height_, modal_);
     }
@@ -446,7 +391,16 @@
         var title_ = "<%=Tag("会员查询")%>";
         var url_ = "user_search_window.aspx?callback=search_&<%=su.URL %>";
         var width_ = 500;
-        var height_ = 505;
+        var height_ = 500;
+        var modal_ = true;
+        EditWindow(title_, url_, width_, height_, modal_);
+    }
+    function AddOrder(id)
+    {
+        var title_ = "添加订单";
+        var url_ = "<%=site.AdminPath %>/order/order_add_window.aspx?userid="+id;
+        var width_ = 300;
+        var height_ = "auto";
         var modal_ = true;
         EditWindow(title_, url_, width_, height_, modal_);
     }
@@ -460,41 +414,23 @@
         var title_ = "<%=Tag("批量导出")%>";
         var url_ = "<%=site.AdminPath %>/plugin/Lebi.UserCsv/export_window.aspx?ids="+ids+"";
         var width_ = 400;
-        var height_ = 200;
+        var height_ = "auto";
         var modal_ = true;
         EditWindow(title_, url_, width_, height_, modal_);
     }
     <%} %>
 
-    function AddOrder(id)
-    {
-        var title_ = "添加订单";
-        var url_ = "<%=site.AdminPath %>/order/order_add_window.aspx?userid="+id;
-        var width_ = 300;
-        var height_ = "auto";
-        var modal_ = true;
-        EditWindow(title_, url_, width_, height_, modal_);
-    }
-    function sonedit(pid,id) {
-        var title_ = "编辑子账号";
-        var url_ = "userson_edit_window.aspx?pid="+pid+"&id="+id;
-        var width_ = 600;
-        var height_ =500;
-        var modal_ = true;
-        EditWindow(title_, url_, width_, height_, modal_);
-    }
-    function ProductLimit(id,name){
-        window.open("<%=site.AdminPath %>/product/productlimit_user.aspx?userid="+id);
-        return;
-        var title_ = "<%=Tag("商品权限")%>-"+name;
-        var url_ = "<%=site.AdminPath %>/product/productlimit_window.aspx?userid="+id;
-        var width_ = 900;
-        var height_ = 750;
-        var modal_ = true;
-        EditWindow(title_, url_, width_, height_, modal_, 'selectproduct');
-    }
+     function ProductLimit(id,name){
+         window.open("<%=site.AdminPath %>/product/productlimit_user.aspx?userid="+id);
+         return;
+         var title_ = "<%=Tag("商品权限")%>-"+name;
+         var url_ = "<%=site.AdminPath %>/product/productlimit_window.aspx?userid="+id;
+         var width_ = 900;
+         var height_ = 750;
+         var modal_ = true;
+         EditWindow(title_, url_, width_, height_, modal_, 'selectproduct');
+     }
 </script>
-
 
     <div id="body_foot">
         <div class="foot">

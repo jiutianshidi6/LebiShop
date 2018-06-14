@@ -106,7 +106,9 @@
       
     <div class="tools">
     <ul>
+    <%if (PageReturnMsg == ""){%>
     <li class="add"><a href="javascript:void(0);" onclick="Edit(0);"><b></b><span><%=Tag("添加")%></span></a></li>
+    <%}%>
     <li class="name"><span id="navIgation"><%=Tag("当前位置")%>：<a href="<%=site.AdminPath %>/Ajax/ajax_admin.aspx?__Action=MenuJump&pid=0"><%=Tag("管理首页")%></a> > <a href="<%=site.AdminPath %>/user/default.aspx"><%=Tag("会员管理")%></a> > <%=Tag("会员分组")%></span></li>
     </ul>
     </div>
@@ -177,8 +179,7 @@
             <td>
                 <a href="javascript:void(0)" onclick="Edit(<%=model.id %>);"><%=Tag("编辑")%></a>
                 <%if (model.Grade > 0){%> | <a href="javascript:void(0)" onclick="Del(<%=model.id %>);"><%=Tag("删除")%></a><%} %>
-
-                | <a href="javascript:void(0)" onclick="ProductLimit(<%=model.id %>,'<%=Lang(model.Name)%>');"><%=Tag("商品权限")%></a>
+                <%if (Shop.LebiAPI.Service.Instanse.Check("plugin_productlimit")){%> | <a href="javascript:void(0)" onclick="ProductLimit(<%=model.id %>,'<%=Lang(model.Name)%>');"><%=Tag("商品权限")%></a><%} %>
             </td>
         </tr>
         <%} %>
@@ -212,7 +213,7 @@
         var title_ = "<%=Tag("商品权限")%>-"+name;
         var url_ = "<%=site.AdminPath %>/product/productlimit_window.aspx?userlevelid="+id;
         var width_ = 900;
-        var height_ = 900;
+        var height_ = 750;
         var modal_ = true;
         EditWindow(title_, url_, width_, height_, modal_, 'selectproduct');
     }

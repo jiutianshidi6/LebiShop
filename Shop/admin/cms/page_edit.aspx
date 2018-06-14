@@ -33,11 +33,14 @@
     <script type="text/javascript" src="<%=site.WebPath %>/Editor/ckfinder/ckfinder.js"></script>
     <link rel="stylesheet" type="text/css" href="<%=site.AdminJsPath %>/bigcolorpicker/jquery.bigcolorpicker.css" /> 
     <script type="text/javascript" src="<%=site.AdminJsPath %>/bigcolorpicker/jquery.bigcolorpicker.min.js"></script> 
-    <script type="text/javascript" src="<%=site.AdminJsPath %>/My97DatePicker/WdatePicker.js"></script> 
+    <script type="text/javascript" src="<%=site.AdminJsPath %>/jquery-ui/timepicker-addon.js"></script>
+    <%if (CurrentLanguage.Code=="CN"){%><script type="text/javascript" src="<%=site.AdminJsPath %>/jquery-ui/timepicker-zh-CN.js"></script><%}%>
+    <link rel="stylesheet" type="text/css" href="<%=site.AdminJsPath %>/jquery-ui/timepicker-addon.css" />
     <script type="text/javascript">
         $(function () {
             $("#NameColor").bigColorpicker("NameColor");
             $("#s_NameColor").bigColorpicker(function (el, color) { $(el).css("background-color", color); $("#NameColor").val(color); $("#Name").css("color", color); });
+            $("#Time_Add").datetimepicker({dateFormat:"yy-mm-dd",showSecond:true,timeFormat:"HH:mm:ss",stepHour:1,stepMinute:1,tepSecond:1});
         });
     </script>
     <style>
@@ -122,8 +125,10 @@
       
     <div class="tools">
         <ul>
+            <%if (PageReturnMsg == ""){%>
             <li class="submit"><a href="javascript:void(0);" onclick="SaveObj();"><b></b><span>
                 <%=Tag("保存")%></span></a></li>
+            <%}%>
             <li class="rotate"><a href="javascript:void(0);" onclick="history.go(-1);"><b></b><span>
                 <%=Tag("返回")%></span></a></li>
             <li class="name"><span id="navIgation">
@@ -159,29 +164,14 @@
                 </select>
             </td>
         </tr>
-        <%}
-          else
-          { %>
-        <input type="hidden" name="Node_id" id="Node_id" value="<%=node.id %>" shop="true">
-        <%} %>
+        <%}%>
         <tr>
             <th>
                 <%=Tag("标题")%>：
             </th>
             <td>
-                <input type="text" id="Name" name="Name" class="input" shop="true" min="notnull"
-                    style="width: 500px; color: <%=page.NameColor %>" value="<%=page.Name %>" />&nbsp;<input
-                        id="NameColor" name="NameColor" type="hidden" shop="true" value="<%=page.NameColor %>"><img
-                            id="s_NameColor" border="0" src="<%=AdminImage("rect.gif")%>" width="18" align="absmiddle"
-                            style="cursor: pointer; background-color: <%=page.NameColor %>">
-            </td>
-        </tr>
-        <tr>
-            <th>
-                <%=Tag("副标题")%>：
-            </th>
-            <td>
-                <input type="text" id="SubName" name="SubName" class="input" shop="true" style="width: 500px;" value="<%=page.SubName %>" />
+                <input type="text" id="Name" name="Name" class="input" shop="true" min="notnull" style="width: 500px; color: <%=page.NameColor %>" value="<%=page.Name %>" />
+                <input id="NameColor" name="NameColor" type="hidden" shop="true" value="<%=page.NameColor %>"><img id="s_NameColor" border="0" src="<%=AdminImage("rect.gif")%>" width="18" align="absmiddle" style="cursor: pointer; background-color: <%=page.NameColor %>">
             </td>
         </tr>
         <tr>
@@ -191,6 +181,19 @@
             <td>
                 <input type="text" id="url" name="url" class="input" style="width: 500px;" shop="true"
                     value="<%=page.url %>" />
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <%=Tag("打开方式")%>：
+            </th>
+            <td>
+                <select name="target" id="target" shop="true">
+                    <option value="_self" <%=page.target=="_self"?"selected":"" %>>
+                        <%=Tag("当前窗口")%></option>
+                    <option value="_blank" <%=page.target=="_blank"?"selected":"" %>>
+                        <%=Tag("新窗口")%></option>
+                </select>
             </td>
         </tr>
         <tr>
@@ -239,7 +242,7 @@
             <td>
                 <div id="image_ImageSmall">
                     <%if (page.ImageSmall != "")
-                      {%><img height="80" src="<%=site.WebPath + page.ImageSmall%>" /><%} %></div>
+                      {%><a href="<%=site.WebPath + page.ImageSmall%>" data-lightbox="image-list"><img height="80" src="<%=site.WebPath + page.ImageSmall%>" /></a><%} %></div>
                 <input type="text" shop="true" id="ImageSmall" name="ImageSmall" class="input" style="width: 200px;"
                     value="<%=page.ImageSmall%>" />
                 <input id="file_ImageSmall" name="file_ImageSmall" class="input" type="file" onchange="uploadImage('ImageSmall')" />
@@ -261,8 +264,7 @@
                 <%=Tag("提交时间")%>：
             </th>
             <td>
-                <input type="text" id="Time_Add" name="Time_Add" shop="true" class="calendar" style="width: 150px"
-                    onclick="WdatePicker()" value="<%=page.Time_Add %>" />
+                <input type="text" id="Time_Add" name="Time_Add" shop="true" class="calendar" style="width: 150px" value="<%=page.Time_Add %>" />
             </td>
         </tr>
         <tr>
@@ -367,6 +369,10 @@
     </div>
     
 <div class="bottom" id="body_bottom">
+    <%if (node.haveson == 0)
+        { %>
+    <input type="hidden" name="Node_id" id="Node_id" value="<%=node.id %>" shop="true">
+    <%} %>
 </div>
 
     <div id="body_foot">

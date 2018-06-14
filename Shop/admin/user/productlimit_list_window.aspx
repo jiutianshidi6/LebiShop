@@ -3,7 +3,6 @@
     <%foreach (Shop.Model.Lebi_User model in users)
           {
             Shop.Model.Lebi_Product_Limit limit=GetLimitInfo(model);
-    //Lebi.ERP.PLebi_User puser=new Lebi.ERP.PLebi_User(model);
            
     %>
 <tr class="list" >
@@ -11,10 +10,7 @@
         <td>
             <%=model.UserName %>&nbsp;
         </td>
-    <td >
-            <%=model.NickName %>&nbsp;
-        </td>
-        <td >
+        <td style="width:400px;word-wrap: break-word;">
             <%=model.RealName %>&nbsp;
         </td>
         <td>
@@ -43,7 +39,7 @@
             <%=Lang(userlevel.Name)%>：
       
             <label>
-                <%=Tag("禁止浏览")%>
+                <%=Tag("禁止购买")%>
                 <input type="checkbox" name="IsShow<%=userlevel.id%>"  value="1" limit="true" <%=userlevellimit.IsShow==1?"checked":""%> />
             </label>
              <label>

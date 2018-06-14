@@ -1,1 +1,0 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="Shop.api.api_weixin" validateRequest="false"%>

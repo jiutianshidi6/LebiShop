@@ -1,1 +1,0 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="Paypal.ReturnUrl" Codebehind="ReturnUrl.aspx.cs" %>

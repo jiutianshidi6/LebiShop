@@ -1,21 +1,35 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="Shop.Admin.order.torder_view" validateRequest="false"%>
-
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="x-ua-compatible" content="ie=7" />
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-    <link rel="shortcut icon" type="image/x-icon" href="http://www.lebi.cn/favicon.ico" media="screen" />
-    <link rel="stylesheet" type="text/css" href="<%=site.AdminCssPath %>/css.css" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<meta name="author" content="LebiShop" />
+
+    <title><%=Tag("订单详情")%>-<%=Shop.Bussiness.EX_Type.TypeName(model.Type_id_OrderType)%>-<%=site.title%></title>
+
+<script src="<%=site.AdminJsPath %>/jquery-3.1.0.min.js"></script>
+<script src="<%=site.AdminJsPath %>/jquery-migrate-1.2.1.js"></script>
+<script src="<%=site.AdminJsPath %>/Cookies.js"></script>
+<script src="<%=site.AdminJsPath %>/main.js"></script>
+<script src="<%=site.AdminJsPath %>/messagebox.js"></script>
+<script src="<%=site.AdminJsPath %>/jquery-ui/jquery-ui.min.js"></script>
+<%if (CurrentLanguage.Code=="CN"){%><script src="<%=site.AdminJsPath %>/jquery-ui/datepicker-zh-CN.js"></script><%}%>
+<link rel="stylesheet" type="text/css" href="<%=site.AdminCssPath %>/css.css" />
+<link rel="stylesheet" type="text/css" href="<%=site.AdminJsPath %>/jquery-ui/jquery-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="<%=site.AdminJsPath %>/jquery-ui/jquery-ui.theme.min.css" />
+<script>
+  var AdminPath = "<%=site.AdminPath %>";var WebPath ="<%=site.WebPath %>";var AdminImagePath = "<%=site.AdminImagePath %>";var requestPage = "<%=Shop.Tools.RequestTool.GetRequestUrl().ToLower() %>";var refPage = "<%=Shop.Tools.RequestTool.GetUrlReferrer().ToLower() %>";
+</script>
+
     <link rel="stylesheet" type="text/css" href="<%=site.AdminCssPath %>/order.css" />
-    <script type="text/javascript" language="javascript" src="<%=site.AdminJsPath %>/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" language="javascript" src="<%=site.AdminJsPath %>/main.js"></script>
-    <script type="text/javascript" language="javascript" src="<%=site.AdminJsPath %>/messagebox.js"></script>
-    <script type="text/javascript" language="javascript" src="<%=site.AdminJsPath %>/Cookies.js"></script>
-    <script type="text/javascript" language="javascript" src="<%=site.AdminJsPath %>/jquery-ui.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="<%=site.AdminJsPath %>/jqueryuicss/redmond/jquery-ui.css" />
+    <style>body{background:#fff;margin:0;padding:0;font-size:12px;text-align:left}input{font-size:12px}.tools .close,.tools .print{float:right;}.tools .name{float:left;margin-right:10px}</style>
+    <style media=print>.print-btn{display:none;}</style>
+
+</head>
+<body>
+
     <script type="text/javascript" language="javascript">
-        var AdminPath = "<%=site.AdminPath %>";
-        var WebPath ="<%=site.WebPath %>";
         $(document).ready(function () {
             var ul = $("div.mod-tab ul");
             var li = $("div.mod-tab ul li");
@@ -59,8 +73,8 @@
             if (!confirm("<%=Tag("确认操作吗？")%>"))
                 return false;
             var postData = { "t": t };
-            var url = "<%=site.AdminPath %>/ajax/ajax_order.aspx?__Action=Order_type&id=" + id + "&model=" + model;
-            RequestAjax(url,postData,function(){MsgBox(1, "<%=Tag("操作成功")%>", "?")});
+        var url = "<%=site.AdminPath %>/ajax/ajax_order.aspx?__Action=Order_type&id=" + id + "&model=" + model;
+        RequestAjax(url,postData,function(){MsgBox(1, "<%=Tag("操作成功")%>", "?")});
         }
         function EditBillingAddress(id) {
             var title_ = "<%=Tag("编辑收货人")%>";
@@ -128,37 +142,29 @@
             RequestAjax(url,postData,function(){MsgBox(1, "<%=Tag("操作成功")%>", "?")});
         }
     </script>
-    <style>body{background:#fff;margin:0;padding:0;font-size:12px;text-align:left}input{font-size:12px}.tools .close,.tools .print{float:right;}.tools .name{float:left;margin-right:10px}</style>
-    <style media=print>.print-btn,infotab</style>
-    <title><%=Tag("订单详情")%>-<%=Shop.Bussiness.EX_Type.TypeName(model.Type_id_OrderType)%>-<%=site.title%></title>
-</head>
-<body>
-<div class="tprint-btn">
-    <div class="tools">
-        <ul>
+    <div class="print-btn">
+        <div class="tools">
+            <ul>
    
-            <li class="tip"><a href="#"><b></b><span><%=Shop.Bussiness.EX_Type.TypeName(model.Type_id_OrderType)%></span></a></li>
-            <%if (model.IsInvalid == 1)
-              { %>
-            <li class="submit"><a href="#" class="a-btn" onclick="Order_type(0,<%=model.id %>,'IsInvalid');"><b></b><span><%=Tag("有效订单")%></span></a></li>
-            <%}
-              else
-              {
-                  if (model.IsVerified == 0)
+                <li class="tip"><a href="#"><b></b><span><%=Shop.Bussiness.EX_Type.TypeName(model.Type_id_OrderType)%></span></a></li>
+                <%if (model.IsInvalid == 1)
                   { %>
-            <li class="cancel"><a href="#" class="a-btn" onclick="Order_type(1,<%=model.id %>,'IsInvalid');"><b></b><span><%=Tag("无效订单")%></span></a></li>
-            <li class="submit"><a href="#" class="a-btn" onclick="Order_type(1,<%=model.id %>,'IsVerified');"><b></b><span><%=Tag("审核订单")%></span></a></li>
-            <%}else{%>
-            
-            
-            <%}
-                }
-            %>
-            <li class="close"><a href="javascript:void(0);" onclick="window.close();"><b></b><span><%=Tag("关闭")%></span></a></li>
-            <li class="print"><a href="javascript:void(0);" onclick="window.print();"><b></b><span><%=Tag("打印")%></span></a></li>
-        </ul>
+                <li class="submit"><a href="#" class="a-btn" onclick="Order_type(0,<%=model.id %>,'IsInvalid');"><b></b><span><%=Tag("有效订单")%></span></a></li>
+                <%}
+                  else
+                  {
+                      if (model.IsVerified == 0)
+                      { %>
+                <li class="cancel"><a href="#" class="a-btn" onclick="Order_type(1,<%=model.id %>,'IsInvalid');"><b></b><span><%=Tag("无效订单")%></span></a></li>
+                <li class="submit"><a href="#" class="a-btn" onclick="Order_type(1,<%=model.id %>,'IsVerified');"><b></b><span><%=Tag("审核订单")%></span></a></li>
+                <%}
+                    }
+                %>
+                <li class="close"><a href="javascript:void(0);" onclick="window.close();"><b></b><span><%=Tag("关闭")%></span></a></li>
+                <li class="print"><a href="javascript:void(0);" onclick="window.print();"><b></b><span><%=Tag("打印")%></span></a></li>
+            </ul>
+        </div>
     </div>
-</div>
     <div class="main" id="infotab">
         <div class="mod-tab">
             <div class="tablist">
@@ -365,6 +371,30 @@
                                                     </td>
                                                 </tr>
                                                 <%} %>
+                                                <%if (model.Money_Bill>0){ %>
+                                                <tr>
+                                                    <td align="right">
+                                                        <%=Tag("发票税金")%>：
+                                                    </td>
+                                                    <td>
+                                                        <%=FormatMoney(model.Money_Bill)%>
+                                                        <%=FormatMoney(model.Money_Bill, model.Currency_Code)%>
+                                                        
+                                                    </td>
+                                                </tr>
+                                                <%} %>
+                                                <%if (model.Money_Tax>0){ %>
+                                                <tr>
+                                                    <td align="right">
+                                                        <%=Tag("税金")%>：
+                                                    </td>
+                                                    <td>
+                                                        <%=FormatMoney(model.Money_Tax)%>
+                                                        <%=FormatMoney(model.Money_Tax, model.Currency_Code)%>
+                                                        
+                                                    </td>
+                                                </tr>
+                                                <%} %>
                                                 <%if (model.Money_fromorder > 0)
                                                    { %>
                                                 <tr>
@@ -508,7 +538,7 @@
             
             
             <div class="mod-title">
-              <div>商品信息</div>
+              <div><%=Tag("商品信息")%></div>
             </div>
             <div class="mod-table-main">
                 <div class="con style05">
@@ -791,7 +821,7 @@
         
         <div style="display: none" class="cont">
             <div class="mod-title">
-                <div>订单备注</div>
+                <div><%=Tag("订单备注")%></div>
             </div>
             <div style="text-align:left;margin-top:10px;">
                 <table width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -828,7 +858,7 @@
         </div>
         <div style="display: none" class="cont">
             <div class="mod-title">
-                <div>订单留言</div>
+                <div><%=Tag("订单留言")%></div>
             </div>
             <div style="text-align:left;margin-top:10px;">
                <textarea name="Comment" id="Comment" Comment="true" class="textarea" style="width:600px;height:60px"></textarea>
@@ -847,7 +877,7 @@
                 </div>
             </div>
             <div class="mod-title">
-                <div>订单留言</div>
+                <div><%=Tag("订单留言")%></div>
             </div>
             <div class="mod-table-main">
                 <div class="con style05">
@@ -857,10 +887,10 @@
                             <th style="width:30px;" class="selectAll">
                 <a href="javascript:void(0);" onclick="$('input[name=\'commid\']').attr('checked',!$(this).attr('checked'));$(this).attr('checked',!$(this).attr('checked'));"><%=Tag("全选")%></a></th>
                             <th style="width:150px;">
-                                时间
+                                <%=Tag("时间")%>
                             </th>
                             <th>
-                                内容
+                                <%=Tag("内容")%>
                             </th>
                         </tr>
                       <%foreach (Shop.Model.Lebi_Comment comm in comms)
@@ -943,7 +973,6 @@
         </div>
         
     </div>
+
 </body>
 </html>
-
-  

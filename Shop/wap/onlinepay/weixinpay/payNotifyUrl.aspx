@@ -1,1 +1,0 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="weixinpay.payNotifyUrl" Codebehind="payNotifyUrl.aspx.cs" %>

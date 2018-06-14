@@ -1,1 +1,0 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="Lebi.ReplaceDomain.Admin.plugin.ajax" validateRequest="false"%>

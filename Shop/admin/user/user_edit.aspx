@@ -31,10 +31,6 @@
     var AdminPath = "<%=site.AdminPath %>";var WebPath ="<%=site.WebPath %>";var AdminImagePath = "<%=site.AdminImagePath %>";var requestPage = "<%=Shop.Tools.RequestTool.GetRequestUrl().ToLower() %>";var refPage = "<%=Shop.Tools.RequestTool.GetUrlReferrer().ToLower() %>";
     function quit() { if (confirm("<%=Tag("您确定要退出吗？")%>")) return true; else return false; }
 </script>
- 
-    <style>
-        .bottom{height: 0;overflow: hidden;display: none;}
-    </style>
 
 </head>
 <body>
@@ -114,7 +110,9 @@
       
     <div class="tools">
     <ul>
+    <%if (PageReturnMsg == ""){%>
     <li class="submit"><a href="javascript:void(0);" onclick="SaveObj();"><b></b><span><%=Tag("保存")%></span></a></li>
+    <%}%>
     <li class="rotate"><a href="javascript:void(0);" onclick="history.back();"><b></b><span><%=Tag("返回")%></span></a></li>
     <li class="name"><span id="navIgation"><%=Tag("当前位置")%>：<a href="<%=site.AdminPath %>/Ajax/ajax_admin.aspx?__Action=MenuJump&pid=0"><%=Tag("管理首页")%></a> > <a href="<%=site.AdminPath %>/user/default.aspx"><%=Tag("会员管理")%></a> > 
     <%if (model.id != 0)
@@ -134,9 +132,6 @@
         <div id="body_main_form">
           <%if (PageReturnMsg == ""){%>
             
-    <%
-Lebi.ERP.PLebi_User puser=new Lebi.ERP.PLebi_User(model.id);
-%>
     <div class="searchbox clear">
         <ul class="tabmenus">
             <li class="current"><a href="user_edit.aspx?id=<%=model.id %>"><span><%if (model.id != 0)
@@ -148,10 +143,8 @@ Lebi.ERP.PLebi_User puser=new Lebi.ERP.PLebi_User(model.id);
             <li><a href="../promotion/cardlist.aspx?user_id=<%=model.id %>&type=312" target="_blank"><span><%=Tag("代金券")%></span></a></li>
             <li><a href="Message.aspx?user_id=<%=model.id %>" target="_blank"><span><%=Tag("站内信")%></span></a></li>
             <li><a href="OftenBuy.aspx?user_id=<%=model.id %>" target="_blank"><span><%=Tag("常购清单")%></span></a></li>
-            <li><a href="../cms/imagelist.aspx?user_id=<%=model.id %>" target="_blank"><span><%=Tag("照片")%></span></a></li>
             <%if (Shop.LebiAPI.Service.Instanse.Check("plugin_agent")){ %><li><a href="../agent/agentmoney.aspx?user_id=<%=model.id %>" target="_blank"><span><%=Tag("佣金")%></span></a></li><%} %>
         </ul>
-        </div>
     </div>
     <table class="table">
         <tr>
@@ -159,7 +152,10 @@ Lebi.ERP.PLebi_User puser=new Lebi.ERP.PLebi_User(model.id);
                 <%=Tag("会员帐号")%>：
             </th>
             <td>
-                <input name="UserName" id="UserName" value="<%=model.UserName %>" onchange="CheckUserName();" shop="true" type="text" class="input" style="width: 200px;" />
+                <%if (model.id == 0){ %><input name="UserName" id="UserName" value="<%=model.UserName %>" onchange="CheckUserName();" shop="true" type="text" class="input" style="width: 200px;" />
+                <%}else{ %>
+                <%=model.UserName %>
+                <%}%>
 
                 <span id="FormUserName"></span>
             </td>
@@ -169,7 +165,7 @@ Lebi.ERP.PLebi_User puser=new Lebi.ERP.PLebi_User(model.id);
                <%=Tag("站点")%>：
             </th>
             <td >
-                <%=SiteName(model.Site_id)%>
+                <%=SiteName(model.Site_id,model.DT_id, CurrentLanguage.Code)%>
             </td>
             <%}
               else
@@ -179,11 +175,17 @@ Lebi.ERP.PLebi_User puser=new Lebi.ERP.PLebi_User(model.id);
             <%} %>
         </tr>
         <tr>
-           
+            <th>
+                 <%=Tag("性别")%>：
+            </th>
+            <td>
+                <input type="radio" name="Sex" shop="true" value="男" <%=model.Sex=="男"?"checked":""%> /><%=Tag("男")%>
+                <input type="radio" name="Sex" shop="true" value="女" <%=model.Sex=="女"?"checked":""%> /><%=Tag("女")%>
+            </td>
             <th>
                 <%=Tag("绑定")%>：
             </th>
-            <td colspan="3"> 
+            <td > 
                 <%
                   if (model.bind_weixin_id != "")
                   {
@@ -208,223 +210,104 @@ Lebi.ERP.PLebi_User puser=new Lebi.ERP.PLebi_User(model.id);
                 %>&nbsp;
             </td>
         </tr>
-      
-        <tr>
+         <tr  >
+            <th>
+                <%=Tag("会员编号")%>：
+            </th>
+            <td >
+                <input name="UserNumber" value="<%=model.UserNumber %>" shop="true" type="text" class="input" style="width: 200px;" />
+            </td>
             <th>
                 <%=Tag("有效期")%>：
             </th>
-            <td colspan="3">
+            <td >
                 <input name="Time_End" value="<%=FormatDate(model.Time_End)%>" shop="true" type="text" class="input" style="width: 200px;" />
             </td>
         </tr>
-        <tr>
-            <th>
-                公司名称：
+        <%--<tr  >
+            <th style="width:12%">
+                <%=Tag("密码问题")%>：
             </th>
-            <td colspan="3">
-                <input name="NickName" value="<%=puser.NickName %>" shop="true" type="text" class="input" style="width: 200px;" />
+            <td style="width:38%">
+                <input name="pwdwen" value="<%=model.pwdwen %>" shop="true" type="text" class="input" style="width: 200px;" />
             </td>
-        </tr>
-        <tr>
-            <th>
-                公司域名：
+            <th style="width:12%">
+                <%=Tag("密码答案")%>：
             </th>
-            <td colspan="3">
-                <input name="Company_Domain" value="<%=puser.Company_Domain %>" shop="true" type="text" class="input" style="width: 200px;" />
+            <td style="width:38%">
+                <input name="pwdda" value="<%=model.pwdda %>" shop="true" type="text" class="input" style="width: 200px;" />
             </td>
-        </tr>
-        <tr>
+        </tr>--%>
+        <tr  >
             <th>
-                公司地址：
+                <%=Tag("真实姓名")%>：
             </th>
-            <td colspan="3">
-                <input name="Company_Address" value="<%=puser.Company_Address %>" shop="true" type="text" class="input" style="width: 200px;" />
+            <td >
+                <input name="RealName" value="<%=model.RealName %>" shop="true" type="text" class="input" style="width: 200px;" />
             </td>
-        </tr>
-        <tr>
             <th>
-                照片：
+                <%=Tag("昵称")%>：
             </th>
-            <td colspan="3">
-                <%if(puser.Company_yingyezhizhao!=""){%>
-                <a href="<%=puser.Company_yingyezhizhao%>" target="_blank"><img src="<%=puser.Company_yingyezhizhao%>" style="width:60px;height:60px;"/></a>
-                <%}%>
-
-                <%if(puser.Company_shuiwu!=""){%>
-                <a href="<%=puser.Company_shuiwu%>" target="_blank">
-                    <img src="<%=puser.Company_shuiwu%>" style="width:60px;height:60px;" />
-                </a>
-                    <%}%>
-
-                    <%if(puser.Company_photo!=""){%>
-                <a href="<%=puser.Company_photo%>" target="_blank">
-                    <img src="<%=puser.Company_photo%>" style="width:60px;height:60px;" />
-                </a>
-                        <%}%>
-
-</td>
+            <td >
+                <input name="NickName" value="<%=model.NickName %>" shop="true" type="text" class="input" style="width: 200px;" />
+            </td>
         </tr>
         <tr  >
             <th>
-                负责人姓名：
+                <%=Tag("出生日期")%>：
             </th>
-            <td colspan="3">
-                <input name="RealName" value="<%=model.RealName %>" shop="true" type="text" class="input" style="width: 200px;" />
+            <td >
+                <input name="Birthday" value="<%if (model.id > 0){Response.Write(FormatDate(model.Birthday));} %>" shop="true" type="text" class="input" style="width: 200px;" />
             </td>
-         </tr>
-
-        <tr>
             <th>
-                负责人手机号码：
+                <%=Tag("手机号码")%>：
             </th>
-            <td colspan="3">
+            <td >
                 <input name="MobilePhone" value="<%=model.MobilePhone %>" shop="true" type="text" class="input" style="width: 200px;" />
+            </td>
+        </tr>
+        <tr  >
+            <th>
+                <%=Tag("电话号码")%>：
+            </th>
+            <td >
+                <input name="Phone" value="<%=model.Phone %>" shop="true" type="text" class="input" style="width: 200px;" />
+            </td>
+            <th>
+                <%=Tag("传真号码")%>：
+            </th>
+            <td >
+                <input name="Fax" value="<%=model.Fax %>" shop="true" type="text" class="input" style="width: 200px;" />
             </td>
         </tr>
         <tr>
             <th>
-                负责人Email：
+                <%=Tag("QQ号码")%>：
             </th>
-            <td colspan="3">
+            <td >
+                <input name="QQ" value="<%=model.QQ %>" shop="true" type="text" class="input" style="width: 200px;" />
+            </td>
+            <th>
+                <%=Tag("Email地址")%>：
+            </th>
+            <td >
                 <input name="Email" value="<%=model.Email %>" shop="true" type="text" class="input" style="width: 200px;" />
             </td>
         </tr>
         <tr>
             <th>
-                负责人QQ号码：
-            </th>
-            <td colspan="3">
-                <input name="QQ" value="<%=model.QQ %>" shop="true" type="text" class="input" style="width: 200px;" />
-            </td>
-         </tr>
-        <tr>
-            <th>
-                负责人微信：
-            </th>
-            <td colspan="3">
-                <input name="weixin" value="<%=model.weixin %>" shop="true" type="text" class="input" style="width: 200px;" />
-            </td>
-         </tr>
-         <tr  >
-            <th>
-                收货人姓名：
-            </th>
-            <td colspan="3">
-                <input name="Company_shouhuo_name" value="<%=puser.Company_shouhuo_name %>" shop="true" type="text" class="input" style="width: 200px;" />
-            </td>
-         </tr>
-         <tr  >
-            <th>
-                收货地址：
-            </th>
-            <td colspan="3">
-                <input name="Company_shouhuo_address" value="<%=puser.Company_shouhuo_address %>" shop="true" type="text" class="input" style="width: 200px;" />
-            </td>
-         </tr>
-        <tr>
-            <th>
-                收货人手机号码：
-            </th>
-            <td colspan="3">
-                <input name="Company_shouhuo_phone" value="<%=puser.Company_shouhuo_phone %>" shop="true" type="text" class="input" style="width: 200px;" />
-            </td>
-        </tr>
-        <tr>
-            <th>
-                收货人QQ号码：
-            </th>
-            <td colspan="3">
-                <input name="Company_shouhuo_qq" value="<%=puser.Company_shouhuo_qq %>" shop="true" type="text" class="input" style="width: 200px;" />
-            </td>
-         </tr>
-        <tr>
-            <th>
-                收货人微信：
-            </th>
-            <td colspan="3">
-                <input name="Company_shouhuo_weixin" value="<%=puser.Company_shouhuo_weixin %>" shop="true" type="text" class="input" style="width: 200px;" />
-            </td>
-         </tr>
-        <tr  >
-            <th>
-                采购人姓名：
-            </th>
-            <td colspan="3">
-                <input name="Company_caigou_name" value="<%=puser.Company_caigou_name %>" shop="true" type="text" class="input" style="width: 200px;" />
-            </td>
-         </tr>
-        <tr>
-            <th>
-                采购人手机号码：
-            </th>
-            <td colspan="3">
-                <input name="Company_caigou_phone" value="<%=puser.Company_caigou_phone %>" shop="true" type="text" class="input" style="width: 200px;" />
-            </td>
-        </tr>
-        <tr>
-            <th>
-                采购人QQ号码：
-            </th>
-            <td colspan="3">
-                <input name="Company_caigou_qq" value="<%=puser.Company_caigou_qq %>" shop="true" type="text" class="input" style="width: 200px;" />
-            </td>
-         </tr>
-        <tr>
-            <th>
-                采购人微信：
-            </th>
-            <td colspan="3">
-                <input name="Company_caigou_weixin" value="<%=puser.Company_caigou_weixin %>" shop="true" type="text" class="input" style="width: 200px;" />
-            </td>
-         </tr>
-        <tr>
-            <th>
-                技术负责人姓名：
-            </th>
-            <td colspan="3">
-                <input name="Company_cto_name" value="<%=puser.Company_cto_name %>" shop="true" type="text" class="input" style="width: 200px;" />
-            </td>
-         </tr>
-        <tr>
-            <th>
-                技术负责人手机号码：
-            </th>
-            <td colspan="3">
-                <input name="Company_cto_phone" value="<%=puser.Company_cto_phone %>" shop="true" type="text" class="input" style="width: 200px;" />
-            </td>
-        </tr>
-        <tr>
-            <th>
-                技术负责人QQ号码：
-            </th>
-            <td colspan="3">
-                <input name="Company_cto_qq" value="<%=puser.Company_cto_qq %>" shop="true" type="text" class="input" style="width: 200px;" />
-            </td>
-         </tr>
-        <tr>
-            <th>
-                技术负责人微信：
-            </th>
-            <td colspan="3">
-                <input name="Company_cto_weixin" value="<%=puser.Company_cto_weixin %>" shop="true" type="text" class="input" style="width: 200px;" />
-            </td>
-         </tr>
-        <tr>
-            <th>
                 <%=Tag("会员分组")%>：
             </th>
-            <td colspan="3">
+            <td>
                 <select name="UserLevel_id" shop="true">
                 <option value="0">┌ <%=Tag("会员分组")%></option>
                 <%=Shop.Bussiness.EX_User.TypeOption("grade > 0", model.UserLevel_id, CurrentLanguage.Code)%>
                 </select>
             </td>
-         </tr>
-        <tr>
             <th>
                 <%=Tag("语言")%>：
             </th>
-            <td colspan="3">
+            <td>
                 <select name="Language" id="Language" shop="true">
                     <%= Shop.Bussiness.Language.LanguageOption(model.Language)%>
                 </select>
@@ -435,16 +318,14 @@ Lebi.ERP.PLebi_User puser=new Lebi.ERP.PLebi_User(model.id);
             <th>
                 <%=Tag("上级用户")%>：
             </th>
-            <td colspan="3">
+            <td >
                 <input name="User_id_parent" value="<%=model.User_id_parent %>" shop="true" type="text" class="input" style="width: 200px;" /> <a href="../agent/agentuser.aspx?parent_id=<%=model.User_id_parent %>" target="_blank"><%=Shop.Bussiness.EX_User.GetUser(model.User_id_parent).UserName%></a>
             </td>
-         </tr>
-        <tr>
             <th>
                 <%=Tag("下级用户")%>：
             </th>
-            <td colspan="3">
-                <a href="../agent/agentuser.aspx?id=<%=model.id %>" target="_blank"><%=model.Count_sonuser %></a>
+            <td >
+                <a href="../agent/agentuser.aspx?id=<%=model.id %>" target="_blank"><%=Shop.Bussiness.Common.GetValue("select count(1) from Lebi_User where User_id_parent="+model.id+"") %></a>
             </td>
         </tr>
         <%} %>
@@ -452,15 +333,13 @@ Lebi.ERP.PLebi_User puser=new Lebi.ERP.PLebi_User(model.id);
             <th>
                 <%=Tag("注册日期")%>：
             </th>
-            <td colspan="3">
+            <td >
                 <%=FormatTime(model.Time_Reg) %>
             </td>
-         </tr>
-        <tr>
             <th>
                 <%=Tag("上次登陆")%>：
             </th>
-            <td colspan="3">
+            <td >
                 <%=FormatTime(model.Time_Last) %>&nbsp;&nbsp;<%=Tag("IP")%>：<a href="http://www.ip138.com/ips138.asp?ip=<%=model.IP_Last%>&action=2" target="_blank"><%=model.IP_Last %></a> <%=Shop.Tools.RequestTool.getIpInfoOne(model.IP_Last)%>
             </td>
         </tr>
@@ -468,12 +347,13 @@ Lebi.ERP.PLebi_User puser=new Lebi.ERP.PLebi_User(model.id);
             <th>
                 <%=Tag("最后登陆")%>：
             </th>
-            <td colspan="3">
+            <td >
                 <%=FormatTime(model.Time_This) %>&nbsp;&nbsp;<%=Tag("IP")%>：<a href="http://www.ip138.com/ips138.asp?ip=<%=model.IP_This%>&action=2" target="_blank"><%=model.IP_This %></a> <%=Shop.Tools.RequestTool.getIpInfoOne(model.IP_This)%>
-           
-                &nbsp; &nbsp; &nbsp;
+            </td>
+            <th>
                 <%=Tag("登录次数")%>：
-           
+            </th>
+            <td >
                 <%=model.Count_Login %>
             </td>
         </tr>
@@ -503,7 +383,7 @@ Lebi.ERP.PLebi_User puser=new Lebi.ERP.PLebi_User(model.id);
         }
         function SaveObj() {
             var postData = GetFormJsonData("shop");
-            var url = "<%=site.AdminPath %>/ajax/ajax_ex.aspx?__Action=User_Edit&id=<%=model.id %>";
+            var url = "<%=site.AdminPath %>/ajax/ajax_user.aspx?__Action=User_Edit&id=<%=model.id %>";
             RequestAjax(url,postData,function(){MsgBox(1, "<%=Tag("操作成功")%>", "default.aspx")});
         }
         function CheckUserName()
@@ -528,7 +408,7 @@ Lebi.ERP.PLebi_User puser=new Lebi.ERP.PLebi_User(model.id);
             var title_ = "<%=Tag("改密")%>";
             var url_ = "userpassword_edit_window.aspx?id="+id;
             var width_ = 500;
-            var height_ = 'auto';
+            var height_ = "auto";
             var modal_ = true;
             EditWindow(title_, url_, width_, height_, modal_);
         }
@@ -536,7 +416,7 @@ Lebi.ERP.PLebi_User puser=new Lebi.ERP.PLebi_User(model.id);
             var title_ = "<%=Tag("安全问题")%>";
             var url_ = "userquestion_edit_window.aspx?id="+id;
             var width_ = 500;
-            var height_ = 'auto';
+            var height_ = "auto";
             var modal_ = true;
             EditWindow(title_, url_, width_, height_, modal_);
         }
@@ -548,9 +428,6 @@ Lebi.ERP.PLebi_User puser=new Lebi.ERP.PLebi_User(model.id);
         </div>
     </div>
     
-    <div class="bottom" id="body_bottom">
-    </div>
-
     <div id="body_foot">
         <div class="foot">
             <div class="copy" id="lebicopy">

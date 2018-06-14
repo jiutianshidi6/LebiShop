@@ -1,31 +1,35 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="Shop.Admin.order.Order_View" validateRequest="false"%>
-
-    <%
-    
-    Lebi.ERP.PLebi_User user =new Lebi.ERP.PLebi_User(model.User_id);
-    //Lebi.ERP.PLebi_Order porder =new Lebi.ERP.PLebi_Order(model.id);
-    
-    %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="x-ua-compatible" content="ie=7" />
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-    <link rel="shortcut icon" type="image/x-icon" href="http://www.lebi.cn/favicon.ico" media="screen" />
-    <link rel="stylesheet" type="text/css" href="<%=site.AdminCssPath %>/css.css" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<meta name="author" content="LebiShop" />
+
+    <title><%=Tag("订单详情")%>-<%=Shop.Bussiness.EX_Type.TypeName(model.Type_id_OrderType)%>-<%=site.title%></title>
+
+<script src="<%=site.AdminJsPath %>/jquery-3.1.0.min.js"></script>
+<script src="<%=site.AdminJsPath %>/jquery-migrate-1.2.1.js"></script>
+<script src="<%=site.AdminJsPath %>/Cookies.js"></script>
+<script src="<%=site.AdminJsPath %>/main.js"></script>
+<script src="<%=site.AdminJsPath %>/messagebox.js"></script>
+<script src="<%=site.AdminJsPath %>/jquery-ui/jquery-ui.min.js"></script>
+<%if (CurrentLanguage.Code=="CN"){%><script src="<%=site.AdminJsPath %>/jquery-ui/datepicker-zh-CN.js"></script><%}%>
+<link rel="stylesheet" type="text/css" href="<%=site.AdminCssPath %>/css.css" />
+<link rel="stylesheet" type="text/css" href="<%=site.AdminJsPath %>/jquery-ui/jquery-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="<%=site.AdminJsPath %>/jquery-ui/jquery-ui.theme.min.css" />
+<script>
+  var AdminPath = "<%=site.AdminPath %>";var WebPath ="<%=site.WebPath %>";var AdminImagePath = "<%=site.AdminImagePath %>";var requestPage = "<%=Shop.Tools.RequestTool.GetRequestUrl().ToLower() %>";var refPage = "<%=Shop.Tools.RequestTool.GetUrlReferrer().ToLower() %>";
+</script>
+
     <link rel="stylesheet" type="text/css" href="<%=site.AdminCssPath %>/order.css" />
-    <script type="text/javascript" language="javascript" src="<%=site.AdminJsPath %>/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" language="javascript" src="<%=site.AdminJsPath %>/main.js"></script>
-    <script type="text/javascript" language="javascript" src="<%=site.AdminJsPath %>/messagebox.js"></script>
-    <script type="text/javascript" language="javascript" src="<%=site.AdminJsPath %>/Cookies.js"></script>
-    <script type="text/javascript" language="javascript" src="<%=site.AdminJsPath %>/jquery-ui.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="<%=site.AdminJsPath %>/jqueryuicss/redmond/jquery-ui.css" />
-    <script type="text/javascript" src="<%=site.AdminJsPath %>/My97DatePicker/WdatePicker.js"></script> 
+    <style>body{background:#fff;margin:0;padding:0;font-size:12px;text-align:left}input{font-size:12px}.tools .close,.tools .print{float:right;}.tools .name{float:left;margin-right:10px}</style>
+    <style media=print>.print-btn{display:none;}</style>
+
+</head>
+<body>
 
     <script type="text/javascript" language="javascript">
-        var AdminPath = "<%=site.AdminPath %>";
-        var WebPath ="<%=site.WebPath %>";
-        var AdminImagePath = "<%=site.AdminImagePath %>";var requestPage = "<%=Shop.Tools.RequestTool.GetRequestUrl().ToLower() %>";var refPage = "<%=Shop.Tools.RequestTool.GetUrlReferrer().ToLower() %>";
         $(document).ready(function () {
             var ul = $("div.mod-tab ul");
             var li = $("div.mod-tab ul li");
@@ -39,8 +43,8 @@
                     var divindex = divShow.find("div.cont")[i];
                     $(divindex).show();
                     if (i=="0"){
-                    $(divShow.find("div.cont")[3]).show();
-                    $(divShow.find("div.cont")[4]).show();
+                        $(divShow.find("div.cont")[3]).show();
+                        $(divShow.find("div.cont")[4]).show();
                     }
                     SetCookie("OrderDetails-<%=model.id %>", i, 1);
                 });
@@ -56,8 +60,8 @@
                     $(li[i]).addClass("selected");
                     $(divindex).show();
                     if (i=="0"){
-                    $(divShow.find("div.cont")[3]).show();
-                    $(divShow.find("div.cont")[4]).show();
+                        $(divShow.find("div.cont")[3]).show();
+                        $(divShow.find("div.cont")[4]).show();
                     }
                 });
             }
@@ -77,8 +81,8 @@
             if (!confirm("<%=Tag("确认操作吗？")%>"))
                 return false;
             var postData = { "t": t };
-            var url = "<%=site.AdminPath %>/ajax/ajax_order.aspx?__Action=Order_type&id=" + id + "&model=" + model;
-            RequestAjax(url,postData,function(){MsgBox(1, "<%=Tag("操作成功")%>", "?")});
+        var url = "<%=site.AdminPath %>/ajax/ajax_order.aspx?__Action=Order_type&id=" + id + "&model=" + model;
+        RequestAjax(url,postData,function(){MsgBox(1, "<%=Tag("操作成功")%>", "?")});
         }
         function EditBillingAddress(id) {
             var title_ = "<%=Tag("编辑收货人")%>";
@@ -107,7 +111,6 @@
         function Order_shipping_view(id) {
             var title_ = "<%=Tag("运输单据")%>";
             var url_ = "shipping_view_window.aspx?id=" + id;
-            //var url_ ="<%=site.AdminPath %>/erp/store_shipping_window.aspx?id="+id;
             var width_ = 600;
             var height_ = "auto";
             var modal_ = true;
@@ -168,11 +171,6 @@
             EditWindow(title_, url_, width_, height_, modal_, 'selectproduct');
         }
     </script>
-    <style>body{background:#fff;margin:0;padding:0;font-size:12px;text-align:left}input{font-size:12px}.tools .close,.tools .print{float:right;}.tools .name{float:left;margin-right:10px}</style>
-    <style media=print>.print-btn,infotab</style>
-    <title><%=Tag("订单详情")%>-<%=Shop.Bussiness.EX_Type.TypeName(model.Type_id_OrderType)%>-<%=site.title%></title>
-</head>
-<body>
 <div class="print-btn">
     <div class="tools">
         <ul>
@@ -205,7 +203,8 @@
                     <%} %>
                     <%if (model.IsShipped == 1 && model.IsCompleted != 1){ %>
                         <li class="submit"><a href="#" class="a-btn" onclick="Order_type(1,<%=model.id %>,'IsCompleted')"><b></b><span><%=Tag("已完成")%></span></a></li>
-                    <%}else{%>
+                    <%}%>
+                    <%if (model.IsCompleted == 1){%>
                         <li class="cancel"><a href="#" class="a-btn" onclick="Order_type(0,<%=model.id %>,'IsCompleted')"><b></b><span><%=Tag("未完成")%></span></a></li>
                     <%}%>
                 <%} %>
@@ -531,11 +530,23 @@
                                                 <%if (model.Money_Bill>0){ %>
                                                 <tr>
                                                     <td align="right">
-                                                        <%=Tag("税金")%>：
+                                                        <%=Tag("发票税金")%>：
                                                     </td>
                                                     <td>
                                                         <%=FormatMoney(model.Money_Bill)%>
                                                         <%=FormatMoney(model.Money_Bill, model.Currency_Code)%>
+                                                        
+                                                    </td>
+                                                </tr>
+                                                <%} %>
+                                                <%if (model.Money_Tax>0){ %>
+                                                <tr>
+                                                    <td align="right">
+                                                        <%=Tag("税金")%>：
+                                                    </td>
+                                                    <td>
+                                                        <%=FormatMoney(model.Money_Tax)%>
+                                                        <%=FormatMoney(model.Money_Tax, model.Currency_Code)%>
                                                         
                                                     </td>
                                                 </tr>
@@ -637,47 +648,6 @@
                                                     </td>
                                                 </tr>
                                                 <%} %>
-                                                <%if(model.IsPaid==0){%>
-                                                <tr>
-                                                    <td align="right">
-                                                        <%=Tag("余额")%>：
-                                                    </td>
-                                                    <td>
-                                                     
-                                                        <%=user.Money-user.Money_fanxian%>
-                                                        &nbsp;&nbsp;&nbsp;&nbsp;
-                                                        <%if(user.id>0){%>
-                                                        <a href="javascript:money_add('<%=user.UserName%>',<%=user.id%>)"><%=Tag("充值")%></a>
-                                                        <%}%>
-                                                    </td>
-                                                </tr>
-                                                <%if(user.Money_fanxian>0){%>
-                                                <tr>
-                                                    <td align="right">
-                                                        <%=Tag("返利支付")%>：
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" id="Money_fanxianpay" name="Money_fanxianpay" value="0" onchange="changefanxianpay();" shoporder="true" style="width:70px;" onkeyup="value=value.replace(/[^\d\.-]/g,'')" />
-
-
-                                                        <%=Tag("返利余额")%>：<%=user.Money_fanxian%>
-                                                    </td>
-                                                </tr>
-                                                <%}%>
-                                                <tr>
-                                                    <td align="right">
-                                                        
-                                                    </td>
-                                                    <td>
-                                                        
-                                                        <div class="tools tools-m clear">
-                                                            <ul>
-                                                                <li class="submit"><a href="javascript:void(0);" onclick="pay('p');"><b></b><span>使用余额支付￥<%=model.Money_Pay%></span></a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <%}%>
                                             </table>
                                         </div>
                                     </div>
@@ -836,7 +806,7 @@
             
             
             <div class="mod-title">
-              <div>商品信息</div>
+              <div><%=Tag("商品信息")%></div>
             </div>
             <div class="mod-table-main">
                 <div class="con style05">
@@ -877,18 +847,18 @@
                             </th>
                         </tr>
                       <%foreach (Shop.Model.Lebi_Order_Product pro in pros)
-                        {Shop.Model.Lebi_Product product=Shop.Bussiness.EX_Product.GetProduct(pro.Product_id); %>
+                        { %>
                         <tr>
                             <td>
                                 <%=pro.Product_Number %>
                             </td>
-                            <td><%=product.Code%>&nbsp;</td>
-                            <td style="<%=product.IsCombo==1?" color:blue":""%>">
+                            <td><%=Shop.Bussiness.EX_Product.GetProduct(pro.Product_id).Code%>&nbsp;</td>
+                            <td>
                                 <img src="<%=Image(pro.ImageOriginal,50,50) %>" style="height:30px;padding:3px 0" />
                                 [<%=Shop.Bussiness.EX_Type.TypeName(pro.Type_id_OrderProductType,CurrentLanguage.Code) %>]
                                 <%=Lang(pro.Product_Name) %>&nbsp;
-
-                                <a target="_blank" href="<%=Shop.Bussiness.ThemeUrl.GetURL(" P_Product",pro.Product_id.ToString(),"",CurrentLanguage.Code)%>"><img src="<%=PageImage(" icon/newWindow.png")%>" /></a>
+                                
+                                <a target="_blank" href="<%=Shop.Bussiness.ThemeUrl.GetURL("P_Product",pro.Product_id.ToString(),"",CurrentLanguage.Code)%>"><img src="<%=PageImage("icon/newWindow.png")%>" /></a>
                             </td>
                             <td>
                                 <%if (pro.ProPerty134!=""){ %><%=pro.ProPerty134%><br /><%} %><%=Shop.Bussiness.EX_Product.ProPertyNameStr(Shop.Bussiness.EX_Product.GetProduct(pro.Product_id).ProPerty131, CurrentLanguage)%>
@@ -973,9 +943,7 @@
                             </th>
                         </tr>
                       <%foreach (Shop.Model.Lebi_Order_Product pro in pros)
-                        { 
-                        Shop.Model.Lebi_Product product=Shop.Bussiness.EX_Product.GetProduct(pro.Product_id);
-                        %>
+                        { %>
                         <tr>
                             <%if (model.IsVerified==0)
                                 { %>
@@ -983,13 +951,13 @@
                             <%} %>
                             <td>
                                 <%=pro.Product_Number %>
-                                <%if (model.IsVerified == 0)
+                                <%if (model.IsVerified == 0 && pro.Count_Shipped == 0)
                                   { %>
                                 <a href="javascript:void(0);" onclick="selectproduct(<%=pro.id %>)"><%=Tag("编辑")%></a>
                                 <%} %>
                             </td>
-                            <td><%=product.Code%>&nbsp;</td>
-                            <td style="<%=product.IsCombo==1?"color:blue":""%>">
+                            <td><%=Shop.Bussiness.EX_Product.GetProduct(pro.Product_id).Code%>&nbsp;</td>
+                            <td>
                                 <img src="<%=Image(pro.ImageOriginal,50,50) %>" style="height:30px;padding:3px 0" />
                                 [<%=Shop.Bussiness.EX_Type.TypeName(pro.Type_id_OrderProductType,CurrentLanguage.Code) %>]
                                 <%=Lang(pro.Product_Name) %>&nbsp;
@@ -1022,7 +990,7 @@
                                 <%}
                                   else
                                   { %>
-                                <input type="text" class="input" pro="true" name="Price<%=pro.id %>" id="Price<%=pro.id %>" value="<%=pro.Price %>" onkeyup="value=value.replace(/[^\d\.]/g,'')" style="width: 70px;" />
+                                <input type="text" class="input" pro="true" name="Price<%=pro.id %>" id="Price<%=pro.id %>" value="<%=FormatMoney(pro.Price,"Number") %>" onkeyup="value=value.replace(/[^\d\.]/g,'')" style="width: 70px;" />
                                 <%} %>
                             </td>
                             <td>
@@ -1038,15 +1006,8 @@
                 <div style="text-align: left; margin-top: 10px;">
                     <div class="tools tools-m clear" style="margin-bottom:8px;">
                         <ul>
-                            <li class="text"><input name="pnumber" id="pnumber" class="input" value="<%=Tag("商品编号")%>" onfocus="if (this.value == '<%=Tag("商品编号")%>') this.value = '';" onblur="if (this.value == '') this.value = '<%=Tag("商品编号")%>';"/> 
-                            </li>
-                            <li class="add">
-                                <a href="javascript:void(0);" onclick="selectproduct(0);"><b></b><span><%=Tag("添加")%></span></a>
-                                
-                            </li>
-                            <li class="add">
-                                <a href="javascript:void(0)" onclick="searchprodutwindow();"><span><%=Tag("查询商品")%></span></a>
-                            </li>
+                            <li class="text"><input name="pnumber" id="pnumber" class="input" value="<%=Tag("商品编号")%>" onfocus="if (this.value == '<%=Tag("商品编号")%>') this.value = '';" onblur="if (this.value == '') this.value = '<%=Tag("商品编号")%>';"/></li>
+                            <li class="add"><a href="javascript:void(0);" onclick="selectproduct(0);"><b></b><span><%=Tag("添加")%></span></a></li>
                         </ul>
                     </div>
                     <div class="tools tools-m clear">
@@ -1112,7 +1073,7 @@
                                 <%=torder.Code %>
                             </td>
                             <td>
-                                <%=DefaultCurrency.Msige %><%=torder.Money %>
+                                <%=FormatMoney(torder.Money) %>
                             </td>
                             
                             <td>
@@ -1218,7 +1179,7 @@
         </div>
         <div class="cont">
             <div class="mod-title">
-                <div>订单留言</div>
+                <div><%=Tag("订单留言")%></div>
             </div>
             <div class="mod-table-main">
                <textarea name="Comment" id="Comment" Comment="true" class="textarea" style="width:600px;height:60px"></textarea>
@@ -1330,71 +1291,6 @@
         </div>
         
     </div>
-    <input type="hidden" value="<%=model.id%>" id="currentOrder_id" name="currentOrder_id">
-    <script type="text/javascript" >
-        var selectproductmuti = undefined;
-        function searchprodutwindow(){
-            
-            var title_ = "选择商品";
-            var url_ = "<%=site.AdminPath %>/order/selectproductadd_window.aspx";
-            var width_ = 900;
-            var height_ = 500;
-            var modal_ = true;
-            var div_='pwindow';
-            EditWindow(title_, url_, width_, height_, modal_,div_);
-        }
-        function search_product(Product_id,number) {
-            $('#pnumber').val(number);
-            $('#pwindow').dialog('close');
 
-        }
-        function money_add(User_Name,id) {
-
-            var title_ = "<%=Tag("充值")%>";
-            var url_ = "usermoney_edit_window.aspx?User_Name=" + User_Name+"&t=191";
-            var width_ = 600;
-            var height_ = "auto";
-            var modal_ = true;
-            EditWindow(title_, url_, width_, height_, modal_);
-        }
-
-        function changefanxianpay(){
-            var s=$('#Money_fanxianpay').val();
-            var p=<%=model.Money_Pay%>-s;
-            if(p<0)
-            {
-                alert('输入错误！');
-                $('#Money_fanxianpay').val('0');
-                $('#btn_pay').val('使用余额支付￥<%=model.Money_Pay%>');  
-            }else{
-                $('#btn_pay').val('使用余额支付￥'+p);  
-            }
-        }
-        function pay(t){
-            if (!confirm("<%=Tag("确认付款吗？")%>"))
-              return false;
-            var postData = GetFormJsonData("shoporder");
-            //var T_Area_id=$('#Area_id').val();
-            var T_Area_id=0;
-            var url = "<%=site.AdminPath %>/ajax/ajax_ex.aspx?__Action=checkout_order_pay&id=<%=model.id%>&T_Area_id="+T_Area_id+"&t="+t;
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data:postData,
-                dataType: 'json',
-                success: function (res) {
-                    if(res.msg=="OK")
-                    {
-                        MsgBox(1, "<%=Tag("操作成功")%>", "?");
-                    }else{
-                        MsgBox(2, res.msg, "");
-                    }
-                }
-            });
-
-        }
-    </script>
 </body>
 </html>
-
-  

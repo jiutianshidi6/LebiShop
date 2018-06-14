@@ -19,7 +19,7 @@
           %>
     <tr class="list">
         <td >
-            <img src="<%=WebPath + pro.ImageSmall %>" style="width: 30px" />
+            <img src="<%=Image(pro.ImageOriginal,50,50)%>" style="width: 30px" />
             <%=Shop.Bussiness.Language.Content(pro.Product_Name,CurrentLanguage) %>
         </td>
         <td>
@@ -30,9 +30,8 @@
               { 
             if(pro.Type_id_OrderProductType!=256 || (pro.Type_id_OrderProductType==256 && pro.IsStockOK==1 && pro.IsPaid==1)){
             %>
-            <input type="hidden" class="input" Shipping="true" name="Count<%=pro.id %>" id="Count<%=pro.id %>"
+            <input type="text" class="input" Shipping="true" name="Count<%=pro.id %>" id="Count<%=pro.id %>"
                 value="<%=dafa%>" onkeyup="value=value.replace(/[^\d\.]/g,'')" style="width: 70px;" />
-            <%=dafa%>
             <%}
             else
             {
@@ -51,13 +50,33 @@
 </table>
 <table class="table">
     <tr>
-        <th>
-            <%=Tag("发货仓库")%><%=DefaultCurrency.Msige %>：
+        <th style="width: 15%">
+            <%=Tag("配送方式")%>：
         </th>
         <td>
-            <select id="store_id" name="store_id" Shipping="true" class="input fromstore" >
-                  <%=Lebi.ERP.other.storeoptionsAll(0) %>
+            <select Shipping="true" name="Transport_id" id="Transport_id">
+                <%=Shop.Bussiness.EX_Area.TransportOption(model.Transport_id) %>
             </select>
+            <%=model.Transport_Mark %>
+        </td>
+    </tr>
+    
+    <tr>
+        <th>
+            <%=Tag("货运单号")%>：
+        </th>
+        <td>
+            <input type="text" Shipping="true" min="notnull" id="Code" name="Code" class="input"
+                value="<%=transport_order.Code %>" style="width: 300px;" />
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <%=Tag("实际运费")%><%=DefaultCurrency.Msige %>：
+        </th>
+        <td>
+            <input type="text" Shipping="true" min="notnull" id="Money" name="Money" class="input" onkeyup="value=value.replace(/[^\d\.]/g,'')"
+                value="<%=model.Money_Transport %>" style="width: 100px;" />
         </td>
     </tr>
     <tr>
@@ -75,7 +94,7 @@
         if (!CheckForm("Shipping", "span"))
             return false;
         var postData = GetFormJsonData("Shipping");
-        var url = "<%=site.AdminPath %>/ajax/ajax_erp.aspx?__Action=Order_fahuo&id=<%=model.id %>";
+        var url = "<%=site.AdminPath %>/ajax/ajax_order.aspx?__Action=Order_fahuo&id=<%=model.id %>";
         RequestAjax(url,postData,function(){MsgBox(1, "<%=Tag("操作成功")%>", "?")});
     }
 </script>

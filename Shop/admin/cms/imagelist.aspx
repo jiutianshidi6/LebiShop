@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="Lebi.ERP.Bussiness.pagebase.imagelist" validateRequest="false"%>
+﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="Shop.Admin.cms.ImageList" validateRequest="false"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -106,10 +106,11 @@
       
     <div class="tools">
     <ul>
-    <li class="add"><a href="javascript:void(0);" onclick="location.href='<%=Shop.Bussiness.NodePage.AdminPage(node) %>&user_id=<%=user_id%>';"><b></b><span><%=Tag("添加")%></span></a></li>
+    <%if (PageReturnMsg == ""){%>
+    <li class="add"><a href="<%=Shop.Bussiness.NodePage.AdminPage(node) %>"><b></b><span><%=Tag("添加")%></span></a></li>
     <li class="del"><a href="javascript:void(0);" onclick="Page_Del();"><b></b><span><%=Tag("删除")%></span></a></li>
-    <li class="name"><span id="navIgation"><%=Tag("当前位置")%>：<a href="<%=site.AdminPath %>/Ajax/ajax_admin.aspx?__Action=MenuJump&pid=0"><%=Tag("管理首页")%></a> 
-        > <%=Tag("会员管理")%> > <%=user.NickName%> > <%=Tag("照片管理")%></span></li>
+    <%}%>
+    <li class="name"><span id="navIgation"><%=Tag("当前位置")%>：<a href="<%=site.AdminPath %>/Ajax/ajax_admin.aspx?__Action=MenuJump&pid=0"><%=Tag("管理首页")%></a> > <a href="UserNodeList.aspx?code=<%=pnode.Code %>"><%=pnode.Name%></a> > <%=node.Name%></span></li>
     </ul>
     </div>
 
@@ -130,7 +131,9 @@
             <th style="width: 100px">
                 <%=Tag("图片")%>
             </th>
-
+            <th style="width: 80px">
+                <%=Tag("语言")%>
+            </th>
             <th>
                 <%=Tag("名称")%>
             </th>
@@ -145,47 +148,6 @@
             </th>
         </tr>
         <div id="listinfo" style="display: none;">
-            <%if(user.Company_yingyezhizhao!=""){%>
-            <tr class="list">
-                <td style="text-align:center">
-                </td>
-                <td>
-                    <a href="<%=user.Company_yingyezhizhao%>" target="_blank"><img src="<%=user.Company_yingyezhizhao%>" style="width:60px;height:60px;" /></a>
-                </td>
-                <td>
-                    营业执照
-                </td><td></td><td></td><td></td>
-            </tr>
-            <%}%>
-            <%if(user.Company_shuiwu!=""){%>
-            <tr class="list">
-                <td style="text-align:center"></td>
-                <td>
-                    <a href="<%=user.Company_shuiwu%>" target="_blank"><img src="<%=user.Company_shuiwu%>" style="width:60px;height:60px;" /></a>
-                </td>
-                <td>
-                    税务登记证
-                </td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <%}%>
-            <%if(user.Company_photo!=""){%>
-            <tr class="list">
-                <td style="text-align:center"></td>
-                <td>
-                    <a href="<%=user.Company_photo%>" target="_blank"><img src="<%=user.Company_photo%>" style="width:60px;height:60px;" /></a>
-                </td>
-                <td>
-                    门头
-                </td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <%}%>
-
             <%foreach (Shop.Model.Lebi_Page model in pages)
               {%>
             <tr class="list" onclick="Page_Edit('<%=Shop.Bussiness.NodePage.AdminPage(model) %>');">
@@ -195,7 +157,9 @@
                 <td>
                    <img src="<%=model.ImageSmall%>" height="30"/> 
                 </td>
-               
+                <td>
+                    <%=model.Language%>
+                </td>
                 <td>
                     <%=model.Name%>
                 </td>
@@ -207,7 +171,7 @@
                     <%=FormatTime(model.Time_Add)%>
                 </td>
                 <td>
-                    <a href="<%=Shop.Bussiness.NodePage.AdminPage(model) %>&user_id=<%=user_id%>"><%=Tag("编辑")%></a>
+                    <a href="<%=Shop.Bussiness.NodePage.AdminPage(model) %>"><%=Tag("编辑")%></a>
                 </td>
             </tr>
             <%} %>
@@ -233,7 +197,7 @@
             window.location = "page_edit.aspx?Node_id=" + nodeid + "&Page_id=" + id;
         }
         function Page_Edit(url) {
-            window.location = url+"&user_id=<%=user_id%>";
+            window.location = url;
         }
     </script>
 

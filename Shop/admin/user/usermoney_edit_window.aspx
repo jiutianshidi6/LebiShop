@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="Lebi.ERP.Bussiness.pagebase.usermoney_edit_window" validateRequest="false"%>
+﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="Shop.Admin.user.UserMoney_Edit_window" validateRequest="false"%>
 
 <table class="table">
     <%if (mode == "scope")
@@ -69,46 +69,9 @@
             <%=Tag("类型")%>：
         </th>
         <td style="text-align: left;">
-            <%=Shop.Bussiness.EX_Type.TypeRadio("MoneyType", "Type_id_MoneyType", model.Type_id_MoneyType, "shop=\"true\"")%>
+            <%=Shop.Bussiness.EX_Type.TypeRadio("MoneyType", "Type_id_MoneyType", model.Type_id_MoneyType, "shop=\"true\"",CurrentLanguage.Code)%>
         </td>
     </tr>
-    <tr>
-      
-        <th>
-            <%=Tag("财务类别")%>：
-        </th>
-        <td>
-            <select shop="true" name="Money_Type_id" <%=model.id >0?"disabled":"" %>>
-                <optgroup label="<%=Tag("收入")%>">
-                <%=Lebi.ERP.other.Money_TypeOption(0,moneymodel.LebiERP_Money_Type_id) %>
-                </optgroup>
-                <optgroup label="<%=Tag("支出")%>">
-                <%=Lebi.ERP.other.Money_TypeOption(1,moneymodel.LebiERP_Money_Type_id) %>
-                </optgroup>
-                <optgroup label="<%=Tag("内部转账")%>">
-                <%=Lebi.ERP.other.Money_TypeOption(2,moneymodel.LebiERP_Money_Type_id) %>
-                </optgroup>
-            </select>
-        </td>
-    </tr>
-
-    <tr>
-        <th>
-           
-            <%=Tag("转入银行")%>：
-            
-        </th>
-        <td>
-            
-            <select shop="true" name="Bank_id_to" <%=model.id >0?"disabled":"" %>>
-                <option value="0">不关联</option>
-                <%=Lebi.ERP.other.BankAccountOption(moneymodel.LebiERP_bankaccount_id) %>
-            </select>
-
-        </td>
-    </tr>
-
-
     <tr  >
         <th style="vertical-align:top">
             <%=Tag("操作说明")%>：<br />
@@ -163,8 +126,7 @@
         var postData = GetFormJsonData("shop");
         if (!CheckForm("shop", "span"))
             return false;
-        //var url = "<%=site.AdminPath %>/ajax/ajax_user.aspx?__Action=UserMoney_Edit&<%=su.URL %>";
-        var url = "<%=site.AdminPath %>/ajax/ajax_ex.aspx?__Action=UserMoney_Edit&<%=su.URL %>";
+        var url = "<%=site.AdminPath %>/ajax/ajax_user.aspx?__Action=UserMoney_Edit&<%=su.URL %>";
         RequestAjax(url,postData,function(){MsgBox(1, "<%=Tag("操作成功")%>", '?')});
     }
 </script>

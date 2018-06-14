@@ -1,1 +1,0 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="Com.Alipay.HaiWai._Default" Codebehind="default.aspx.cs" %>

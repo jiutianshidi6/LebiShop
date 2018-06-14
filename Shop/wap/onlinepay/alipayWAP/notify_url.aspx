@@ -1,1 +1,0 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="Com.Alipay.wap.notify_url" Codebehind="notify_url.aspx.cs" %>
