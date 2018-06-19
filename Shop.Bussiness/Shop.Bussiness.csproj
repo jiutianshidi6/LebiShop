@@ -64,10 +64,6 @@
   <ItemGroup>
     <Compile Include="Comment.cs" />
     <Compile Include="Common.cs" />
-    <Compile Include="CreatModel_BLL.cs" />
-    <Compile Include="CreatModel_Common.cs" />
-    <Compile Include="CreatModel_DAL.cs" />
-    <Compile Include="CreatModel_Model.cs" />
     <Compile Include="DB\B_Lebi_AdminSkin.cs" />
     <Compile Include="DB\B_Lebi_Admin_Group.cs" />
     <Compile Include="DB\B_Lebi_Admin_Limit.cs" />
@@ -220,15 +216,6 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="PageBase\ShopPageUser.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="PageBase\SupplierAjaxBase.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="PageBase\SupplierBase.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="PageBase\SupplierPageBase.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ProductLimit.cs">
