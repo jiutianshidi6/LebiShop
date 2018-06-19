@@ -1,0 +1,68 @@
+﻿
+
+<%@ Page Language="C#" AutoEventWireup="true" Inherits="Shop.Bussiness.ShopPage" %>
+<%@ Import Namespace="Shop.Bussiness" %>
+<%@ Import Namespace="Shop.Model" %>
+<%@ Import Namespace="System.Collections.Generic" %>
+<% LoadPage("jia5255@163.com_9",1,"tcn",""); %>
+
+<%
+int ic0=0;
+foreach(Lebi_Pro_Type c0 in EX_Product.ShowTypes(0))
+{
+%>
+<div class="item <%=ic0==0?"fore":"" %>">
+    <div class="sortname sortnametag">
+        <div><a href="<%=URL("P_ProductCategory",""+c0.id+"") %>"><%=Lang(c0.Name) %></a></div>
+    </div>
+    <div class="clear"></div>
+    <div class="subitem">
+        <dl>
+            <dt></dt>
+            <%
+            int ic1=0;
+            foreach(Lebi_Pro_Type c1 in EX_Product.ShowTypes(c0.id))
+            {     
+            %>
+            <dd>
+                <ul>
+                    <li class="big"><a href="<%=URL("P_ProductCategory",""+c1.id+"") %>"><%=Lang(c1.Name) %></a></li>
+                    <li class="small">
+                        <%
+                        int ic2=0;
+                        foreach(Lebi_Pro_Type c2 in EX_Product.ShowTypes(c1.id))
+                        {
+                        %>
+                        <a href="<%=URL("P_ProductCategory",""+c2.id+"") %>"><%=Lang(c2.Name) %></a>
+                        <%
+                        ic2++;
+                        } %>
+                    </li>
+                    <div class="clear"></div>
+                </ul>
+            </dd>
+            <%
+            ic1++;
+            } %>
+        </dl>
+    </div>
+</div>
+<%
+ic0++;
+} %>
+<script type="text/javascript">
+    $(function () {
+        $(".allsort .item").hover(function () {
+            $(this).find(".sortnametag").removeClass("sortname");
+            $(this).find(".sortnametag").addClass("selected");
+            $(this).find(".sortnametag div").addClass("divselected");
+            $(this).find(".subitem").show();
+
+        }, function () {
+            $(this).find(".subitem").hide();
+            $(this).find(".sortnametag").removeClass("selected");
+            $(this).find(".sortnametag div").removeClass("divselected");
+            $(this).find(".sortnametag").addClass("sortname");
+        });
+    })
+</script>
