@@ -42,9 +42,8 @@
     <Reference Include="ScpClient">
       <HintPath>..\Shop\bin\ScpClient.dll</HintPath>
     </Reference>
-    <Reference Include="Shop.LebiAPI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Shop2014\Shop.LebiAPI\bin\Release\Shop.LebiAPI.dll</HintPath>
+    <Reference Include="Shop.LebiAPI">
+      <HintPath>..\Shop\bin\Shop.LebiAPI.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
