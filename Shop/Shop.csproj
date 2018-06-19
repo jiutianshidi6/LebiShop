@@ -1663,6 +1663,7 @@
     <Content Include="plugin\Lebi.PluginDemo\page\user\default.html" />
     <Content Include="Product.aspx" />
     <Content Include="Register.aspx" />
+    <Content Include="review\default.aspx" />
     <Content Include="Search.aspx" />
     <Content Include="SendFriend.aspx" />
     <Content Include="Shop\Category.aspx" />
