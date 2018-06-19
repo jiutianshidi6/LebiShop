@@ -1139,6 +1139,17 @@ namespace Shop.Bussiness
             {
                 return product_price.Price;
             }
+            //<-{获取分销价格
+            int DT_id = ShopPage.GetDT();
+            if (DT_id > 0)
+            {
+                Lebi_DT_Product DT_product = B_Lebi_DT_Product.GetModel("DT_id = " + DT_id + " and Product_id = " + product.id);
+                if (DT_product != null)
+                {
+                    return DT_product.Price / 100 * level.Price;
+                }
+            }
+            //}->
             if ((product.Type_id_ProductType == 321 || product.Type_id_ProductType == 322) && product.Time_Expired > System.DateTime.Now)
                 return product.Price_Sale;
             //if (product.Type_id_ProductType == 324)
@@ -1150,6 +1161,27 @@ namespace Shop.Bussiness
             if (level.IsHidePrice == 1)
             {
                 SystemLog.Add("价格无权限-level.IsHidePrice" + level.IsHidePrice);
+                return -9999999999;
+            }
+            if (Shop.LebiAPI.Service.Instanse.Check("plugin_productlimit"))
+            {
+                Lebi_Product_Limit limit = B_Lebi_Product_Limit.GetModel("User_id=" + user.id + " and (Product_id=" + product.id + " or Product_id=" + product.Product_id + ")");
+                if (limit == null)
+                {
+                    limit = B_Lebi_Product_Limit.GetModel("UserLevel_id=" + level.id + " and (Product_id=" + product.id + " or Product_id=" + product.Product_id + ")");
+                }
+                if (limit != null)
+                {
+                    if ((limit.IsPriceShow == 1 && ShopCache.GetBaseConfig().ProductLimitType == "0") || (limit.IsPriceShow == 0 && ShopCache.GetBaseConfig().ProductLimitType == "1"))
+                    {
+                        SystemLog.Add("价格无权限-limit.IsPriceShow" + limit.IsPriceShow);
+                        return -9999999999;
+                    }
+                }
+            }
+            if (product.UserLevel_ids_priceshow != "" && !("," + product.UserLevel_ids_priceshow + ",").Contains("," + level.id + ","))
+            {
+                SystemLog.Add("价格无权限-product.UserLevel_ids_priceshow" + product.UserLevel_ids_priceshow);
                 return -9999999999;
             }
             if (product.UserLevelPrice != "")
@@ -1172,6 +1204,22 @@ namespace Shop.Bussiness
             if (product_price!= null)
             {
                 return product_price.Price;
+            }
+            if (product.Type_id_ProductType == 320)
+            {
+                if (product.StepPrice != "")
+                {
+                    List<ProductStepPrice> StepPrices = StepPrice(product.StepPrice);
+                    if (StepPrices.Count > 0)
+                    {
+                        foreach (ProductStepPrice sprice in StepPrices)
+                        {
+                            if (count > sprice.Count && sprice.Count >= 1)
+                                return sprice.Price;
+                        }
+                    }
+                }
+
             }
             return ProductPrice(product, level, user);
         }
@@ -1316,7 +1364,7 @@ namespace Shop.Bussiness
             log.Order_id = order.id;
             log.Product_id = product.id;
             log.Type_id_Stock = type;
-            log.Remark = Remark +"；库存："+ product.Count_Stock + count;
+            log.Remark = Remark +"；库存："+ (product.Count_Stock + count);
             B_Lebi_Product_Stock_Log.Add(log);
 
             product.Count_Stock += count;

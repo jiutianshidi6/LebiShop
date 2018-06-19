@@ -631,7 +631,7 @@ namespace Shop.Bussiness
         {
             order.Money_Product = 0;
             order.Weight = 0;
-            order.Point = 0;
+            order.Point = order.Point_Free;
             List<Lebi_Order_Product> pros = B_Lebi_Order_Product.GetList("Order_id=" + order.id + "", "");
             Lebi_User user = B_Lebi_User.GetModel(order.User_id);
             Lebi_UserLevel CurrentUserLevel = B_Lebi_UserLevel.GetModel(user.UserLevel_id);
@@ -1338,13 +1338,17 @@ namespace Shop.Bussiness
         /// <param name="order"></param>
         public static void Order_Confirm(Lebi_Order order, out string res)
         {
+            res = "";
+            if (order.IsVerified == 1)
+            {
+                return;
+            }
             order.Time_Verified = System.DateTime.Now;
             order.IsInvalid = 0;
             order.IsVerified = 1;
             order.IsRefund = 0;
             order.Flag = 1;
             B_Lebi_Order.Update(order);
-            res = "";
             List<Lebi_Order_Product> models = B_Lebi_Order_Product.GetList("Order_id=" + order.id + "", "");
             switch (order.Type_id_OrderType)
             {
@@ -1448,13 +1452,13 @@ namespace Shop.Bussiness
                 B_Lebi_Order_Product.Update(op);
             }
             B_Lebi_Order.Update(order);
-            ////<-{如果已付款，返回到预存款账户 by lebi.kingdge 20151018
-            //Lebi_User user = B_Lebi_User.GetModel(order.User_id);
-            //if (user != null)
-            //{
-            //    Money.AddMoney(user, order.Money_Pay + order.Money_UserCut, 195, null, Shop.Bussiness.Language.Content("取消订单", user.Language) + " " + order.Code, Shop.Bussiness.Language.Content("取消订单", user.Language) + " " + order.Code);
-            //}
-            ////}->
+            //<-{如果已付款，返回到预存款账户 by lebi.kingdge 20151018
+            Lebi_User user = B_Lebi_User.GetModel(order.User_id);
+            if (user != null)
+            {
+                Money.AddMoney(user, order.Money_Pay + order.Money_UserCut, 195, null, Shop.Bussiness.Language.Content("取消订单", user.Language) + " " + order.Code, Shop.Bussiness.Language.Content("取消订单", user.Language) + " " + order.Code);
+            }
+            //}->
             //将供应商订单产生的已经分配货款状态修改为无效
             if (order.Supplier_id > 0)
             {
