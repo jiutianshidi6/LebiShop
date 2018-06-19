@@ -1,5 +1,5 @@
 ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃ 乐彼多语言网上商城系统(LebiShop)                               ┃
+┃ 乐彼多语言网上商城系统(LebiShop)                                   ┃
 ┃ 版权所有: 五六七七零网络科技有限公司                               ┃
 ┃ Copyright 2003-2018 lebi.cn - All Rights Reserved.                 ┃
 ┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
@@ -26,12 +26,12 @@
 
  工程结构： 
  
- Shop     网站页面相关类库 
- Shop.Bussiness  主要业务处理类库 
+ Shop             网站页面相关类库 
+ Shop.Bussiness   主要业务处理类库 
  Shop.DataAccess  数据访问类库 
- Shop.Model    数据库模型以及其它模型类库
- Shop.Platform   第三方登录相关
- Shop.Tools    工具类库 
+ Shop.Model       数据库模型以及其它模型类库
+ Shop.Platform    第三方登录相关
+ Shop.Tools       工具类库 
 
  相关帮助： 
 
