@@ -789,6 +789,12 @@ namespace Shop.Bussiness
                 {
                     //购物订单
                     //添加消费历史
+                    //<-{资金明细中扣款 by lebi.kingdge 20180619
+                    if (user != null)
+                    {
+                        Money.AddMoney(user, 0 - order.Money_Pay, 192, null, Shop.Bussiness.Language.Content("付款成功", user.Language) + " " + order.Code, Shop.Bussiness.Language.Content("付款成功", user.Language) + " " + order.Code);
+                    }
+                    //}->
                     Lebi_User_BuyMoney model = new Lebi_User_BuyMoney();
                     model.Description = "";
                     model.Money = order.Money_Product;
