@@ -677,8 +677,8 @@ namespace Shop.Bussiness
                     order.Money_Transport = EX_Area.GetYunFei(order.Weight, order.Volume, p, order.Money_Product);
 
                 }
-                order.Money_Order = order.Money_Product + order.Money_Transport + order.Money_Bill + order.Money_Property;
-                order.Money_Pay = order.Money_Order - order.Money_Cut - order.Money_UserCut - order.Money_fromorder - order.Money_UseCard311 - order.Money_UseCard312;
+                order.Money_Order = order.Money_Product + order.Money_Transport + order.Money_Bill + order.Money_Property + order.Money_Tax - order.Money_Transport_Cut - order.Money_Cut;
+                order.Money_Pay = order.Money_Order - order.Money_UserCut - order.Money_fromorder - order.Money_UseCard311 - order.Money_UseCard312;
             }
 
             B_Lebi_Order.Update(order);
@@ -758,9 +758,9 @@ namespace Shop.Bussiness
                             IsWeikuan = true;
                     }
                     if (IsWeikuan)
-                        Log.Add("尾款付款成功", "Order", order.id.ToString(), user, "" + order.Pay);
+                        Log.Add("尾款付款成功", "Order", order.id.ToString(), user, "" + Language.Content(order.Pay, user.Language));
                     else
-                        Log.Add("付款成功", "Order", order.id.ToString(), user, "" + order.Pay);
+                        Log.Add("付款成功", "Order", order.id.ToString(), user, "" + Language.Content(order.Pay, user.Language));
                     PaySuccess_FenPeiHuoKuan(or);
                 }
             }
@@ -792,7 +792,7 @@ namespace Shop.Bussiness
                     //<-{资金明细中扣款 by lebi.kingdge 20180619
                     if (user != null)
                     {
-                        Money.AddMoney(user, 0 - order.Money_Pay, 192, null, Shop.Bussiness.Language.Content("付款成功", user.Language) + " " + order.Code, Shop.Bussiness.Language.Content("付款成功", user.Language) + " " + order.Code);
+                        Money.AddMoney(user, 0 - order.Money_Pay, 192, null, Shop.Bussiness.Language.Tag("付款成功", user.Language) + " " + order.Code, Shop.Bussiness.Language.Tag("付款成功", user.Language) + " " + order.Code);
                     }
                     //}->
                     Lebi_User_BuyMoney model = new Lebi_User_BuyMoney();
@@ -834,11 +834,18 @@ namespace Shop.Bussiness
                 if (op.IsPaid == 1)
                     IsWeikuan0 = true;
             }
-            if (IsWeikuan0)
-                Log.Add("尾款付款成功", "Order", order.id.ToString(), user, "" + order.Pay);
-            else
-                Log.Add("付款成功", "Order", order.id.ToString(), user, "" + order.Pay);
-
+            string payname = Language.Content(order.Pay, user.Language);
+            if (outcode != "")
+            {
+                if (IsWeikuan0)
+                {
+                    Log.Add("尾款付款成功", "Order", order.id.ToString(), user, payname);
+                }
+                else
+                {
+                    Log.Add("付款成功", "Order", order.id.ToString(), user, payname);
+                }
+            }
             OrderPaid(order);//触发事件
             return true;
         }
@@ -918,6 +925,17 @@ namespace Shop.Bussiness
             Lebi_Order order = B_Lebi_Order.GetModel("Code=lbsql{'" + ordercode + "'}");
             if (order == null)
                 return;
+            if (string.IsNullOrEmpty(outcode))
+            {
+                outcode = "00000000";
+            }
+            //<-{增加资金明细 by lebi.kingdge 20180620
+            Lebi_User user = B_Lebi_User.GetModel(order.User_id);
+            if (user != null)
+            {
+                Money.AddMoney(user, order.Money_Pay, 191, null, Language.Content(order.Pay, user.Language) + " " + order.Code, Language.Content(order.Pay, user.Language) + " " + order.Code);
+            }
+            //}->
             PaySuccess(order, outcode);
             SystemLog.Add(order.Code + "付款成功-开始跳转");
             if (jumpflag)
@@ -1280,28 +1298,31 @@ namespace Shop.Bussiness
                     }
                     if (isadmin == 1)
                     {
-                        if (order.IsPaid == 1)
-                        {
-                            Lebi_User user = B_Lebi_User.GetModel(order.User_id);
-                            if (user != null)
-                            {
-                                if (order.Money_Paid == 0)//兼容3.7前旧版本
-                                    order.Money_Paid = order.Money_Pay + order.Money_UserCut;
-                                Money.AddMoney(user, order.Money_Paid, 195, null, Shop.Bussiness.Language.Content("取消订单", user.Language) + " " + order.Code, Shop.Bussiness.Language.Content("取消订单", user.Language) + " " + order.Code);
-                            }
-                            //将供应商订单产生的已经分配货款状态修改为无效
-                            if (order.Supplier_id > 0)
-                            {
-                                List<Lebi_Supplier_Money> smoneys = B_Lebi_Supplier_Money.GetList("Order_id=" + order.id + "", "");
-                                foreach (Lebi_Supplier_Money smoney in smoneys)
-                                {
-                                    smoney.Type_id_MoneyStatus = 182;
-                                    smoney.Remark += ",付款取消";
-                                    B_Lebi_Supplier_Money.Update(smoney);
-                                }
-                            }
-                            order.IsPaid = 0;
-                        }
+                        //<-{代码注销，启用Order_Pay_Cancal(order) 2018.6.20 by lebi.kingdge
+                        //if (order.IsPaid == 1)
+                        //{
+                        //    Lebi_User user = B_Lebi_User.GetModel(order.User_id);
+                        //    if (user != null)
+                        //    {
+                        //        if (order.Money_Paid == 0)//兼容3.7前旧版本
+                        //            order.Money_Paid = order.Money_Pay + order.Money_UserCut;
+                        //        Money.AddMoney(user, order.Money_Paid, 195, null, Shop.Bussiness.Language.Content("取消订单", user.Language) + " " + order.Code, Shop.Bussiness.Language.Content("取消订单", user.Language) + " " + order.Code);
+                        //    }
+                        //    //将供应商订单产生的已经分配货款状态修改为无效
+                        //    if (order.Supplier_id > 0)
+                        //    {
+                        //        List<Lebi_Supplier_Money> smoneys = B_Lebi_Supplier_Money.GetList("Order_id=" + order.id + "", "");
+                        //        foreach (Lebi_Supplier_Money smoney in smoneys)
+                        //        {
+                        //            smoney.Type_id_MoneyStatus = 182;
+                        //            smoney.Remark += ",付款取消";
+                        //            B_Lebi_Supplier_Money.Update(smoney);
+                        //        }
+                        //    }
+                        //    order.IsPaid = 0;
+                        //}
+                        //}->
+                        Order_Pay_Cancal(order);
                         foreach (Lebi_Order_Product model in models)
                         {
                             Lebi_Product pro = B_Lebi_Product.GetModel(model.Product_id);
@@ -1439,10 +1460,11 @@ namespace Shop.Bussiness
         /// <param name="order"></param>
         public static void Order_Pay_Cancal(Lebi_Order order)
         {
+            if (order.IsPaid == 0)
+            {
+                return;
+            }
             List<Lebi_Order_Product> models = B_Lebi_Order_Product.GetList("Order_id=" + order.id + "", "");
-            //order.Time_Paid = System.DateTime.Now;
-            order.IsPaid = 0;
-            order.Money_Paid = order.Money_Paid - order.Money_Pay;
             //修改订单内的预定商品付款状态为未付款
             List<Lebi_Order_Product> ops = B_Lebi_Order_Product.GetList("Order_id=" + order.id + " and IsReserve=1", "");
             foreach (Lebi_Order_Product op in ops)
@@ -1457,12 +1479,17 @@ namespace Shop.Bussiness
                 }
                 B_Lebi_Order_Product.Update(op);
             }
-            B_Lebi_Order.Update(order);
             //<-{如果已付款，返回到预存款账户 by lebi.kingdge 20151018
             Lebi_User user = B_Lebi_User.GetModel(order.User_id);
             if (user != null)
             {
-                Money.AddMoney(user, order.Money_Pay + order.Money_UserCut, 195, null, Shop.Bussiness.Language.Content("取消订单", user.Language) + " " + order.Code, Shop.Bussiness.Language.Content("取消订单", user.Language) + " " + order.Code);
+                if (order.Money_fanxianpay != 0)
+                {
+                    Money.AddMoney(user, order.Money_fanxianpay, 195, null, Shop.Bussiness.Language.Tag("取消订单", user.Language) + " " + order.Code, Shop.Bussiness.Language.Tag("取消订单", user.Language) + " " + order.Code);
+                }else
+                {
+                    Money.AddMoney(user, order.Money_Paid, 191, null, Shop.Bussiness.Language.Tag("取消订单", user.Language) + " " + order.Code, Shop.Bussiness.Language.Tag("取消订单", user.Language) + " " + order.Code);
+                }
             }
             //}->
             //将供应商订单产生的已经分配货款状态修改为无效
@@ -1476,6 +1503,12 @@ namespace Shop.Bussiness
                     B_Lebi_Supplier_Money.Update(smoney);
                 }
             }
+            //order.Time_Paid = System.DateTime.Now;
+            order.IsPaid = 0;
+            //order.Money_Paid = order.Money_Paid - order.Money_Pay;
+            order.Money_Paid = 0;
+            order.Money_fanxianpay = 0;
+            B_Lebi_Order.Update(order);
             Agent.AgentMoneyDelete(order);//将订单佣金删除}
             OrderPaidCancal(order);//触发事件
         }
