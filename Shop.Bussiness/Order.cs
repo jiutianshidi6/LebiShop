@@ -789,12 +789,15 @@ namespace Shop.Bussiness
                 {
                     //购物订单
                     //添加消费历史
-                    //<-{资金明细中扣款 by lebi.kingdge 20180619
-                    if (user != null)
+                    if (outcode != "ERP")
                     {
-                        Money.AddMoney(user, 0 - order.Money_Pay, 192, null, Shop.Bussiness.Language.Tag("付款成功", user.Language) + " " + order.Code, Shop.Bussiness.Language.Tag("付款成功", user.Language) + " " + order.Code);
+                        //<-{资金明细中扣款 by lebi.kingdge 20180619
+                        if (user != null)
+                        {
+                            Money.AddMoney(user, 0 - order.Money_Pay, 192, null, Shop.Bussiness.Language.Tag("付款成功", user.Language) + " " + order.Code, Shop.Bussiness.Language.Tag("付款成功", user.Language) + " " + order.Code);
+                        }
+                        //}->
                     }
-                    //}->
                     Lebi_User_BuyMoney model = new Lebi_User_BuyMoney();
                     model.Description = "";
                     model.Money = order.Money_Product;
@@ -1264,7 +1267,7 @@ namespace Shop.Bussiness
         {
             order.IsInvalid = 1;
             order.Time_Completed = System.DateTime.Now;
-            order.IsVerified = 1;
+            order.IsVerified = 0;
             B_Lebi_Order.Update(order);
             List<Lebi_Order_Product> models = B_Lebi_Order_Product.GetList("Order_id=" + order.id + "", "");
             switch (order.Type_id_OrderType)
